@@ -282,14 +282,14 @@ fi
 
 #****************************************************************
 ## Report timer :
-#END=$(date +%s)
-#ELAPSED=$((END - START))
-#E_MIN=$((ELAPSED / 60))
-#E_SEC=$((ELAPSED - E_MIN * 60))
-#printf "${txtgrn}ELAPSED: "
-#[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
-#printf "%d sec(s)\n ${txtrst}" $E_SEC
-#echo
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
+echo
 
 #****************************************************************
 ## Save Unofficial Nightly :
@@ -347,12 +347,13 @@ echo 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE'
 
 #****************************************************************
 ## Save cyanogenkernel in zip :
-#cd ~/android/rom/buildtemporaire/IyahmanRom11.0Extract/
-#cp boot.img ~/android/rom/ossaturekernel
-#cd ~/android/rom/ossaturekernel
-#zip -qr ../cyanogenkernel4.3.zip ./
-#cd ~/android/rom
-#mv cyanogenkernel4.3.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
+if [ "$VARIANT" = "galaxysmtd" ] ; then
+cd ~/android/rom/buildtemporaire/IyahmanRom11.0Extract/
+cp boot.img ~/android/rom/ossaturekernel
+cd ~/android/rom/ossaturekernel
+zip -qr ../cyanogenkernel4.4.zip ./
+cd ~/android/rom
+mv cyanogenkernel4.3.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 
 #****************************************************************
 ## Copy Extra Feature Into Rom Temporaly Folder :
@@ -365,8 +366,8 @@ echo 'cp -R gapps11.0Extract/* IyahmanRom11.0Extract done'
 if [ "$VARIANT" = "galaxysmtd" ] ; then
 cp -rv patch720p4.4Extract/system/* IyahmanRom11.0Extract/system
 echo 'cp -R patch720p4.4Extract/system/* IyahmanRom11.0Extract/system done'
-#cp -rv IyahmanKernelExtract/boot.img IyahmanRom11.0Extract
-#echo 'cp -R IyahmanKernelExtract/boot.img IyahmanRom11.0Extract done'
+cp -rv IyahmanKernelExtract/boot.img IyahmanRom11.0Extract
+echo 'cp -R IyahmanKernelExtract/boot.img IyahmanRom11.0Extract done'
 cp -rv modemrilExtract/modemril/* IyahmanRom11.0Extract
 echo 'cp -R modemrilExtract/* IyahmanRom11.0Extract done'
 fi
@@ -598,8 +599,8 @@ rm -rf IyahmanRom11.0Extract
 rm -rf cm-IyahmanRom11.0.zip
 rm -rf gapps11.0Extract
 rm -rf gapps11.0.zip
-#rm -rf bootanimationExtract
-#rm -rf bootanimation.zip
+rm -rf bootanimationExtract
+rm -rf bootanimation.zip
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 rm -rf cm-IyahmanRom11.0.zip.md5sum
 if [ "$VARIANT" = "galaxysmtd" ] ; then
