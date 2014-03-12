@@ -380,7 +380,25 @@ if [ "$VARIANT" != "jflte" ] ; then
 #dualboot apks
 rm -f com.github.chenxiaolong.dualbootpatcher.apk
 rm -f com.github.chenxiaolong.dualbootswitcher.apk
+echo 'rm dualbootpatcher.apk done'
+echo 'rm dualbootswitcher.apk done'
 fi
+if [ "$VARIANT" != "galaxysmtd" ] ; then
+#semaphoremanager apk
+rm -f com.semaphore.sm.apk
+echo 'rm Semaphore manager.apk done'
+#bln pro apk
+rm -f neldar.bln.control.pro.apk
+echo 'rm neldar.bln.control.pro.apk done'
+#voodoo soud apk
+rm -f org.projectvoodoo.controlapp.apk
+echo 'rm org.projectvoodoo.controlapp done'
+cd ~/android/rom/buildtemporaire/IyahmanRom11.0Extract/system/lib/
+rm -f libvoodoo-sound.so
+rm -f libvoodoo-daemon-tools.so
+rm -f libvoodoo-kaudio.so
+fi
+cd ~/android/rom/buildtemporaire/IyahmanRom11.0Extract/system/app/
 #actualité et meteo
 #rm -f GenieWidget.apk
 #echo 'rm GenieWidget.apk done'
