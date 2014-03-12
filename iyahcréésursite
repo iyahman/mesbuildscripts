@@ -80,12 +80,12 @@ fi
 #echo 'MAKE CLEAN DONE'
 #else read
 #fi
-. build/envsetup.sh && breakfast $VARIANT
+#. build/envsetup.sh && breakfast $VARIANT
 #cp -rv ~/android/extractedfiles/$VARIANT ~/android/rom/iyahmanrom11.0/device/samsung
-adb root
-cd ~/android/rom/iyahmanrom11.0/device/samsung/$VARIANT/
-./extract-files.sh
-~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
+#adb root
+#cd ~/android/rom/iyahmanrom11.0/device/samsung/$VARIANT/
+#./extract-files.sh
+#~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
 
 #****************************************************************
 ##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
@@ -354,6 +354,7 @@ cd ~/android/rom/ossaturekernel
 zip -qr ../cyanogenkernel4.4.zip ./
 cd ~/android/rom
 mv cyanogenkernel4.3.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
+fi
 
 #****************************************************************
 ## Copy Extra Feature Into Rom Temporaly Folder :
