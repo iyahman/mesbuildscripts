@@ -55,7 +55,7 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ##Installclean : Wipe out the stuff that changes from one make target to another.
-if echo 'INSTALLCLEAN'
+# echo 'INSTALLCLEAN'
 cd ~/android/rom/iyahmanrom11.0/
 make installclean
 #echo 'installclean done'
@@ -63,9 +63,7 @@ make installclean
 #echo './out/ -name build.prop | xargs rm done'
 #find ./out/ -name {cm_$VARIANT-target_files-eng.*.zip} | xargs rm
 #echo {./out/ -name cm_$VARIANT-target_files-eng.*.zip | xargs rm done}
-then echo 'INSTALLCLEAN DONE'
-else read
-fi
+echo 'INSTALLCLEAN DONE'
 
 #****************************************************************
 ##Remove output directory : Prevents problems on rebuilds, but a build takes only 60-70 minutes in stead of 180 after a make clobber.
@@ -378,6 +376,11 @@ echo 'COPYING GAPPS INTO TEMPORALY IYAHMANROM FOLDER DONE'
 ## Delete Unwanted Apk :
 echo 'DELETING UNWANTED APK'
 cd ~/android/rom/buildtemporaire/IyahmanRom11.0Extract/system/app/
+if [ "$VARIANT" != "jflte" ] ; then
+#dualboot apks
+rm -f com.github.chenxiaolong.dualbootpatcher.apk
+rm -f com.github.chenxiaolong.dualbootswitcher.apk
+fi
 #actualité et meteo
 #rm -f GenieWidget.apk
 #echo 'rm GenieWidget.apk done'
@@ -574,11 +577,12 @@ echo 'RENAMING BUILD DONE'
 ## Dual Boot :
 if [ "$VARIANT" = "jflte" ] ; then
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
-cp -f IyahmanRom11.0$VER-`date -I`-signed.zip {cm-11-$(shell date -u +%Y%m%d)-NIGHTLY-jflte.zip} 
+cp -f IyahmanRom11.0$VER-`date -I`-signed.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip 
 cd ~/android/DualBootPatcher
-./patch-file.sh {/home/iyahman/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/cm-11-$(shell date -u +%Y%m%d)-NIGHTLY-jflte.zip}
+./patch-file.sh /home/iyahman/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
-mv -f {cm-11-$(shell date -u +%Y%m%d)-NIGHTLY-jflte_dualboot.zip} IyahmanRom11.0$VER-`date -I`-signed_dualboot.zip
+mv -f cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip IyahmanRom11.0$VER-`date -I`"-signed_dualboot".zip
+rm -f cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip
 fi
 
 #****************************************************************
