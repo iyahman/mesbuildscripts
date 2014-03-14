@@ -82,27 +82,19 @@ fi
 
 #****************************************************************
 ##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
-#if echo 'MAKE CLOBBER'
-#then 
-#cd ~/android/rom/iyahmanrom11.0/
-#make clobber
-#echo && timer && echo
-#echo 'MAKE CLOBBER DONE'
-#else read
-#fi
-#if 
-#. build/envsetup.sh && breakfast $VARIANT
-#adb root
-#sleep 3s
-#cd ~/android/rom/iyahmanrom11.0/device/samsung/$VARIANT/
-#./extract-files.sh
+#if echo 'MAKE CLOBBER' &&
+#cd ~/android/rom/iyahmanrom11.0/ && make clobber ; then
+#echo 'MAKE CLOBBER DONE' &&
+#. build/envsetup.sh && breakfast $VARIANT &&
+#adb root && sleep 3s &&
+#cd ~/android/rom/iyahmanrom11.0/device/samsung/$VARIANT/ &&
+#./extract-files.sh &&
 #cp -rfv ~/android/extractedfiles/$VARIANT ~/android/rom/iyahmanrom11.0/device/samsung
-#~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
+#~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts; else read
+#fi
 #cd ~/android/rom/iyahmanrom11.0/vendor/cm/config
 #sed -i 's/$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)/IyahmanRom11.0/g' common.mk
 #then echo 'REINSTALL AFTER CLOBBER DONE'
-#else read
-#fi
 
 #****************************************************************
 ## Save extracted files :
@@ -188,23 +180,16 @@ cp -Ravu ~/android/rom/iyahmanrom11.0/prebuilts/gcc/linux-x86/arm/* ~/android/cy
 ## config compiler for cyanogen kernel :
 #if echo 'USE CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL'  &&
 #cd ~/android/rom/iyahmanrom11.0/kernel/samsung/aries &&
-#make mrproper ; then
+#make mrproper &&
 #echo "CONFIG_S5P_HUGEMEM=y" >> .config &&
 #export ARCH=arm &&
-#export CROSS_COMPILE=~/android/linaro/linaro-toolchains/bin/arm-cortex_a8-linux-gnueabi- &&
-#echo 'USE CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL DONE'
+#export CROSS_COMPILE=~/android/linaro/linaro-toolchains/bin/arm-cortex_a8-linux-gnueabi- 
+#then echo 'USE CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL DONE'
 #else read
 #fi
 
 #****************************************************************
 ##Add Cherry Pick :
-#echo
-#cd ~/android/rom/iyahmanrom11.0/kernel/samsung/aries
-#make menuconfig
-#make mrproper
-#make clean
-#cd /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0
-#cp -fv cyanogenmod_$VARIANT_defconfig /home/iyahman/android/rom/iyahmanrom11.0/kernel/samsung/aries/arch/arm/configs
 
 #****************************************************************
 ##replace original system syze by Iyah 
@@ -356,12 +341,11 @@ rm -f libvoodoo-daemon-tools.so
 rm -f libvoodoo-kaudio.so
 fi
 cd ~/android/rom/buildtemporaire/IyahmanRom11.0Extract/system/app/
-#actualité et meteo
-#rm -f GenieWidget.apk
-#echo 'rm GenieWidget.apk done'
-# clavier android
-#rm -f LatinImeDictionaryPack.apk
-#echo 'rm LatinImeDictionaryPack.apk done'
+if [ "$VARIANT" = "galaxysmtd" ] ; then
+#dsp manager
+rm -f DSPManager.apk
+echo 'rm DSPManager.apk done'
+fi
 # dictionnaire clavier android
 rm -f LatinIME.apk
 echo 'rm LatinIME.apk done'
@@ -386,15 +370,6 @@ echo 'rm Calculator.apk done'
 #Holospiral
 rm -f HoloSpiralWallpaper.apk
 echo 'rm HoloSpiralWallpaper.apk done'
-#voicesearch
-#rm -f VoiceSearchStub.apk
-#echo 'rm VoiceSearchStub.apk done'
-#dev tools
-#rm -f Development.apk
-#echo 'rm Development.apk done'
-#dsp manager
-#rm -f DSPManager.apk
-#echo 'rm DSPManager.apk done'
 #CM file manager
 rm -f CMFileManager.apk
 echo 'rm CMFileManager.apk done'
@@ -413,12 +388,6 @@ echo 'rm CMFileManager.apk done'
 #magic smoke wallpaper
 rm -f MagicSmokeWallpapers.apk
 echo 'rm MagicSmokeWallpapers.apk done'
-#gmail
-#rm -f Gmail.apk
-#echo 'rm Gmail2.apk done'
-#moteur synthese vocal
-#rm -f GoogleTTS.apk
-#echo 'rm GoogleTTS.apk done'
 #movie studio
 rm -f VideoEditor.apk
 echo 'rm VideoEditor.apk done'
@@ -431,45 +400,18 @@ echo 'rm QuickSearchBox.apk done'
 #phase beam
 rm -f PhaseBeam.apk
 echo 'rm PhaseBeam.apk done'
-#google ears
-#rm -f GoogleEars.apk
-#echo 'rm GoogleEars.apk done'
-#service exchange
-#rm -f Exchange2.apk
-#echo 'rm Exchange2.apk done'
 #selecteur wallpaper animé
 #rm -f LiveWallpapersPicker.apk
 #echo 'rm LiveWallpapersPicker.apk done'
-# talk
-#rm -f Talk.apk
-#echo 'rm Talk.apk done'
-# talkback
-#rm -f TalkBack.apk
-#echo 'rm Talkback.apk done'
 # terminal emulator
 #rm -f Term.apk
 #echo 'rm term.apk done'
-# theme cm file manager
-#rm -f CMFileManagerThemes.apk
-#echo 'rm CMFileManagerThemes.apk done'
-#vpn dialog
-#rm -f VpnDialogs.apk
-#echo 'rm VpnDialogs.apk done'
 # ecran de veille interactif
 #rm -f BasicDreams.apk
 #echo 'rm BasicDreams.apk done'
 # ecran de veille photo
 #rm -f PhotoTable.apk
 #echo 'rm PhotoTable.apk done'
-# BackupRestoreConfirmation
-#rm -f BackupRestoreConfirmation.apk
-#echo 'rm BackupRestoreConfirmation.apk done'
-# GoogleBackupTransport
-#rm -f GoogleBackupTransport.apk
-#echo 'rm GoogleBackupTransport.apk done'
-# Media uploader
-#rm -f MediaUploader.apk
-#echo 'rm MediaUploader.apk done'
 # CellBroadcastReceiver
 #rm -f CellBroadcastReceiver.apk
 #echo 'rm CellBroadcastReceiver.apk done'
@@ -479,18 +421,6 @@ echo 'rm Gallery2.apk done'
 # camera cm11
 rm -f Camera2.apk
 echo 'rm Camera2.apk done'
-# Sms/Mms cm11
-#rm -f Mms.apk
-#echo 'rm Mms.apk done'
-# googleplus
-#rm -f GooglePlus.apk
-#echo 'rm googleplus.apk done'
-# voiceplus
-#rm -f VoicePlus.apk
-#echo 'rm voiceplus.apk done'
-# partage bluetooth
-#rm -f Bluetooth.apk
-#echo 'rm bluetooth.apk done'
 cd ~/android/rom/buildtemporaire/IyahmanRom11.0Extract/system/priv-app/
 #cm updater
 rm -f CMUpdater.apk
@@ -526,7 +456,7 @@ if echo 'SIGNING ZIP' &&
 cd ~/android/rom/buildtemporaire/ &&
 # a virer?? java -jar ~/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
 openssl pkcs8 -in build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
-java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar -w build/target/product/security/testkey.x509.pem build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
+java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
 then timer && echo 'SIGNING ZIP DONE' ; else read
 fi
 
@@ -556,8 +486,8 @@ fi
 
 #****************************************************************
 ## Dual Boot :
-if [ "$VARIANT" = "jflte" ] cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
-then cp -f IyahmanRom11.0$VER-`date -I`-signed.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip &&
+if [ "$VARIANT" = "jflte" ] ; then cd ~/android/rom/iyahmanrom11.0/out/target/product/jflte/ &&
+cp -f IyahmanRom11.0$VER-`date -I`-signed.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip &&
 cd ~/android/DualBootPatcher &&
 ./patch-file.sh /home/iyahman/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip &&
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
@@ -605,5 +535,5 @@ echo {CM11.0 POUR $VARIANT FINI EN} "$(($DIFF / 60)) minute(s) and $(($DIFF % 60
 ## Open Final Build Directory:
 nautilus ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 
-#sudo bash -c "sleep 5m; pm-suspend"
+sudo bash -c "sleep 5m; pm-suspend-hybrid"
 #exit
