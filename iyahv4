@@ -47,7 +47,7 @@ echo {LAUNCH IYAHMANROM V4.0 FOR $VARIANT BUILD SCRIPT: CM11.0, CUSTOM COMPILER,
 
 #****************************************************************
 ## Variant selection verification:
-if [ "$VARIANT" != "galaxysmtd" ] && [ "$VARIANT" != "i9100" ] && [ "$VARIANT" != "jflte" ] ; then echo '############################################################################################################################'
+if [ "$VARIANT" != "galaxysmtd" ] && [ "$VARIANT" != "i9100" ] && [ "$VARIANT" != "jflte" ] ; then spd-say 'bug' && echo '############################################################################################################################'
 echo '###################################################### PAS DE VARIANTE SELECTIONNÉE ######################################################' 
 echo '############################################################################################################################' && read && exit
 else echo
@@ -77,7 +77,7 @@ fi
 # echo 'INSTALLCLEAN'
 if cd ~/android/rom/iyahmanrom11.0/ &&
 make installclean ; then timer && echo 'INSTALLCLEAN DONE'
-else timer && echo 'INSTALLCLEAN FAILED' && read
+else timer && spd-say 'bug' && echo 'INSTALLCLEAN FAILED' && read
 fi
 
 #****************************************************************
@@ -209,7 +209,7 @@ make clean && export USE_CCACHE=1 && . build/envsetup.sh && brunch $VARIANT
 then timer && echo 'BUILD CM11.0 ROM DONE'
 elif rm -rf ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT &&
 make clean && export USE_CCACHE=1 && . build/envsetup.sh && brunch $VARIANT
-then timer && echo 'BUILD CM11.0 ROM DONE' ; else  echo timer  
+then timer && echo 'BUILD CM11.0 ROM DONE' ; else spd-say 'bug' && echo timer  
 echo '############################################################################################################################'
 echo '###################################################### ROM INTERVENTION MANUEL REQUISE ######################################################' 
 echo '############################################################################################################################' && read
@@ -225,7 +225,7 @@ elif echo '#####################################################################
 echo '###################################################### DEBUGGING TIME ######################################################' &&
 echo '############################################################################################################################' && read &&
 make mrproper && export USE_CCACHE=1 && ./sbuild.sh galaxys s ; then timer && echo 'BUILD IYAHMANKERNEL DONE'
-else echo '############################################################################################################################'
+else spd-say 'bug' && echo '############################################################################################################################'
 echo '###################################################### KERNEL INTERVENTION MANUEL REQUISE ######################################################' 
 echo '############################################################################################################################' && read
 fi
@@ -451,28 +451,10 @@ echo 'ZIPPING IYAHMANROM DONE'
 fi
 
 #****************************************************************
-## Sign cm-IyahmanRom11.0 :
-if echo 'SIGNING ZIP' &&
-cd ~/android/rom/buildtemporaire/ &&
-# a virer?? java -jar ~/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
-openssl pkcs8 -in build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
-java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
-then timer && echo 'SIGNING ZIP DONE' ; else read
-fi
-
-#****************************************************************
-## Zipalign cm-IyahmanRom11.0 :
-if echo 'ZIPALIGNING' &&
-cd ~/android/sdk/tools/ &&
-zipalign -v 4 ~/android/rom/buildtemporaire/cm-IyahmanRom11.0-signed.zip
-then timer && echo 'ZIPALIGNING DONE' ; else read
-fi
-
-#****************************************************************
 ## Move rom To Final Folder :
 if echo 'MOVING IYAHMANROM INTO FINAL DIRECTORY' &&
 cd ~/android/rom/buildtemporaire/ &&
-mv -f cm-IyahmanRom11.0-signed.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
+mv -f cm-IyahmanRom11.0.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 then echo 'MOVING IYAHMANROM INTO FINAL DIRECTORY DONE' ; else read
 fi
 
@@ -480,20 +462,46 @@ fi
 ## Rename Rom :
 if echo 'RENAMING BUILD' &&
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
-mv -f cm-IyahmanRom11.0-signed.zip IyahmanRom11.0$VER-`date -I`-signed.zip
+mv -f cm-IyahmanRom11.0.zip IyahmanRom11.0$VER-`date -I`.zip
 then echo 'RENAMING BUILD DONE'; else read 
 fi
 
 #****************************************************************
 ## Dual Boot :
 if [ "$VARIANT" = "jflte" ] ; then cd ~/android/rom/iyahmanrom11.0/out/target/product/jflte/ &&
-cp -f IyahmanRom11.0$VER-`date -I`-signed.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip &&
+cp -f IyahmanRom11.0$VER-`date -I`.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip &&
 cd ~/android/DualBootPatcher &&
 ./patch-file.sh /home/iyahman/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip &&
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
-mv -f cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip IyahmanRom11.0$VER-`date -I`"-signed_dualboot".zip &&
+mv -f cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip IyahmanRom11.0$VER-`date -I`"_dualboot".zip &&
 rm -f cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip ; timer
 else read
+fi
+
+#****************************************************************
+## Sign cm-IyahmanRom11.0 :
+if [ "$VARIANT" = "jflte" ] && echo 'SIGNING ZIP' &&
+cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
+openssl pkcs8 -in /home/iyahman/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
+java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 IyahmanRom11.0$VER-`date -I`"_dualboot".zip IyahmanRom11.0$VER-`date -I`"_dualboot"-signed.zip &&
+then timer && echo 'SIGNING DUALBOOT ZIP AND ORIGINAL DONE' ; else read
+elif [ "$VARIANT" == true ] echo 'SIGNING ZIP' && cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
+openssl pkcs8 -in /home/iyahman/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
+java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 IyahmanRom11.0$VER-`date -I`.zip IyahmanRom11.0$VER-`date -I`-signed.zip
+then timer && echo 'SIGNING ZIP DONE' ; else read
+fi
+
+#****************************************************************
+## Zipalign cm-IyahmanRom11.0 :
+if echo 'ZIPALIGNING' &&
+cd ~/android/sdk/tools/ &&
+#zipalign -c -v 4 ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/IyahmanRom11.0$VER-`date -I`-signed.zip
+zipalign -f -v 4 ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/IyahmanRom11.0$VER-`date -I`-signed.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/IyahmanRom11.0$VER-`date -I`-signed-zipaligned.zip
+then timer && echo 'ZIPALIGNING DONE' ; else read
+elif if [ "$VARIANT" = "jflte" ] && cd ~/android/sdk/tools/ &&
+#zipalign -c -v 4 ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/IyahmanRom11.0$VER-`date -I`"_dualboot".zip
+zipalign -f -v 4 ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/IyahmanRom11.0$VER-`date -I`"_dualboot"-signed.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/IyahmanRom11.0$VER-`date -I`"_dualboot"-signed-zipaligned.zip
+then timer && echo 'ZIPALIGNING  DUALBOOT DONE' ; else read
 fi
 
 #****************************************************************
@@ -533,7 +541,7 @@ echo {CM11.0 POUR $VARIANT FINI EN} "$(($DIFF / 60)) minute(s) and $(($DIFF % 60
 
 #****************************************************************
 ## Open Final Build Directory:
-nautilus ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
+spd-say 'BUILD SUCCESFUL' && nautilus ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 
 sudo bash -c "sleep 5m; pm-suspend-hybrid"
 #exit
