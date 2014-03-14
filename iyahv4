@@ -249,7 +249,7 @@ fi
 ## Save Unofficial Nightly :
 if echo 'SAVE UNOFFICIAL NIGHTLY' &&
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
-cp -v cm-IyahmanRom11.0.zip cm-11.0-`date -I`-UNOFFICIAL-$VARIANT.zip &&
+cp -v cm-IyahmanRom11.0.zip cm-11.0-`date -I`-UNOFFICIAL-$VARIANT.zip
 then echo 'SAVE UNOFFICIAL NIGHTLY DONE'
 else read
 fi
@@ -307,7 +307,7 @@ cp boot.img ~/android/rom/ossaturekernel &&
 cd ~/android/rom/ossaturekernel &&
 zip -qr ../cyanogenkernel4.4.zip ./ &&
 cd ~/android/rom &&
-mv cyanogenkernel4.3.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
+mv cyanogenkernel4.3.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 else read
 fi
 
@@ -524,7 +524,9 @@ fi
 ## Sign cm-IyahmanRom11.0 :
 if echo 'SIGNING ZIP' &&
 cd ~/android/rom/buildtemporaire/ &&
-java -jar ~/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
+# a virer?? java -jar ~/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom11.0/build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
+openssl pkcs8 -in build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
+java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom11.0/out/host/linux-x86/framework/signapk.jar -w build/target/product/security/testkey.x509.pem build/target/product/security/testkey.pk8 cm-IyahmanRom11.0.zip cm-IyahmanRom11.0-signed.zip
 then timer && echo 'SIGNING ZIP DONE' ; else read
 fi
 
@@ -532,8 +534,7 @@ fi
 ## Zipalign cm-IyahmanRom11.0 :
 if echo 'ZIPALIGNING' &&
 cd ~/android/sdk/tools/ &&
-zipalign -v 4 ~/android/rom/buildtemporaire/cm-IyahmanRom11.0-signed.zip &&
-zipalign -c -v 4 ~/android/rom/buildtemporaire/cm-IyahmanRom11.0-signed.zip
+zipalign -v 4 ~/android/rom/buildtemporaire/cm-IyahmanRom11.0-signed.zip
 then timer && echo 'ZIPALIGNING DONE' ; else read
 fi
 
