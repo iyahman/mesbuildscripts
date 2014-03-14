@@ -11,7 +11,7 @@ DATE_START=$(date +"%s")
 #****************************************************************
 ## Set Basic Parameters :
 
-#set -xv
+set -xv
 
 case "$1" in
         s1)
@@ -34,8 +34,8 @@ function timer {
     END=$(date +%s)
     ELAPSED=$((END - START))
     E_MIN=$((ELAPSED / 60))
-    E_SEC=$((ELAPSED - E_MIN * 60)) echo
-    printf "${txtgrn}ELAPSED: "
+    E_SEC=$((ELAPSED - E_MIN * 60))
+    echo && printf "${txtgrn}ELAPSED: "
     [ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
     printf "%d sec(s)\n ${txtrst}" $E_SEC && echo
 }
@@ -208,8 +208,8 @@ timer && echo -e "\e[31;42m 'BUILD CM11.0 ROM DONE' \e[0m"
 
 #****************************************************************
 ##Build Semaphore :
-if [ "$VARIANT" = "galaxysmtd" ] echo  -e "\e[31;42m'BUILD IYAHMANKERNEL' \e[0m" 
-then cd /home/iyahman/android/rom/semaphore/11.0/samsung-kernel-aries/ &&
+if [ "$VARIANT" = "galaxysmtd" ] ; then echo  -e "\e[31;42m'BUILD IYAHMANKERNEL' \e[0m" &&
+cd /home/iyahman/android/rom/semaphore/11.0/samsung-kernel-aries/ &&
 #cp -rfavu /home/iyahman/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/recovery/root/sbin/recovery /home/iyahman/android/rom/semaphore/ics-ramdisk/jb_combo/ics_rec_init/sbin/
 export USE_CCACHE=1 && ./sbuild.sh galaxys s && timer && echo -e "\e[31;42m 'BUILD IYAHMANKERNEL DONE' \e[0m"
 # elif echo -e "\e[31;42m '############################################################################################################################'&&
@@ -219,7 +219,7 @@ export USE_CCACHE=1 && ./sbuild.sh galaxys s && timer && echo -e "\e[31;42m 'BUI
 # else spd-say 'bug' && echo -e "\e[31;42m '############################################################################################################################'
 # echo '###################################################### KERNEL INTERVENTION MANUEL REQUISE ######################################################' 
 # echo '############################################################################################################################' \e[0m" && read
-# fi
+fi
 
 #****************************************************************
 ## Save Unofficial Nightly :
@@ -371,14 +371,14 @@ echo -e "\e[31;42m 'ZIPPING IYAHMANROM DONE' \e[0m"
 ## Move rom To Final Folder :
 echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY' \e[0m"
 cd ~/android/rom/buildtemporaire/
-mv -rfv cm-IyahmanRom11.0.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
+mv -fv cm-IyahmanRom11.0.zip ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY DONE' \e[0m" 
 
 #****************************************************************
 ## Rename Rom :
 echo -e "\e[31;42m 'RENAMING BUILD' \e[0m" 
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
-mv -rfv cm-IyahmanRom11.0.zip IyahmanRom11.0$VER-`date -I`.zip
+mv -fv cm-IyahmanRom11.0.zip IyahmanRom11.0$VER-`date -I`.zip
 echo -e "\e[31;42m 'RENAMING BUILD DONE' \e[0m" 
 
 #****************************************************************
@@ -389,9 +389,10 @@ cp -f IyahmanRom11.0$VER-`date -I`.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip
 cd ~/android/DualBootPatcher &&
 ./patch-file.sh /home/iyahman/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip &&
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/ &&
-mv -f cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip IyahmanRom11.0$VER-`date -I`"_dualboot".zip &&
-rm -f cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip && timer &&
-echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" ; else read
+mv -fv cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip IyahmanRom11.0$VER-`date -I`"_dualboot".zip &&
+rm -rfv cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip && timer &&
+echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
+else read
 fi
 
 #****************************************************************
@@ -425,24 +426,24 @@ fi
 ## Clean buildtemporaire:
 echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m"
 cd ~/android/rom/buildtemporaire/
-rm -rf IyahmanRom11.0Extract
-rm -rf cm-IyahmanRom11.0.zip
-rm -rf gapps11.0Extract
-rm -rf gapps11.0.zip
-rm -rf bootanimationExtract
-rm -rf bootanimation.zip
+rm -rfv IyahmanRom11.0Extract
+rm -rfv cm-IyahmanRom11.0.zip
+rm -rfv gapps11.0Extract
+rm -rfv gapps11.0.zip
+rm -rfv bootanimationExtract
+rm -rfv bootanimation.zip
 cd ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
-rm -rf cm-IyahmanRom11.0.zip.md5sum
+rm -rfv cm-IyahmanRom11.0.zip.md5sum
 if [ "$VARIANT" = "galaxysmtd" ] ; then
-rm -rf patch720p4.4Extract
-rm -rf patch720p4.4.zip
-rm -rf IyahmanKernelExtract
-rm -rf IyahmanKernels.zip
-rm -rf modemril.zip
-rm -rf modemrilExtract
+rm -rfv patch720p4.4Extract
+rm -rfv patch720p4.4.zip
+rm -rfv IyahmanKernelExtract
+rm -rfv IyahmanKernels.zip
+rm -rfv modemril.zip
+rm -rfv modemrilExtract
 cd ~/android/rom/semaphore/11.0/output/galaxys
-rm -rf IyahmanKernelsOld.zip
-rm -rf IyahmanKernelsOld.tar
+rm -rfv IyahmanKernelsOld.zip
+rm -rfv IyahmanKernelsOld.tar
 fi
 echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
 echo -e "\e[31;42m '############################################################################################################################' \e[0m"
@@ -460,5 +461,5 @@ echo {CM11.0 POUR $VARIANT FINI EN} "$(($DIFF / 60)) minute(s) and $(($DIFF % 60
 ## Open Final Build Directory:
 spd-say 'BUILD SUCCESFULL' && nautilus ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/
 
-bash -c "sleep 5m; pm-suspend-hybrid"
+bash -c sleep 5m; pm-suspend-hybrid
 #exit
