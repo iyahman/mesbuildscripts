@@ -33,6 +33,11 @@ case "$1" in
             ;;
 esac
 
+if [ "$2" = "linaro" ] ; then
+TOOLCHAIN="linaro"
+	
+fi
+
 function timer {
     END=$(date +%s)
     ELAPSED=$((END - START))
@@ -161,13 +166,24 @@ cp -rfavu ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/* ~/android
 
 #****************************************************************
 ## config compiler for cyanogen kernel :
-#echo -e "\e[31;42m 'USE CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL'  \e[0m"
-#cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries
+echo -e "\e[31;42m 'SET CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL'  \e[0m"
+if [ "$VARIANT" = "galaxysmtd" ] && [ "$TOOLCHAIN" = "linaro" ] ; then
+cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries
 #make mrproper
-#echo "CONFIG_S5P_HUGEMEM=y" >> .config
-#export ARCH=arm
-#export CROSS_COMPILE=~/android/linaro/linaro-toolchains/bin/arm-cortex_a8-linux-gnueabi- 
-#echo -e "\e[31;42m 'USE CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL DONE' \e[0m"
+export ARCH=arm
+export CROSS_COMPILE=~/android/linaro/linaro-toolchain$VER/bin/arm-cortex_a8-linux-gnueabi-
+elif [ "$VARIANT" = "i9100" ] && [ "$TOOLCHAIN" = "linaro" ] ; then
+cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412
+#make mrproper
+export ARCH=arm
+export CROSS_COMPILE=~/android/linaro/linaro-toolchain$VER/bin/arm-cortex_a9-linux-gnueabi-
+elif [ "$VARIANT" = "jflte" ] && [ "$TOOLCHAIN" = "linaro" ] ; then
+cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf
+#make mrproper
+export ARCH=arm
+export CROSS_COMPILE=~/android/linaro/linaro-toolchains$VER/bin/arm-cortex_a15-linux-gnueabi-
+fi
+echo -e "\e[31;42m 'SET CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL DONE' \e[0m"
 
 #****************************************************************
 ##Add Cherry Pick :
@@ -199,14 +215,14 @@ fi
 ## Save Unofficial Nightly :
 echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY' \e[0m"
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
-cp -rfavu cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT.zip  $ROMNAME$CMVER-$VARIANT-`date -I`.zip
+cp -rfavu cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT.zip  $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip
 echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY DONE' \e[0m"
 
 #****************************************************************
 ## Move Rom And Extra Feature Into Temporaly Folder :
 echo -e "\e[31;42m 'MOVING ROM, GAPPS INTO TEMPORALY FOLDER' \e[0m"
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
-mv -fv $ROMNAME$CMVER-$VARIANT-`date -I`.zip ~/android/rom/buildtemporaire
+mv -fv $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip ~/android/rom/buildtemporaire
 cd /home/iyahman/Bureau/
 cp -rfavu gapps11.0.zip ~/android/rom/buildtemporaire
 cp -rfavu bootanimation.zip ~/android/rom/buildtemporaire
@@ -222,7 +238,7 @@ echo -e "\e[31;42m 'MOVING ROM, GAPP INTO TEMPORALY FOLDER DONE' \e[0m"
 ## unzip Rom And Extra Feature Into Respective Temporaly Folder :
 echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER' \e[0m"
 cd ~/android/rom/buildtemporaire/
-unzip -qv $ROMNAME$CMVER-$VARIANT-`date -I` -d $ROMNAME$CMVER-$VARIANT-`date -I`Extract
+unzip -qv $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I` -d $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract
 echo 'unzip -q cm-$ROMNAME$CMVER-$VARIANT -d $ROMNAME$CMVER-$VARIANTExtract done'
 unzip -qv gapps11.0 -d gapps11.0Extract
 echo 'unzip -q gapps11.0 -d gapps11.0Extract done'
@@ -241,7 +257,7 @@ echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE' \e[0m"
 #****************************************************************
 ## Save cyanogenkernel in zip :
 if [ "$VARIANT" = "galaxysmtd" ] ; then
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT-`date -I`Extract/
+cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract/
 cp -rfavu boot.img ~/android/rom/ossaturekerneli9000
 cd ~/android/rom/ossaturekerneli9000
 zip -qrv ../cyanogenkernel4.4.zip ./
@@ -253,19 +269,19 @@ fi
 ## Copy Extra Feature Into Rom Temporaly Folder :
 echo -e "\e[31;42m 'COPYING GAPPS PATCH720P ROMPHORE INTO TEMPORALY IYAHMANROM FOLDER' \e[0m"
 cd ~/android/rom/buildtemporaire/
-cp -rfavu gapps11.0Extract/* $ROMNAME$CMVER-$VARIANTExtract
+cp -rfavu gapps11.0Extract/* $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract
 #cp -rfavu bootanimationExtract/system/media/bootanimation.zip $ROMNAME$CMVER-$VARIANTExtract/system/media
 if [ "$VARIANT" = "galaxysmtd" ] ; then
-cp -rfavu patch720p4.4Extract/system/* $ROMNAME$CMVER-$VARIANTExtract/system
-cp -rfavu IyahmanKernelExtract/boot.img $ROMNAME$CMVER-$VARIANTExtract
-cp -rfavu modemrilExtract/modemril/* $ROMNAME$CMVER-$VARIANTExtract
+cp -rfavu patch720p4.4Extract/system/* $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract/system
+cp -rfavu IyahmanKernelExtract/boot.img $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract
+cp -rfavu modemrilExtract/modemril/* $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract
 fi
 echo -e "\e[31;42m 'COPYING GAPPS INTO TEMPORALY IYAHMANROM FOLDER DONE' \e[0m"
 
 #****************************************************************
 ## Delete Unwanted Apk :
 echo -e "\e[31;42m 'DELETING UNWANTED STUFF' \e[0m"
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANTExtract/system/app/
+cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract/system/app/
 if [ "$VARIANT" != "jflte" ] ; then
 #dualboot apks
 rm -rfv com.github.chenxiaolong.dualbootpatcher.apk
@@ -278,12 +294,12 @@ rm -rfv com.semaphore.sm.apk
 rm -rfv neldar.bln.control.pro.apk
 #voodoo soud apk
 rm -rfv org.projectvoodoo.controlapp.apk
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANTExtract/system/lib/
+cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract/system/lib/
 rm -rfv libvoodoo-sound.so
 rm -rfv libvoodoo-daemon-tools.so
 rm -rfv libvoodoo-kaudio.so
 fi
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANTExtract/system/app/
+cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract/system/app/
 if [ "$VARIANT" = "galaxysmtd" ] ; then
 #dsp manager
 rm -rfv DSPManager.apk
@@ -318,7 +334,7 @@ rm -rfv PhaseBeam.apk
 rm -rfv Gallery2.apk
 # camera cm11
 rm -rfv Camera2.apk
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANTExtract/system/priv-app/
+cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract/system/priv-app/
 #cm updater
 rm -rfv CMUpdater.apk
 #pico tts
@@ -327,7 +343,7 @@ rm -rfv PicoTts.apk
 rm -rfv VoiceDialer.apk
 #trebuchet
 rm -rfv Trebuchet.apk
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANTExtract/system/tts/
+cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract/system/tts/
 rm -rfv lang_pico
 echo -e "\e[31;42m 'DELETING UNWANTED STUFF DONE' \e[0m"
 
@@ -335,27 +351,27 @@ echo -e "\e[31;42m 'DELETING UNWANTED STUFF DONE' \e[0m"
 ## Zip Rom In Temporaly Folder:
 echo -e "\e[31;42m 'ZIPPING IYAHMANROM' \e[0m"
 cd ~/android/rom/buildtemporaire/
-rm -rfv $ROMNAME$CMVER-$VARIANT-`date -I`.zip
-cd $ROMNAME$CMVER-$VARIANTExtract
-zip -qrv ../$ROMNAME$CMVER-$VARIANT-`date -I`.zip ./
+rm -rfv $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip
+cd $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract
+zip -qrv ../$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip ./
 echo -e "\e[31;42m 'ZIPPING IYAHMANROM DONE' \e[0m"
 
 #****************************************************************
 ## Move rom To Final Folder :
 echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY' \e[0m"
 cd ~/android/rom/buildtemporaire/
-mv -fv $ROMNAME$CMVER-$VARIANT-`date -I`.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
+mv -fv $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
 echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY DONE' \e[0m" 
 
 #****************************************************************
 ## Dual Boot :
 if [ "$VARIANT" = "jflte" ] ; then echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505' \e[0m"
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/jflte/
-cp -f $ROMNAME$CMVER-$VARIANT$VER-`date -I`.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip
+cp -f $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip
 cd ~/android/DualBootPatcher
 ./patch-file.sh /home/iyahman/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
-mv -fv cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip $ROMNAME$CMVER-$VARIANT$VER-`date -I`"_dualboot".zip
+mv -fv cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`"_dualboot".zip
 rm -rfv cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte.zip 
 timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
 fi
@@ -379,11 +395,11 @@ fi
 echo -e "\e[31;42m 'ZIPALIGNING' \e[0m"
 cd ~/android/sdk/tools/
 #zipalign -c -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`-signed.zip
-zipalign -f -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`-signed.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`-signed-zipaligned.zip
+zipalign -f -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`-signed.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`-signed-zipaligned.zip
 timer && echo -e "\e[31;42m 'ZIPALIGNING DONE' \e[0m"
 if [ "$VARIANT" = "jflte" ] ; then cd ~/android/sdk/tools/
 #zipalign -c -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`"_dualboot".zip
-zipalign -f -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`"_dualboot"-signed.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`"_dualboot"-signed-zipaligned.zip
+zipalign -f -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`"_dualboot"-signed.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`"_dualboot"-signed-zipaligned.zip
 timer && echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT DONE' \e[0m"
 fi
 
@@ -391,14 +407,14 @@ fi
 ## Clean buildtemporaire:
 echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m"
 cd ~/android/rom/buildtemporaire/
-rm -rfv $ROMNAME$CMVER-$VARIANTExtract
-rm -rfv $ROMNAME$CMVER-$VARIANT-`date -I`.zip
+rm -rfv $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`Extract
+rm -rfv $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip
 rm -rfv gapps11.0Extract
 rm -rfv gapps11.0.zip
 rm -rfv bootanimationExtract
 rm -rfv bootanimation.zip
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
-rm -rfv $ROMNAME$CMVER-$VARIANT-`date -I`.zip.md5sum
+rm -rfv $ROMNAME$CMVER-$VARIANT-$TOOLCHAIN-`date -I`.zip.md5sum
 if [ "$VARIANT" = "galaxysmtd" ] ; then
 rm -rfv patch720p4.4Extract
 rm -rfv patch720p4.4.zip
