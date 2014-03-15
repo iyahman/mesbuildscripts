@@ -51,7 +51,7 @@ function timer {
 #****************************************************************
 ## Script speech:
 echo -e "\e[31;42m 'HELLO IYAHMAN' \e[0m"
-echo -e "\e[31;42m  LAUNCH $ROMNAME$CMVER BUILD SCRIPT V4.1 FOR $VARIANT : CM11.0, CUSTOM COMPILER, GAPPS WITH CUSTOM APK,'HOST AND GPS CONF' \e[0m"
+echo -e "\e[31;42m  LAUNCH $ROMNAME$CMVER$TOOLCHAIN BUILD SCRIPT V4.1 FOR $VARIANT WITH GAPPS, CUSTOM APK,'HOST AND GPS CONF' \e[0m"
 
 #****************************************************************
 ## Variant selection verification:
