@@ -179,7 +179,7 @@ cp -rfavu ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/* ~/android
 ##Build CM10 :
 echo -e "\e[31;42m 'BUILD CM11.0 ROM' \e[0m"
 cd ~/android/rom/iyahmanrom$CMVER/
-. build/envsetup.sh && export USE_CCACHE=1
+. build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=1
 ## config linaro for cyanogen kernel :
 echo -e "\e[31;42m 'SET CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL'  \e[0m"
 if [ "$VARIANT" = "galaxysmtd" ] && [ "$TOOLCHAIN" = "linaro" ] ; then
@@ -199,7 +199,7 @@ export ARCH=arm
 export CROSS_COMPILE=~/android/linaro/linaro-toolchains$VER/bin/arm-cortex_a15-linux-gnueabi-
 fi
 echo -e "\e[31;42m 'SET CUSTOM TOOLCHAIN FOR CYANOGEN KERNEL DONE' \e[0m"
-brunch $VARIANT
+mka bacon
 timer && echo -e "\e[31;42m 'BUILD CM11.0 ROM DONE' \e[0m"
 
 #****************************************************************
