@@ -205,12 +205,12 @@ timer && echo -e "\e[31;42m 'BUILD CM11.0 ROM DONE' \e[0m"
 #****************************************************************
 ##Build Semaphore :
 if [ "$VARIANT" = "galaxysmtd" ] ; then
-echo  -e "\e[31;42m'BUILD IYAHMANKERNEL' \e[0m"
-  if cd ~/android/rom/semaphore/11.0/samsung-kernel-aries &&
+   if echo  -e "\e[31;42m'BUILD IYAHMANKERNEL' \e[0m" &&
+   cd ~/android/rom/semaphore/11.0/samsung-kernel-aries &&
   #cp -rfavu /home/iyahman/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/recovery/root/sbin/recovery /home/iyahman/android/rom/semaphore/ics-ramdisk/jb_combo/ics_rec_init/sbin/
   export USE_CCACHE=1 && ./sbuild galaxys s
   then timer && echo -e "\e[31;42m 'BUILD IYAHMANKERNEL DONE' \e[0m"
-  else read
+  else echo -e "\e[31;42m 'BUILD IYAHMANKERNEL FAILED' \e[0m" && read
   fi
   elif [ "$VARIANT" = "i9100" ] ||  [ "$VARIANT" = "jflte" ]
   then echo
@@ -235,14 +235,14 @@ cd /home/iyahman/Bureau/ &&
 cp -rfavu gapps11.0.zip ~/android/rom/buildtemporaire &&
 cp -rfavu bootanimation.zip ~/android/rom/buildtemporaire
 then echo -e "\e[31;42m 'MOVING ROM, GAPP INTO TEMPORALY FOLDER DONE' \e[0m"
-  if [ "$VARIANT" = "galaxysmtd" ] ; then echo
+  if [ "$VARIANT" = "galaxysmtd" ] ; then
     if cd /home/iyahman/Bureau/ &&
     cp -rfavu patch720p4.4.zip ~/android/rom/buildtemporaire &&
     cp -rfavu modemril.zip ~/android/rom/buildtemporaire &&
     cd /home/iyahman/android/rom/semaphore/11.0/output/galaxys&&
     cp -rfavu IyahmanKernels.zip ~/android/rom/buildtemporaire
     then echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER DONE' \e[0m"
-    else echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m"
+    else echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read
     fi
   fi
 else echo -e "\e[31;42m 'MOVING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read
@@ -250,73 +250,94 @@ fi
 
 #****************************************************************
 ## unzip Rom And Extra Feature Into Respective Temporaly Folder :
-echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER' \e[0m"
-cd ~/android/rom/buildtemporaire/
-unzip -qv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I` -d $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
-echo 'unzip -q cm-$ROMNAME$CMVER-$VARIANT -d $ROMNAME$CMVER-$VARIANTExtract done'
+if echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER' \e[0m" &&
+cd ~/android/rom/buildtemporaire/ && 
+unzip -qv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I` -d $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract &&
+echo 'unzip -q cm-$ROMNAME$CMVER-$VARIANT -d $ROMNAME$CMVER-$VARIANTExtract done' &&
 unzip -qv gapps11.0 -d gapps11.0Extract
-echo 'unzip -q gapps11.0 -d gapps11.0Extract done'
 #unzip -q bootanimation -d bootanimationExtract
 #echo 'unzip -q bootanimation -d bootanimationExtract done'
-if [ "$VARIANT" = "galaxysmtd" ] ; then
-unzip -qv patch720p4.4 -d patch720p4.4Extract
-echo 'unzip -q patch720p4.4 -d patch720p4.4Extract done'
-unzip -qv IyahmanKernels -d IyahmanKernelExtract
-echo 'unzip -q IyahmanKernels -d IyahmanKernelExtract done'
-unzip -qv modemril -d modemrilExtract
-echo 'unzip -q modemril -d modemrilExtract done'
-fi
-echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE' \e[0m"
+then echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE' \e[0m"
+  if [ "$VARIANT" = "galaxysmtd" ] ; then
+    if unzip -qv patch720p4.4 -d patch720p4.4Extract &&
+    unzip -qv IyahmanKernels -d IyahmanKernelExtract &&
+    unzip -qv modemril -d modemrilExtract
+    then echo -e "\e[31;42m 'UNZIPPING KERNEL AND RIL INTO TEMPORALY FOLDER DONE' \e[0m"
+    else echo -e "\e[31;42m 'UNZIPPING KERNEL AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read
+    fi
+  fi
+else echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read
+fi 
 
 #****************************************************************
 ## Save cyanogenkernel in zip :
 if [ "$VARIANT" = "galaxysmtd" ] ; then
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/
-cp -rfavu boot.img ~/android/rom/ossaturekerneli9000
-cd ~/android/rom/ossaturekerneli9000
-zip -qrv ../cyanogenkernel4.4.zip ./
-cd ~/android/rom
-mv -fv cyanogenkernel4.4.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
+  if cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/ &&
+  cp -rfavu boot.img ~/android/rom/ossaturekerneli9000 &&
+  cd ~/android/rom/ossaturekerneli9000 &&
+  zip -qrv ../cyanogenkernel4.4.zip ./ &&
+  cd ~/android/rom &&
+  mv -fv cyanogenkernel4.4.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
+  then echo
+  else read
+  fi
 fi
 
 #****************************************************************
 ## Copy Extra Feature Into Rom Temporaly Folder :
-echo -e "\e[31;42m 'COPYING GAPPS PATCH720P ROMPHORE INTO TEMPORALY IYAHMANROM FOLDER' \e[0m"
-cd ~/android/rom/buildtemporaire/
+if echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM FOLDER' \e[0m" &&
+cd ~/android/rom/buildtemporaire/ &&
 cp -rfavu gapps11.0Extract/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
 #cp -rfavu bootanimationExtract/system/media/bootanimation.zip $ROMNAME$CMVER-$VARIANTExtract/system/media
-if [ "$VARIANT" = "galaxysmtd" ] ; then
-cp -rfavu patch720p4.4Extract/system/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system
-cp -rfavu IyahmanKernelExtract/boot.img $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
-cp -rfavu modemrilExtract/modemril/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
+then echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM FOLDER DONE' \e[0m"
+  if [ "$VARIANT" = "galaxysmtd" ] ; then
+    if echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER' \e[0m" &&
+    cp -rfavu patch720p4.4Extract/system/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system &&
+    cp -rfavu IyahmanKernelExtract/boot.img $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract &&
+    cp -rfavu modemrilExtract/modemril/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
+    then echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER DONE' \e[0m"
+    else echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER FAILED' \e[0m"
+    fi
+  fi
+else echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM FOLDER FAILED' \e[0m"
 fi
-echo -e "\e[31;42m 'COPYING GAPPS INTO TEMPORALY IYAHMANROM FOLDER DONE' \e[0m"
 
 #****************************************************************
 ## Delete Unwanted Apk :
-echo -e "\e[31;42m 'DELETING UNWANTED STUFF' \e[0m"
+if echo -e "\e[31;42m 'DELETING UNWANTED STUFF' \e[0m" &&
 cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/
-if [ "$VARIANT" != "jflte" ] ; then
-#dualboot apks
-rm -rfv com.github.chenxiaolong.dualbootpatcher.apk
-rm -rfv com.github.chenxiaolong.dualbootswitcher.apk
+then 
+  if [ "$VARIANT" != "jflte" ] ; then
+    if #dualboot apks
+    rm -rfv com.github.chenxiaolong.dualbootpatcher.apk &&
+    rm -rfv com.github.chenxiaolong.dualbootswitcher.apk
+    then echo -n
+    else read
+    fi
+  elif [ "$VARIANT" != "galaxysmtd" ] ; then
+    if #semaphoremanager apk
+    rm -rfv com.semaphore.sm.apk &&
+    #bln pro apk
+    rm -rfv neldar.bln.control.pro.apk &&
+    #voodoo soud apk
+    rm -rfv org.projectvoodoo.controlapp.apk &&
+    cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/lib/ &&
+    rm -rfv libvoodoo-sound.so &&
+    rm -rfv libvoodoo-daemon-tools.so &&
+    rm -rfv libvoodoo-kaudio.so
+    then echo -n
+    else read
+    fi
 fi
-if [ "$VARIANT" != "galaxysmtd" ] ; then
-#semaphoremanager apk
-rm -rfv com.semaphore.sm.apk
-#bln pro apk
-rm -rfv neldar.bln.control.pro.apk
-#voodoo soud apk
-rm -rfv org.projectvoodoo.controlapp.apk
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/lib/
-rm -rfv libvoodoo-sound.so
-rm -rfv libvoodoo-daemon-tools.so
-rm -rfv libvoodoo-kaudio.so
-fi
-cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/
-if [ "$VARIANT" = "galaxysmtd" ] ; then
-#dsp manager
-rm -rfv DSPManager.apk
+
+if cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/
+then 
+  if [ "$VARIANT" = "galaxysmtd" ] ; then
+    if #dsp manager
+    rm -rfv DSPManager.apk
+    then echo -n
+    else read
+  fi
 fi
 # dictionnaire clavier android
 rm -rfv LatinIME.apk
@@ -340,8 +361,6 @@ rm -rfv MagicSmokeWallpapers.apk
 rm -rfv VideoEditor.apk
 #navigateur
 rm -rfv Browser.apk
-#quicksearhbox
-rm -rfv QuickSearchBox.apk
 #phase beam
 rm -rfv PhaseBeam.apk
 # Gallery cm11
