@@ -65,7 +65,7 @@ CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
 ## Script speech:
 echo -e "\e[31;42m 'HELLO IYAHMAN' \e[0m"
 echo -e "\e[31;42m  LAUNCH $ROMNAME$CMVER$TOOLCHAIN BUILD SCRIPT V4.1 FOR $VARIANT WITH GAPPS, CUSTOM APK,'HOST AND GPS CONF' \e[0m"
-sleep 2s
+sleep 1s
 
 #****************************************************************
 ## Variant selection verification:
@@ -139,7 +139,8 @@ fi
 #****************************************************************
 ## Clean buildtemporaire:
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" && 
-rm -rfv ~/android/rom/buildtemporaire/*
+rm -rfv ~/android/rom/buildtemporaire/* &&
+rm -rfv ~/android/rom/iyahmanrom11.0/out/target/product/$VARIANT/cm-11-*-UNOFFICIAL-$VARIANT.zip.md5sum
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
 fi
@@ -238,7 +239,13 @@ then
 fi
 if mka bacon ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
-else echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && read
+else 
+  if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
+  echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM' \e[0m" &&
+  make clean && mka bacon
+  then echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM DONE' \e[0m"
+  else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m" && read
+  fi
 fi
 
 #****************************************************************
@@ -388,7 +395,7 @@ then
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
       else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
       fi
-    then
+    fi
     if [ "$VARIANT" != "galaxysmtd" ] ; then
       if cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/ &&
       #semaphoremanager apk
@@ -404,7 +411,7 @@ then
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
       else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
       fi
-    then
+    fi
     if [ "$VARIANT" = "galaxysmtd" ] ; then
       if cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/ &&
       #dsp manager
@@ -536,19 +543,12 @@ fi
 
 #****************************************************************
 ## Clean buildtemporaire:
-if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" && 
-rm -rfv ~/android/rom/buildtemporaire/*
-then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
-else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
-fi
-
-
-#****************************************************************
-## Clean buildtemporaire:
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
 rm -rfv ~/android/rom/buildtemporaire/* &&
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/ &&
-rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`.zip.md5sum
+rm -rfv cm_$VARIANT-ota-*.zip &&
+rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`.zip &&
+rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`-signed.zip
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
   if [ "$VARIANT" = "galaxysmtd" ] ; then
     if echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL' \e[0m" &&
@@ -557,6 +557,15 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
     rm -rfv IyahmanKernelsOld.tar
     then echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL DONE' \e[0m"
     else echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL FAILED' \e[0m"
+    fi
+  fi
+  if [ "$VARIANT" = "jflte" ] ; then
+    if echo -e "\e[31;42m 'DUALBOOT TEMPORALY FILES' \e[0m" &&
+    cd ~/android/rom/iyahmanrom$CMVER/out/target/product/jflte/ &&
+    rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot".zip &&
+    rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot"-signed.zip
+    then echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES DONE' \e[0m"
+    else echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES FAILED' \e[0m"
     fi
   fi
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
