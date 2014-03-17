@@ -138,26 +138,9 @@ fi
 
 #****************************************************************
 ## Clean buildtemporaire:
-if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
-cd ~/android/rom/buildtemporaire &&
-rm -rfv $ROMNAME$CMVER'Extract' &&
-rm -rfv gapps11.0Extract &&
-rm -rfv gapps11.0.zip &&
-rm -rfv bootanimationExtract &&
-rm -rfv bootanimation.zip
+if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" && 
+rm -rfv ~/android/rom/buildtemporaire/*
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
-  if [ "$VARIANT" = "galaxysmtd" ] ; then
-    if echo -e "\e[31;42m 'CLEANING GALAXYSMTD TEMPORALY FILE' \e[0m" &&
-    rm -rfv IyahmanKernelExtract &&
-    rm -rfv IyahmanKernels.zip &&
-    rm -rfv modemril.zip &&
-    rm -rfv modemrilExtract &&
-    rm -rfv patch720p4.4Extract &&
-    rm -rfv patch720p4.4.zip
-    then echo -e "\e[31;42m 'CLEANING GALAXYSMTD TEMPORALY FILE DONE' \e[0m"
-    else echo -e "\e[31;42m 'CLEANING GALAXYSMTD TEMPORALY FILE FAILED' \e[0m" && read
-    fi
-  fi
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
 fi
 
@@ -405,7 +388,8 @@ then
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
       else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
       fi
-    elif [ "$VARIANT" != "galaxysmtd" ] ; then
+    then
+    if [ "$VARIANT" != "galaxysmtd" ] ; then
       if cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/ &&
       #semaphoremanager apk
       rm -rfv com.semaphore.sm.apk &&
@@ -420,7 +404,8 @@ then
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
       else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
       fi
-    elif [ "$VARIANT" = "galaxysmtd" ] ; then
+    then
+    if [ "$VARIANT" = "galaxysmtd" ] ; then
       if cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/ &&
       #dsp manager
       rm -rfv DSPManager.apk
@@ -429,6 +414,7 @@ then
       fi
     fi
   if echo -e "\e[31;42m 'DELETING UNWANTED CYANOGENMOD STUFF' \e[0m" &&
+  cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system/app/ &&
   # dictionnaire clavier android
   rm -rfv LatinIME.apk &&
   #apollo
@@ -550,30 +536,27 @@ fi
 
 #****************************************************************
 ## Clean buildtemporaire:
+if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" && 
+rm -rfv ~/android/rom/buildtemporaire/*
+then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
+else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
+fi
+
+
+#****************************************************************
+## Clean buildtemporaire:
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
-cd ~/android/rom/buildtemporaire/ &&
-rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract &&
-rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`.zip &&
-rm -rfv gapps11.0Extract &&
-rm -rfv gapps11.0.zip &&
-rm -rfv bootanimationExtract &&
-rm -rfv bootanimation.zip &&
+rm -rfv ~/android/rom/buildtemporaire/* &&
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/ &&
 rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`.zip.md5sum
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
   if [ "$VARIANT" = "galaxysmtd" ] ; then
-    if echo -e "\e[31;42m 'CLEANING TEMPORALY GALAXYSMTD SPECIAL FILE' \e[0m" &&
-    rm -rfv patch720p4.4Extract &&
-    rm -rfv patch720p4.4.zip &&
-    rm -rfv IyahmanKernelExtract &&
-    rm -rfv IyahmanKernels.zip &&
-    rm -rfv modemril.zip &&
-    rm -rfv modemrilExtract &&
+    if echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL' \e[0m" &&
     cd ~/android/rom/semaphore/11.0/output/galaxys &&
     rm -rfv IyahmanKernelsOld.zip &&
     rm -rfv IyahmanKernelsOld.tar
-    then echo -e "\e[31;42m 'CLEANING TEMPORALY GALAXYSMTD SPECIAL FILE DONE' \e[0m"
-    else echo -e "\e[31;42m 'CLEANING TEMPORALY GALAXYSMTD SPECIAL FILE FAILED' \e[0m"
+    then echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL DONE' \e[0m"
+    else echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL FAILED' \e[0m"
     fi
   fi
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
