@@ -133,6 +133,7 @@ if [ "$VARIANT" = "galaxysmtd" ] ; then
   rm -rfv IyahmanKernels.tar
   then echo -e "\e[31;42m 'REMOVING PREVIOUS BUILD IN semaphore/output/  DONE' \e[0m"
   else echo -e "\e[31;42m 'REMOVING PREVIOUS BUILD IN semaphore/output/  FAILED' \e[0m" && read
+  fi
 fi
 
 #****************************************************************
@@ -226,34 +227,30 @@ if echo -e "\e[31;42m 'BUILD CM$CMVER ROM' \e[0m" &&
 cd ~/android/rom/iyahmanrom$CMVER/ &&
 . build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=1
 then
-  if [ "$TOOLCHAIN" = "linaro" ] ; then
-  echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR CYANOGEN KERNEL'  \e[0m"
-    if [ "$VARIANT" = "galaxysmtd" ] ; then
-      if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries &&
+  if [ "$TOOLCHAIN" = "linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
+      if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
+      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries &&
       make mrproper && export ARCH=arm &&
       export CROSS_COMPILE=~/android/linaro/linaro-toolchain$VER/bin/arm-cortex_a8-linux-gnueabi-
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
-    fi
-    if [ "$VARIANT" = "i9100" ] ; then
-      if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412 &&
+  elif [ "$TOOLCHAIN" = "linaro" ] && [ "$VARIANT" = "i9100" ] ; then
+      if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
+      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412 &&
       make mrproper && export ARCH=arm &&
       export CROSS_COMPILE=~/android/linaro/linaro-toolchain$VER/bin/arm-cortex_a9-linux-gnueabi-
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
-    fi
-    if [ "$VARIANT" = "jflte" ] ; then 
-      if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf &&
+  elif [ "$TOOLCHAIN" = "linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
+      if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
+      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf &&
       make mrproper && export ARCH=arm &&
       export CROSS_COMPILE=~/android/linaro/linaro-toolchains$VER/bin/arm-cortex_a15-linux-gnueabi-
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
-    fi
-  echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR CYANOGEN KERNEL DONE'  \e[0m"
-  else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR CYANOGEN KERNEL FAILED'  \e[0m" && read
   fi
 fi
 if mka bacon ; then
@@ -284,7 +281,6 @@ echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD'  \e[0m"
     fi
   fi
 echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
-else echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
 fi
 
 #****************************************************************
@@ -304,7 +300,7 @@ if [ "$VARIANT" = "galaxysmtd" ] ; then
    if echo  -e "\e[31;42m'BUILD IYAHMANKERNEL' \e[0m" &&
    cd ~/android/rom/semaphore/11.0/samsung-kernel-aries &&
   #cp -rfavu /home/iyahman/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/recovery/root/sbin/recovery /home/iyahman/android/rom/semaphore/ics-ramdisk/jb_combo/ics_rec_init/sbin/
-  export USE_CCACHE=1 && ./sbuild galaxys s
+  export USE_CCACHE=1 && ./sbuild.sh galaxys s
   then timer && echo -e "\e[31;42m 'BUILD IYAHMANKERNEL DONE' \e[0m"
   else echo -e "\e[31;42m 'BUILD IYAHMANKERNEL FAILED' \e[0m" && read
   fi
@@ -345,18 +341,19 @@ fi
 ## unzip Rom And Extra Feature Into Respective Temporaly Folder :
 if echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER' \e[0m" &&
 cd ~/android/rom/buildtemporaire/ && 
-unzip -qv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I` -d $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract &&
+unzip -q $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I` -d $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract &&
 echo 'unzip -q cm-$ROMNAME$CMVER-$VARIANT -d $ROMNAME$CMVER-$VARIANTExtract done' &&
-unzip -qv gapps11.0 -d gapps11.0Extract
+unzip -q gapps11.0 -d gapps11.0Extract
 #unzip -q bootanimation -d bootanimationExtract
 #echo 'unzip -q bootanimation -d bootanimationExtract done'
 then echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE' \e[0m"
   if [ "$VARIANT" = "galaxysmtd" ] ; then
-    if unzip -qv patch720p4.4 -d patch720p4.4Extract &&
-    unzip -qv IyahmanKernels -d IyahmanKernelExtract &&
-    unzip -qv modemril -d modemrilExtract
-    then echo -e "\e[31;42m 'UNZIPPING KERNEL AND RIL INTO TEMPORALY FOLDER DONE' \e[0m"
-    else echo -e "\e[31;42m 'UNZIPPING KERNEL AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read
+    if echo -e "\e[31;42m 'UNZIPPING KERNEL PATCH720P AND RIL INTO TEMPORALY FOLDER' \e[0m" &&
+    unzip -q patch720p4.4 -d patch720p4.4Extract &&
+    unzip -q IyahmanKernels -d IyahmanKernelExtract &&
+    unzip -q modemril -d modemrilExtract
+    then echo -e "\e[31;42m 'UNZIPPING KERNEL PATCH720P AND RIL INTO TEMPORALY FOLDER DONE' \e[0m"
+    else echo -e "\e[31;42m 'UNZIPPING KERNEL PATCH720P AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read
     fi
   fi
 else echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read
@@ -387,8 +384,8 @@ then echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM
   if [ "$VARIANT" = "galaxysmtd" ] ; then
     if echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER' \e[0m" &&
     cp -rfavu patch720p4.4Extract/system/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/system &&
-    cp -rfavu IyahmanKernelExtract/boot.img $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract &&
-    cp -rfavu modemrilExtract/modemril/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
+    cp -rfavu IyahmanKernelExtract/boot.img $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
+    #cp -rfavu modemrilExtract/modemril/* $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract
     then echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER DONE' \e[0m"
     else echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER FAILED' \e[0m" && read
     fi
@@ -518,13 +515,13 @@ fi
 if echo -e "\e[31;42m 'SIGNING ZIP' \e[0m" &&
 cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/ &&
 openssl pkcs8 -in /home/iyahman/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
-java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom$CMVER/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.pk8 $ROMNAME$CMVER-$VARIANT$VER-`date -I`.zip $ROMNAME$CMVER-$VARIANT$VER-`date -I`-signed.zip 
+java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom$CMVER/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.pk8 $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`.zip $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`-signed.zip 
 then timer && echo -e "\e[31;42m 'SIGNING ZIP DONE' \e[0m"
   if [ "$VARIANT" = "jflte" ] ; then 
     if echo -e "\e[31;42m 'SIGNING ZIP' \e[0m" &&
     cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/ &&
     openssl pkcs8 -in /home/iyahman/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
-    java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom$CMVER/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.pk8 $ROMNAME$CMVER-$VARIANT$VER-`date -I`"_dualboot".zip $ROMNAME$CMVER-$VARIANT$VER-`date -I`"_dualboot"-signed.zip 
+    java -Xmx2048m -jar /home/iyahman/android/rom/iyahmanrom$CMVER/out/host/linux-x86/framework/signapk.jar -w ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom$CMVER/build/target/product/security/testkey.pk8 $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot".zip $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot"-signed.zip 
     then timer && echo -e "\e[31;42m 'SIGNING DUALBOOT ZIP DONE' \e[0m" 
     else  echo -e "\e[31;42m 'SIGNING DUALBOOT ZIP FAILED' \e[0m" && read
     fi
@@ -533,16 +530,16 @@ else echo -e "\e[31;42m 'SIGNING ZIP FAILED' \e[0m" && read
 fi
 
 #****************************************************************
-## Zipalign cm-$ROMNAME$CMVER-$VARIANT :
+## Zipalign $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I` :
 if echo -e "\e[31;42m 'ZIPALIGNING' \e[0m" &&
 cd ~/android/sdk/tools/
-#zipalign -c -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`-signed.zip
+#zipalign -c -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`-signed.zip
 zipalign -f -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`-signed.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`-signed-zipaligned.zip
 then timer && echo -e "\e[31;42m 'ZIPALIGNING DONE' \e[0m"
   if [ "$VARIANT" = "jflte" ] ; then 
     if echo -e "\e[31;42m 'ZIPALIGNING DUALBOOT' \e[0m" &&
     cd ~/android/sdk/tools/ &&
-    #zipalign -c -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$VER-`date -I`"_dualboot".zip
+    #zipalign -c -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot".zip
     zipalign -f -v 4 ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot"-signed.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot"-signed-zipaligned.zip
     then timer && echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT DONE' \e[0m"
     else echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT FAILED' \e[0m" && read
@@ -577,6 +574,7 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
     rm -rfv IyahmanKernelsOld.tar
     then echo -e "\e[31;42m 'CLEANING TEMPORALY GALAXYSMTD SPECIAL FILE DONE' \e[0m"
     else echo -e "\e[31;42m 'CLEANING TEMPORALY GALAXYSMTD SPECIAL FILE FAILED' \e[0m"
+    fi
   fi
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
 fi
