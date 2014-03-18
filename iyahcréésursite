@@ -3,10 +3,10 @@
 
 #****************************************************************
 ## Script command exemple :
-#iyah $1 || iyah $1 $2
-#iyah s1 || iyah s1 linaro
-#iyah s2 || iyah s2 linaro
-#iyah s4 || iyah s4 linaro
+#iyah $1                    iyah $1 $2
+#iyah s1 || iyah s1pucca || iyah s1 linaro || iyah s1 linarof
+#iyah s2 ""
+#iyah s4 ""
 
 #****************************************************************
 ## Start Timer :
@@ -19,34 +19,6 @@ DATE_START=$(date +"%s")
 #****************************************************************
 ## Set Basic Parameters :
 
-set -xv
-
-case "$1" in
-        s1)
-            VARIANT="galaxysmtd"
-            VER="s1"
-            ;;
-
-        s2)
-            VARIANT="i9100"
-            VER="s2"
-            ;;
-            
-        s4)
-            VARIANT="jflte"
-            VER="s4"
-            ;;
-esac
-
-if [ "$2" = "linaro" ] ; then
-TOOLCHAIN="-linaro"
-fi
-
-if [ "$3" = "force" ] ; then
-FORCETOOLCHAIN="on"
-fi
-
-
 function timer {
     END=$(date +%s)
     ELAPSED=$((END - START))
@@ -57,9 +29,80 @@ function timer {
     printf "%d sec(s)\n ${txtrst}" $E_SEC && echo
 }
 
+set -xv
+
 CMVER='11.0'
 ROMNAME="IyahmanRom"
 CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
+
+case "$1" in
+        s1)
+            VARIANT="galaxysmtd"
+            VER="s1"
+            ;;
+
+        s1pucca)
+	    VARIANT="galaxysmtd"
+            VER="s1"
+            ROMNAME="PuccaRom"
+            ;;
+        s2)
+            VARIANT="i9100"
+            VER="s2"
+            ;;
+            
+        s2pucca)
+	    VARIANT="i9100"
+            VER="s2"
+            ROMNAME="PuccaRom"
+            ;;
+            
+        s4)
+            VARIANT="jflte"
+            VER="s4"
+            ;;
+            
+        s4pucca)
+	    VARIANT="jflte"
+            VER="s4"
+            ROMNAME="PuccaRom"
+            ;;
+            
+esac
+
+case "$2" in
+	linaro)
+	    TOOLCHAIN="-linaro"
+	    ;;
+	    
+	linarof)
+	    FORCETOOLCHAIN="on"
+	    ;;
+	    
+esac    
+
+if [ "$3" = "slim" ] ; then
+SYSTEMSIZE="on"
+fi
+
+
+#****************************************************************
+##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
+function fullcleanup {
+if echo -e "\e[31;42m 'MAKE CLOBBER' \e[0m" &&
+cd ~/android/rom/iyahmanrom$CMVER/ && make clobber
+then echo -e "\e[31;42m 'MAKE CLOBBER DONE' \e[0m"
+  if . build/envsetup.sh && breakfast $VARIANT &&
+  adb root && echo -e "\e[31;42m 'WAITING TO CONNECT $VARIANT TO YOUR PC' \e[0m" && read &&
+  cd ~/android/rom/iyahmanrom$CMVER/device/samsung/$VARIANT/ &&
+  ./extract-files.sh &&
+  ~/android/rom/iyahmanrom$CMVER/vendor/cm/get-prebuilts
+  then echo -e "\e[31;42m 'REINSTALL AFTER CLOBBER DONE' \e[0m"
+  else echo -e "\e[31;42m 'REINSTALL AFTER CLOBBER FAILED' \e[0m" && read
+  fi
+else echo -e "\e[31;42m 'MAKE CLOBBER FAILED' \e[0m" && read
+fi
+}
 
 #****************************************************************
 ## Script speech:
@@ -94,21 +137,6 @@ make installclean
 then timer && echo -e "\e[31;42m 'INSTALLCLEAN DONE' \e[0m"
 else echo -e "\e[31;42m 'INSTALLCLEAN FAILED' \e[0m" && read
 fi
-
-#****************************************************************
-##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
-#if echo -e "\e[31;42m 'MAKE CLOBBER' \e[0m" &&
-#cd ~/android/rom/iyahmanrom$CMVER/ && make clobber &&
-#echo -e "\e[31;42m 'MAKE CLOBBER DONE' \e[0m" &&
-#. build/envsetup.sh && breakfast $VARIANT &&
-#adb root && sleep 3s &&
-#cd ~/android/rom/iyahmanrom$CMVER/device/samsung/$VARIANT/ &&
-#./extract-files.sh && 
-##cp -rfavu ~/android/extractedfiles/$VARIANT ~/android/rom/iyahmanrom$CMVER/device/samsung
-#~/android/rom/iyahmanrom$CMVER/vendor/cm/get-prebuilts
-#then echo -e "\e[31;42m 'REINSTALL AFTER CLOBBER DONE' \e[0m"
-#else echo -e "\e[31;42m 'REINSTALL AFTER CLOBBER FAILED' \e[0m" && read
-#fi
 
 #****************************************************************
 ## Save extracted files :
@@ -165,7 +193,7 @@ fi
 
 #****************************************************************
 ##Save Gcc:
-if [ "$TOOLCHAIN" = "linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
+if [ "$TOOLCHAIN" = "-linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
   if echo -e "\e[31;42m 'SAVE CYANOGENMOD TOOLCHAIN' \e[0m" &&
   cp -rfavu ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/* ~/android/cyanogengcc$CMVER
   then echo -e "\e[31;42m 'SAVE CYANOGENMOD TOOLCHAIN DONE' \e[0m"
@@ -175,7 +203,7 @@ fi
 
 #****************************************************************
 ##Use Gcc Linaro 4.8: put linaro 4.8 on cyanogen prebuilts
-if [ "$TOOLCHAIN" = "linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
+if [ "$TOOLCHAIN" = "-linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
   if echo -e "\e[31;42m 'REPLACE CYANOGENMOD TOOLCHAIN BY LINARO TOOLCHAIN' \e[0m" &&
   cd ~/android/linaro/gcc-linaro &&
   bunzip2 *.tar.bz2 &&
@@ -196,22 +224,22 @@ fi
 
 #****************************************************************
 ##replace original system syze by Iyah 
-#if [ "$VARIANT" = "galaxysmtd" ] ; then
-  #if echo -e "\e[31;42m 'CHANGE SYSTEM SIZE' \e[0m" &&
-  #cd ~/android/rom/iyahmanrom$CMVER/device/samsung/aries-common &&
-  #sed -i 's/629145600/304087040/g' updater.sh
-  #then echo -e "\e[31;42m 'CHANGE SYSTEM SIZE FOR GALAXYSMTD DONE' \e[0m"
-  #else echo -e "\e[31;42m 'CHANGE SYSTEM SIZE FOR GALAXYSMTD FAILED' \e[0m" && read
-  #fi
-#fi
+if [ "$VARIANT" = "galaxysmtd" ] && [ "SYSTEMSIZE" = "on" ] ; then
+  if echo -e "\e[31;42m 'CHANGE SYSTEM SIZE' \e[0m" &&
+  cd ~/android/rom/iyahmanrom$CMVER/device/samsung/aries-common &&
+  sed -i 's/629145600/304087040/g' updater.sh
+  then echo -e "\e[31;42m 'CHANGE SYSTEM SIZE FOR GALAXYSMTD DONE' \e[0m"
+  else echo -e "\e[31;42m 'CHANGE SYSTEM SIZE FOR GALAXYSMTD FAILED' \e[0m" && read
+  fi
+fi
 
 #****************************************************************
 ##Build CM10 :
 if echo -e "\e[31;42m 'BUILD CM$CMVER ROM' \e[0m" &&
 cd ~/android/rom/iyahmanrom$CMVER/ &&
 . build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=1
-then
-  if [ "$TOOLCHAIN" = "linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
+then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
+  if [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries &&
       make mrproper && export ARCH=arm &&
@@ -219,7 +247,7 @@ then
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
-  elif [ "$TOOLCHAIN" = "linaro" ] && [ "$VARIANT" = "i9100" ] ; then
+  elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "i9100" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412 &&
       make mrproper && export ARCH=arm &&
@@ -227,7 +255,7 @@ then
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
-  elif [ "$TOOLCHAIN" = "linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
+  elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf &&
       make mrproper && export ARCH=arm &&
@@ -236,21 +264,30 @@ then
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
   fi
+else echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM FAILED' \e[0m" && read
 fi
-if mka bacon ; then
+if cd ~/android/rom/iyahmanrom$CMVER/ && mka bacon ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 else 
   if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
   echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM' \e[0m" &&
   make clean && mka bacon
   then echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM DONE' \e[0m"
-  else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m" && read
+  else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m"
+    if echo -e "\e[31;42m 'FULLCLEANUP FOR REBUILD' \e[0m" && fullcleanup &&
+    cd ~/android/rom/iyahmanrom$CMVER/ && mka bacon
+    then echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM DONE' \e[0m"
+    else echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM FAILED' \e[0m" &&
+    echo -e "\e[31;42m '############################################################################################################################' \e[0m" &&
+    echo -e "\e[31;42m '################################################ MANUAL DEBUG REQUIRE ######################################################' \e[0m" &&
+    echo -e "\e[31;42m '############################################################################################################################' \e[0m"
+    fi
   fi
 fi
 
 #****************************************************************
 ##clean after linaro build:
-if [ "$TOOLCHAIN" = "linaro" ] ; then
+if [ "$TOOLCHAIN" = "-linaro" ] ; then
 echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD'  \e[0m"
   if [ "$VARIANT" = "galaxysmtd" ] ; then
     if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries && make mrproper
@@ -275,7 +312,7 @@ fi
 
 #****************************************************************
 ##Reinstall Gcc cyanogen:
-if [ "$TOOLCHAIN" = "linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
+if [ "$TOOLCHAIN" = "-linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
   if  echo -e "\e[31;42m 'REINSTALL CYANOGEN GCC' \e[0m" &&
   rm -rv ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/* &&
   cp -rfavu ~/android/cyanogengcc$CMVER/* ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/
