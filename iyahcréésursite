@@ -18,6 +18,8 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ## Set Basic Parameters :
+set -xv
+make 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog
 
 function timer {
     END=$(date +%s)
@@ -29,11 +31,9 @@ function timer {
     printf "%d sec(s)\n ${txtrst}" $E_SEC && echo
 }
 
-set -xv
 
-CMVER='11.0'
+
 ROMNAME="IyahmanRom"
-CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
 
 case "$1" in
         s1)
@@ -85,6 +85,8 @@ if [ "$3" = "slim" ] ; then
 SYSTEMSIZE="on"
 fi
 
+CMVER='11.0'
+CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
 
 #****************************************************************
 ##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
