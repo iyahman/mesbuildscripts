@@ -18,7 +18,7 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ## Set Basic Parameters :
-set -xv
+#set -xv
 make 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog
 
 function timer {
@@ -30,8 +30,6 @@ function timer {
     printf "%d min(s) " $E_MIN
     printf "%d sec(s)\n ${txtrst}" $E_SEC && echo
 }
-
-
 
 ROMNAME="IyahmanRom"
 
@@ -85,6 +83,10 @@ if [ "$3" = "slim" ] ; then
 SYSTEMSIZE="on"
 fi
 
+if [ "$3" = "clean" ] ; then
+MAKECLEAN="on"
+fi
+
 CMVER='11.0'
 CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
 
@@ -130,6 +132,11 @@ fi
 ##Update android SDK:
 #android list sdk
 #android update sdk --no-ui
+
+if [ "$MAKECLEAN" = "on" ] ; then 
+cd ~/android/rom/iyahmanrom$CMVER/
+make clean
+fi
 
 #****************************************************************
 ##Installclean : Wipe out the stuff that changes from one make target to another.
@@ -195,7 +202,7 @@ fi
 
 #****************************************************************
 ##Save Gcc:
-if [ "$TOOLCHAIN" = "-linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
+if [ "$FORCETOOLCHAIN" = "on" ] ; then
   if echo -e "\e[31;42m 'SAVE CYANOGENMOD TOOLCHAIN' \e[0m" &&
   cp -rfavu ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/* ~/android/cyanogengcc$CMVER
   then echo -e "\e[31;42m 'SAVE CYANOGENMOD TOOLCHAIN DONE' \e[0m"
@@ -205,7 +212,7 @@ fi
 
 #****************************************************************
 ##Use Gcc Linaro 4.8: put linaro 4.8 on cyanogen prebuilts
-if [ "$TOOLCHAIN" = "-linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
+if [ "$FORCETOOLCHAIN" = "on" ] ; then
   if echo -e "\e[31;42m 'REPLACE CYANOGENMOD TOOLCHAIN BY LINARO TOOLCHAIN' \e[0m" &&
   cd ~/android/linaro/gcc-linaro &&
   bunzip2 *.tar.bz2 &&
@@ -243,25 +250,25 @@ cd ~/android/rom/iyahmanrom$CMVER/ &&
 then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   if [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries &&
-      make mrproper && export ARCH=arm &&
-      export CROSS_COMPILE=~/android/linaro/linaro-toolchain$VER/bin/arm-cortex_a8-linux-gnueabi-
+      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries && make mrproper &&
+      cd ~/android/rom/iyahmanrom$CMVER/ && . build/envsetup.sh && breakfast $VARIANT &&      
+      export ARCH=arm ARM_EABI_TOOLCHAIN=~/android/linaro/linaro-toolchain$VER/bin
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "i9100" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412 &&
-      make mrproper && export ARCH=arm &&
-      export CROSS_COMPILE=~/android/linaro/linaro-toolchain$VER/bin/arm-cortex_a9-linux-gnueabi-
+      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412 && make mrproper &&
+      cd ~/android/rom/iyahmanrom$CMVER/ && . build/envsetup.sh && breakfast $VARIANT &&      
+      export ARCH=arm ARM_EABI_TOOLCHAIN=~/android/linaro/linaro-toolchain$VER/bin
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf &&
-      make mrproper && export ARCH=arm &&
-      export CROSS_COMPILE=~/android/linaro/linaro-toolchains$VER/bin/arm-cortex_a15-linux-gnueabi-
+      cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf && make mrproper &&
+      cd ~/android/rom/iyahmanrom$CMVER/ && . build/envsetup.sh && breakfast $VARIANT &&      
+      export ARCH=arm ARM_EABI_TOOLCHAIN=~/android/linaro/linaro-toolchain$VER/bin
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
@@ -314,7 +321,7 @@ fi
 
 #****************************************************************
 ##Reinstall Gcc cyanogen:
-if [ "$TOOLCHAIN" = "-linaro" ] && [ "$FORCETOOLCHAIN" = "on" ] ; then
+if [ "$FORCETOOLCHAIN" = "on" ] ; then
   if  echo -e "\e[31;42m 'REINSTALL CYANOGEN GCC' \e[0m" &&
   rm -rv ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/* &&
   cp -rfavu ~/android/cyanogengcc$CMVER/* ~/android/rom/iyahmanrom$CMVER/prebuilts/gcc/linux-x86/arm/
@@ -337,11 +344,13 @@ fi
 
 #****************************************************************
 ## Save Unofficial Nightly :
-if echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY' \e[0m" &&
-cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/ &&
-cp -rfavu $CMROMNAME.zip  $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`.zip
-then echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY DONE' \e[0m"
-else echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY FAILED' \e[0m" && read
+if [ "$TOOLCHAIN" != "-linaro" ] || [ "$FORCETOOLCHAIN" != "on" ] ; then
+  if echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY' \e[0m" &&
+  cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/ &&
+  cp -rfavu $CMROMNAME.zip  $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`.zip
+  then echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY DONE' \e[0m"
+  else echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY FAILED' \e[0m" && read
+  fi
 fi
 
 #****************************************************************
@@ -388,20 +397,20 @@ then echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE' \e[0m"
 else echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read
 fi 
 
-#****************************************************************
-## Save cyanogenkernel in zip :
-if [ "$VARIANT" = "galaxysmtd" ] ; then
-  if echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL' \e[0m" &&
-  cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/ &&
-  cp -rfavu boot.img ~/android/rom/ossaturekerneli9000 &&
-  cd ~/android/rom/ossaturekerneli9000 &&
-  zip -qrv ../cyanogenkernel4.4.zip ./ &&
-  cd ~/android/rom &&
-  mv -fv cyanogenkernel4.4.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
-  then echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL DONE' \e[0m"
-  else echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL FAILED' \e[0m" && read
-  fi
-fi
+# #****************************************************************
+# ## Save cyanogenkernel in zip :
+# if [ "$TOOLCHAIN" != "-linaro" ] || [ "$FORCETOOLCHAIN" != "on" ] ; then
+#   if echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL' \e[0m" &&
+#   cd ~/android/rom/buildtemporaire/$ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`Extract/ &&
+#   cp -rfavu boot.img ~/android/rom/ossaturekernel$VARIANT &&
+#   cd ~/android/rom/ossaturekernel$VARIANT &&
+#   zip -qrv ../cyanogenkernel4.4.zip ./ &&
+#   cd ~/android/rom &&
+#   mv -fv cyanogenkernel4.4.zip ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/
+#   then echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL DONE' \e[0m"
+#   else echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL FAILED' \e[0m" && read
+#   fi
+# fi
 
 #****************************************************************
 ## Copy Extra Feature Into Rom Temporaly Folder :
@@ -599,12 +608,20 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
     fi
   fi
   if [ "$VARIANT" = "jflte" ] ; then
-    if echo -e "\e[31;42m 'DUALBOOT TEMPORALY FILES' \e[0m" &&
+    if echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES' \e[0m" &&
     cd ~/android/rom/iyahmanrom$CMVER/out/target/product/jflte/ &&
     rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot".zip &&
     rm -rfv $ROMNAME$CMVER-$VARIANT$TOOLCHAIN-`date -I`"_dualboot"-signed.zip
     then echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES DONE' \e[0m"
     else echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES FAILED' \e[0m"
+    fi
+  fi
+  if [ "$TOOLCHAIN" = "-linaro" ] || [ "$FORCETOOLCHAIN" = "on" ] ; then
+    if echo -e "\e[31;42m 'MAKE MRPROPER AFTER LINARO' \e[0m" &&
+    cd ~/android/rom/iyahmanrom$CMVER/out/target/product/$VARIANT/ &&
+    make mrproper
+    then echo -e "\e[31;42m 'MAKE MRPROPER AFTER LINARO DONE' \e[0m"
+    else echo -e "\e[31;42m 'MAKE MRPROPER AFTER LINARO FAILED' \e[0m"
     fi
   fi
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
