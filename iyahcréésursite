@@ -18,7 +18,7 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ## Set Basic Parameters :
-#set -xv
+set -xv
 make 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog
 
 function timer {
@@ -97,7 +97,8 @@ if echo -e "\e[31;42m 'MAKE CLOBBER' \e[0m" &&
 cd ~/android/rom/iyahmanrom$CMVER/ && make clobber
 then echo -e "\e[31;42m 'MAKE CLOBBER DONE' \e[0m"
   if . build/envsetup.sh && breakfast $VARIANT &&
-  adb root && echo -e "\e[31;42m 'WAITING TO CONNECT $VARIANT TO YOUR PC' \e[0m" && read &&
+  echo -e "\e[31;42m 'WAITING TO CONNECT $VARIANT TO YOUR PC' \e[0m" && 
+  read && adb root &&
   cd ~/android/rom/iyahmanrom$CMVER/device/samsung/$VARIANT/ &&
   ./extract-files.sh &&
   ~/android/rom/iyahmanrom$CMVER/vendor/cm/get-prebuilts
@@ -292,31 +293,6 @@ else
     echo -e "\e[31;42m '############################################################################################################################' \e[0m"
     fi
   fi
-fi
-
-#****************************************************************
-##clean after linaro build:
-if [ "$TOOLCHAIN" = "-linaro" ] ; then
-echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD'  \e[0m"
-  if [ "$VARIANT" = "galaxysmtd" ] ; then
-    if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries && make mrproper
-    then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
-    else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
-    fi
-  fi
-  if [ "$VARIANT" = "i9100" ] ; then
-    if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412 && make mrproper
-    then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
-    else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
-    fi
-  fi
-  if [ "$VARIANT" = "jflte" ] ; then 
-    if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf && make mrproper
-    then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
-    else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
-    fi
-  fi
-echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
 fi
 
 #****************************************************************
@@ -624,6 +600,30 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
     else echo -e "\e[31;42m 'MAKE MRPROPER AFTER LINARO FAILED' \e[0m"
     fi
   fi
+  #****************************************************************
+  ##clean after linaro build:
+  if [ "$TOOLCHAIN" = "-linaro" ] || [ "$FORCETOOLCHAIN" = "on" ] ; then
+  echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD'  \e[0m"
+    if [ "$VARIANT" = "galaxysmtd" ] ; then
+      if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/aries && make mrproper
+      then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
+      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
+      fi
+    fi
+    if [ "$VARIANT" = "i9100" ] ; then
+      if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/smdk4412 && make mrproper
+      then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
+      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
+      fi
+    fi
+    if [ "$VARIANT" = "jflte" ] ; then 
+      if cd ~/android/rom/iyahmanrom$CMVER/kernel/samsung/jf && make mrproper
+      then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
+      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
+      fi
+    fi
+echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
+fi
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
 fi
 
