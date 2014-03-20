@@ -22,16 +22,6 @@ set -xv
 make 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog
 
 ROMNAME="IyahmanRom"
-BUILDNAME=$ROMNAME$CMVER-$VARIANT$TOOLCHAIN
-CMVER='11.0'
-CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT.zip
-ROMFOLDER=~/android/rom/iyahmanrom$CMVER
-OUTFOLDER=$ROMFOLDER/out/target/product/$VARIANT/
-SEMAPHOREFOLDER=~/android/kernel/semaphore/11.0
-STUFFFOLDER=~/android/stuff/cyanogenmod11
-LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
-TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
-export USE_CCACHE=1
 
 case "$1" in
         s1)
@@ -97,6 +87,18 @@ function timer {
     printf "%d sec(s)\n ${txtrst}" $E_SEC && echo
 }
 
+BUILDNAME=$ROMNAME$CMVER-$VARIANT$TOOLCHAIN
+CMVER='11.0'
+CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
+ROMFOLDER=~/android/rom/iyahmanrom$CMVER
+OUTFOLDER=$ROMFOLDER/out/target/product/$VARIANT/
+SEMAPHOREFOLDER=~/android/kernel/semaphore/11.0
+STUFFFOLDER=~/android/stuff/cyanogenmod11
+LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
+TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
+export USE_CCACHE=1
+
+
 #****************************************************************
 ##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
 function fullcleanup {
@@ -119,7 +121,7 @@ fi
 #****************************************************************
 ## Script speech:
 echo -e "\e[31;42m 'HELLO IYAHMAN' \e[0m"
-echo -e "\e[31;42m  LAUNCH $ROMNAME$CMVER$TOOLCHAIN BUILD SCRIPT V4.1 FOR $VARIANT WITH GAPPS, CUSTOM APK,'HOST AND GPS CONF' \e[0m"
+echo -e "\e[31;42m  LAUNCH $ROMNAME$CMVER$TOOLCHAIN BUILD SCRIPT V4.2 FOR $VARIANT WITH GAPPS, CUSTOM APK,'HOST AND GPS CONF' \e[0m"
 sleep 1s
 
 #****************************************************************
@@ -185,7 +187,7 @@ fi
 ## Clean buildtemporaire:
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" && 
 rm -rfv $TEMPORAIREFOLDER/* &&
-rm -rfv $OUTFOLDERcm-11-*-UNOFFICIAL-$VARIANT.zip.md5sum
+rm -rfv $OUTFOLDER/cm-11-*-UNOFFICIAL-$VARIANT.zip.md5sum
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
 fi
@@ -291,7 +293,7 @@ fi
 if [ "$TOOLCHAIN" != "-linaro" ] || [ "$FORCETOOLCHAIN" != "on" ] ; then
   if echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY' \e[0m" &&
   cd $OUTFOLDER &&
-  cp -rfavu $CMROMNAME  $BUILDNAME-`date -I`.zip
+  cp -rfavu $CMROMNAME.zip  $BUILDNAME-`date -I`.zip
   then echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY DONE' \e[0m"
   else echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY FAILED' \e[0m" && read
   fi
@@ -310,7 +312,7 @@ then echo -e "\e[31;42m 'MOVING ROM, GAPP INTO TEMPORALY FOLDER DONE' \e[0m"
     if cd $STUFFFOLDER &&
     cp -rfavu patch720p4.4.zip $TEMPORAIREFOLDER &&
     cp -rfavu modemril.zip $TEMPORAIREFOLDER &&
-    cd ~/android/rom/semaphore/11.0/output/galaxys&&
+    cd $SEMAPHOREFOLDER/output/galaxys &&
     cp -rfavu IyahmanKernels.zip $TEMPORAIREFOLDER
     then echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER DONE' \e[0m"
     else echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read
@@ -484,12 +486,12 @@ fi
 if [ "$VARIANT" = "jflte" ] ; then 
   if echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505' \e[0m" &&
   cd $ROMFOLDER/out/target/product/jflte/ &&
-  cp -f $BUILDNAME-`date -I`.zip $CMROMNAME &&
+  cp -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip &&
   cd ~/android/utilitaire/DualBootPatcher &&
-  ./patch-file.sh $OUTFOLDER/$CMROMNAME &&
+  ./patch-file.sh $OUTFOLDER/$CMROMNAME.zip &&
   cd $OUTFOLDER &&
-  mv -fv cm-11-`date -u +%Y%m%d`-NIGHTLY-jflte_dualboot.zip $BUILDNAME-`date -I`"_dualboot".zip &&
-  rm -rfv $CMROMNAME 
+  mv -fv $CMROMNAME"_dualboot".zip $BUILDNAME-`date -I`"_dualboot".zip &&
+  rm -rfv $CMROMNAME.zip 
   then timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
   else echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 FAILED' \e[0m" && read
   fi
@@ -522,7 +524,7 @@ zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`-signed.zip $OUTFOLDER$BUILDNAME-
 then timer && echo -e "\e[31;42m 'ZIPALIGNING DONE' \e[0m"
   if [ "$VARIANT" = "jflte" ] ; then 
     if echo -e "\e[31;42m 'ZIPALIGNING DUALBOOT' \e[0m" &&
-    cd ~/android/sdk/tools/ &&
+    cd ~/android/utilitaire/sdk/tools/ &&
     zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed.zip $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed-zipaligned.zip
     then timer && echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT DONE' \e[0m"
     else echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT FAILED' \e[0m" && read
