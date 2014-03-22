@@ -18,7 +18,6 @@ DATE_START=$(date +"%s")
 #****************************************************************
 ## Set Basic Parameters :
 #set -xv
-make 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog
 
 ROMNAME="IyahmanRom"
 
@@ -76,8 +75,8 @@ if [ "$3" = "clean" ] ; then
 MAKECLEAN="on"
 fi
 
-BUILDNAME=$ROMNAME$CMVER-$VARIANT$TOOLCHAIN
 CMVER='11.0'
+BUILDNAME=$ROMNAME$CMVER-$VARIANT$TOOLCHAIN
 CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
 ROMFOLDER=~/android/rom/iyahmanrom$CMVER
 OUTFOLDER=$ROMFOLDER/out/target/product/$VARIANT/
@@ -85,7 +84,10 @@ SEMAPHOREFOLDER=~/android/kernel/semaphore/11.0
 STUFFFOLDER=~/android/stuff/cyanogenmod11
 LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
+CCACHE_BASEDIR=~/android/rom/iyahmanrom$CMVER
 export USE_CCACHE=1
+
+cat $0 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
 
 #****************************************************************
 ##Make mrproper : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
@@ -253,12 +255,12 @@ fi
 
 #****************************************************************
 ##Build CM10 :
-if preparebuild && mka bacon ; then
+if preparebuild && mka bacon mka bacon ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 else 
   if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
   echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM' \e[0m" &&
-  make clean && preparebuild && mka bacon
+  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && preparebuild && mka bacon
   then echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM DONE' \e[0m"
   else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m"
     if echo -e "\e[31;42m 'FULLCLEANUP FOR REBUILD' \e[0m" &&
@@ -346,6 +348,16 @@ fi
 #   else echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL FAILED' \e[0m" && read
 #   fi
 # fi
+
+#****************************************************************
+## Rename Cmbuild :
+if echo -e "\e[31;42m 'PATCHING BUILD.PROP' \e[0m" &&
+cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system &&
+sed -i "s/ro.cm.display.version="*"."*"."*"/ro.cm.display.version=$BUILDNAME-`date -I`/g" build.prop &&
+sed -i "s/ro.product.locale.language="*"."*"."*"/ro.product.locale.language=fr/g" build.prop &&
+sed -i "s/ro.product.locale.region="*"."*"."*"/ro.product.locale.region=FR/g" build.prop
+then echo -e "\e[31;42m 'PATCHING BUILD.PROP DONE' \e[0m"
+else echo -e "\e[31;42m 'PATCHING BUILD.PROP FAILED' \e[0m" && read
 
 #****************************************************************
 ## Copy Extra Feature Into Rom Temporaly Folder :
