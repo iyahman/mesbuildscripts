@@ -255,7 +255,7 @@ fi
 
 #****************************************************************
 ##Build CM10 :
-if preparebuild && mka bacon mka bacon ; then
+if preparebuild && mka bacon ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 else 
   if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
@@ -358,6 +358,7 @@ sed -i "s/ro.product.locale.language="*"."*"."*"/ro.product.locale.language=fr/g
 sed -i "s/ro.product.locale.region="*"."*"."*"/ro.product.locale.region=FR/g" build.prop
 then echo -e "\e[31;42m 'PATCHING BUILD.PROP DONE' \e[0m"
 else echo -e "\e[31;42m 'PATCHING BUILD.PROP FAILED' \e[0m" && read
+fi
 
 #****************************************************************
 ## Copy Extra Feature Into Rom Temporaly Folder :
