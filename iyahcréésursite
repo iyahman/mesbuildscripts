@@ -87,7 +87,7 @@ TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 CCACHE_BASEDIR=~/android/rom/iyahmanrom$CMVER
 export USE_CCACHE=1
 
-cat $0 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
+#cat $0 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
 
 #****************************************************************
 ##Make mrproper : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
@@ -117,15 +117,18 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/aries && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "i9100" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&
+      #cd /home/iyahman/android/rom/iyahmanrom11.0/prebuilts/gcc/linux-x86/arm
+      #mv arm-eabi-4.6 arm-eabi-4.611
+      #mv arm-eabi-4.7 arm-eabi-4.711
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
@@ -133,7 +136,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/jf && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
       fi
@@ -177,9 +180,10 @@ fi
 #android list sdk
 #android update sdk --no-ui
 
-if [ "$MAKECLEAN" = "on" ] ; then 
-cd $ROMFOLDER && make clean
-fi
+#if [ "$MAKECLEAN" = "on" ] echo -e "\e[31;42m 'MAKECLEAN' \e[0m" ; then 
+#cd $ROMFOLDER && make clean && echo -e "\e[31;42m 'MAKECLEAN DONE' \e[0m"
+#else echo -e "\e[31;42m 'MAKECLEAN' \e[0m" && read
+#fi
 
 #****************************************************************
 ##Installclean : Wipe out the stuff that changes from one make target to another.
@@ -221,14 +225,14 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
 fi
 
-#****************************************************************
-##Synchronization :
+****************************************************************
+#Synchronization :
 if echo -e "\e[31;42m 'SYNCHRONIZATION' \e[0m" &&
 cd $ROMFOLDER &&
-#curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/bin/repo &&
-#chmod a+x ~/bin/repo &&
-#repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER &&
-#echo -e "\e[31;42m 'repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER done' &&
+curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/bin/repo &&
+chmod a+x ~/bin/repo &&
+repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER &&
+echo -e "\e[31;42m 'repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER done' \e[0m" &&
 repo selfupdate && repo sync -j16
 then timer && echo -e "\e[31;42m 'REPO SYNC -j16 DONE ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m"
 else 
@@ -239,11 +243,11 @@ else
   fi
 fi
 
-#****************************************************************
-##Add Cherry Pick :
+****************************************************************
+#Add Cherry Pick :
 
-#****************************************************************
-##replace original system syze by Iyah 
+****************************************************************
+#replace original system syze by Iyah 
 if [ "$VARIANT" = "galaxysmtd" ] && [ "SYSTEMSIZE" = "on" ] ; then
   if echo -e "\e[31;42m 'CHANGE SYSTEM SIZE' \e[0m" &&
   cd $ROMFOLDER/device/samsung/aries-common &&
@@ -385,7 +389,16 @@ then
     if [ "$VARIANT" != "jflte" ] ; then
       if cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
       rm -rfv org.adaway.apk && rm -rfv com.github.chenxiaolong.dualbootpatcher.apk &&
-      rm -rfv com.github.chenxiaolong.dualbootswitcher.apk
+      rm -rfv com.github.chenxiaolong.dualbootswitcher.apk &&
+      rm -rfv FaceLock.apk &&
+      rm -rfv PrintSpooler.apk &&
+      rm -rfv LiveWallpapersPicker.apk &&
+      rm -rfv BasicDreams.apk &&
+      rm -rfv PhotoTable.apk &&
+      rm -rfv VoicePlus.apk &&
+      rm -rfv WhisperPush.apk &&
+      cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/priv-app/ &&
+      rm -rfv VpnDialogs.apk
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
       else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
       fi
@@ -434,6 +447,14 @@ then
   rm -rfv Browser.apk &&
   #phase beam
   rm -rfv PhaseBeam.apk &&
+  #diffusions cellulaires
+  rm -rfv CellBroadcastReceiver.apk &&
+  #fond d'ecran animé
+  rm -rfv LiveWallpapers.apk &&
+  #fond d'ecran cyanogen
+  rm -rfv CMWallpapers.apk &&
+  #fond d'ecran de visualisation
+  rm -rfv VisualizationWallpapers.apk &&
   # Gallery cm11
   rm -rfv Gallery2.apk &&
   # camera cm11
