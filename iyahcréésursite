@@ -84,10 +84,9 @@ SEMAPHOREFOLDER=~/android/kernel/semaphore/11.0
 STUFFFOLDER=~/android/stuff/cyanogenmod11
 LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
-CCACHE_BASEDIR=~/android/rom/iyahmanrom$CMVER
 export USE_CCACHE=1
 
-#cat $0 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
+cat /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
 
 #****************************************************************
 ##Make mrproper : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
@@ -100,9 +99,9 @@ then echo -e "\e[31;42m 'MAKE CLOBBER DONE' \e[0m"
   read && adb root && cd $ROMFOLDER/device/samsung/$VARIANT &&
   ./extract-files.sh && $ROMFOLDER/vendor/cm/get-prebuilts
   then echo -e "\e[31;42m 'REINSTALL AFTER CLOBBER DONE' \e[0m"
-  else echo -e "\e[31;42m 'REINSTALL AFTER CLOBBER FAILED' \e[0m" && read
+  else echo -e "\e[31;42m 'REINSTALL AFTER CLOBBER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
-else echo -e "\e[31;42m 'MAKE CLOBBER FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'MAKE CLOBBER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 }
 
@@ -119,18 +118,15 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
       export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
-      else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
+      else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "i9100" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&
-      #cd /home/iyahman/android/rom/iyahmanrom11.0/prebuilts/gcc/linux-x86/arm
-      #mv arm-eabi-4.6 arm-eabi-4.611
-      #mv arm-eabi-4.7 arm-eabi-4.711
       export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
-      else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
+      else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
@@ -138,10 +134,10 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
       export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
-      else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read
+      else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
   fi
-else echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 }
 
@@ -166,7 +162,7 @@ sleep 1s
 if [ "$VARIANT" != "galaxysmtd" ] && [ "$VARIANT" != "i9100" ] && [ "$VARIANT" != "jflte" ]
 then spd-say 'bug' && echo -e "\e[31;42m  '############################################################################################################################'
 echo '###################################################### PAS DE VARIANTE SELECTIONNÉE POUR $ROMNAME$CMVER ######################################################' 
-echo '############################################################################################################################' \e[0m" && read && exit
+echo '############################################################################################################################' \e[0m" && read && spd-say 'SA A MERDÉ' && exit
 else echo -n
 fi
 
@@ -180,17 +176,20 @@ fi
 #android list sdk
 #android update sdk --no-ui
 
-#if [ "$MAKECLEAN" = "on" ] echo -e "\e[31;42m 'MAKECLEAN' \e[0m" ; then 
-#cd $ROMFOLDER && make clean && echo -e "\e[31;42m 'MAKECLEAN DONE' \e[0m"
-#else echo -e "\e[31;42m 'MAKECLEAN' \e[0m" && read
-#fi
+if [ "$MAKECLEAN" = "on" ] ; then
+ if echo -e "\e[31;42m 'MAKECLEAN' \e[0m" && 
+ cd $ROMFOLDER && make clean 
+ then echo -e "\e[31;42m 'MAKECLEAN DONE' \e[0m"
+ else echo -e "\e[31;42m 'MAKECLEAN' \e[0m" && read && spd-say 'SA A MERDÉ'
+ fi
+fi
 
 #****************************************************************
 ##Installclean : Wipe out the stuff that changes from one make target to another.
 if echo -e "\e[31;42m 'INSTALLCLEAN' \e[0m" &&
 cd $ROMFOLDER && make installclean 
 then timer && echo -e "\e[31;42m 'INSTALLCLEAN DONE' \e[0m"
-else echo -e "\e[31;42m 'INSTALLCLEAN FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'INSTALLCLEAN FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 #****************************************************************
@@ -200,7 +199,7 @@ fi
 #cd ~/android/rom/extractedfiles/$VARIANT/ &&
 #sleep 3s && ./extract-files.sh
 #then echo -e "\e[31;42m 'SAVE EXTRACTED FILES DONE' \e[0m"
-#else echo -e "\e[31;42m 'SAVE EXTRACTED FILES FAILED' \e[0m" && read
+#else echo -e "\e[31;42m 'SAVE EXTRACTED FILES FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 #fi
 
 #****************************************************************
@@ -212,7 +211,7 @@ if [ "$VARIANT" = "galaxysmtd" ] ; then
   cp -rfavu IyahmanKernels.tar IyahmanKernelsOld.tar &&
   rm -rfv IyahmanKernels.zip && rm -rfv IyahmanKernels.tar
   then echo -e "\e[31;42m 'REMOVING PREVIOUS BUILD IN semaphore/output/  DONE' \e[0m"
-  else echo -e "\e[31;42m 'REMOVING PREVIOUS BUILD IN semaphore/output/  FAILED' \e[0m" && read
+  else echo -e "\e[31;42m 'REMOVING PREVIOUS BUILD IN semaphore/output/  FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
 fi
 
@@ -222,38 +221,38 @@ if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
 rm -rfv $TEMPORAIREFOLDER/* &&
 rm -rfv $OUTFOLDER/cm-11-*-UNOFFICIAL-$VARIANT.zip.md5sum
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
-else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
-****************************************************************
+#****************************************************************
 #Synchronization :
 if echo -e "\e[31;42m 'SYNCHRONIZATION' \e[0m" &&
 cd $ROMFOLDER &&
-curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/bin/repo &&
-chmod a+x ~/bin/repo &&
-repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER &&
-echo -e "\e[31;42m 'repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER done' \e[0m" &&
+# curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/bin/repo &&
+# chmod a+x ~/bin/repo &&
+# repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER &&
+# echo -e "\e[31;42m 'repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER done' \e[0m" &&
 repo selfupdate && repo sync -j16
 then timer && echo -e "\e[31;42m 'REPO SYNC -j16 DONE ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m"
 else 
   if echo -e "\e[31;42m 'REPO SYNC -j16 FAILED ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m" &&
   repo selfupdate && repo sync -j4
   then timer && echo -e "\e[31;42m 'REPO SYNC -j4 DONE THIS TIME ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m"
-  else echo -e "\e[31;42m 'REPO SYNC -j4 FAILED THIS TIME AGAIN ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m" && read
+  else echo -e "\e[31;42m 'REPO SYNC -j4 FAILED THIS TIME AGAIN ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
 fi
 
-****************************************************************
+#****************************************************************
 #Add Cherry Pick :
 
-****************************************************************
+#****************************************************************
 #replace original system syze by Iyah 
 if [ "$VARIANT" = "galaxysmtd" ] && [ "SYSTEMSIZE" = "on" ] ; then
   if echo -e "\e[31;42m 'CHANGE SYSTEM SIZE' \e[0m" &&
   cd $ROMFOLDER/device/samsung/aries-common &&
   sed -i 's/629145600/304087040/g' updater.sh
   then echo -e "\e[31;42m 'CHANGE SYSTEM SIZE FOR GALAXYSMTD DONE' \e[0m"
-  else echo -e "\e[31;42m 'CHANGE SYSTEM SIZE FOR GALAXYSMTD FAILED' \e[0m" && read
+  else echo -e "\e[31;42m 'CHANGE SYSTEM SIZE FOR GALAXYSMTD FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
 fi
 
@@ -273,7 +272,7 @@ else
     else echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM FAILED' \e[0m" &&
     echo -e "\e[31;42m '############################################################################################################################' \e[0m" &&
     echo -e "\e[31;42m '################################################ MANUAL DEBUG REQUIRE ######################################################' \e[0m" &&
-    echo -e "\e[31;42m '############################################################################################################################' \e[0m" && read
+    echo -e "\e[31;42m '############################################################################################################################' \e[0m" && read && spd-say 'SA A MERDÉ'
     fi
   fi
 fi
@@ -286,7 +285,7 @@ if [ "$VARIANT" = "galaxysmtd" ] ; then
   #cp -rfavu $OUTFOLDERrecovery/root/sbin/recovery $SEMAPHOREFOLDER/ics-ramdisk/jb_combo/ics_rec_init/sbin/
   export USE_CCACHE=1 && ./sbuild.sh galaxys s
   then timer && echo -e "\e[31;42m 'BUILD IYAHMANKERNEL DONE' \e[0m"
-  else echo -e "\e[31;42m 'BUILD IYAHMANKERNEL FAILED' \e[0m" && read
+  else echo -e "\e[31;42m 'BUILD IYAHMANKERNEL FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
 fi
 
@@ -296,7 +295,7 @@ if [ "$TOOLCHAIN" != "-linaro" ] || [ "$FORCETOOLCHAIN" != "on" ] ; then
   if echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY' \e[0m" &&
   cd $OUTFOLDER && cp -rfavu $CMROMNAME.zip  $BUILDNAME-`date -I`.zip
   then echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY DONE' \e[0m"
-  else echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY FAILED' \e[0m" && read
+  else echo -e "\e[31;42m 'SAVE UNOFFICIAL NIGHTLY FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
 fi
 
@@ -313,10 +312,10 @@ then echo -e "\e[31;42m 'MOVING ROM, GAPP INTO TEMPORALY FOLDER DONE' \e[0m"
     cd $SEMAPHOREFOLDER/output/galaxys &&
     cp -rfavu IyahmanKernels.zip $TEMPORAIREFOLDER
     then echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER DONE' \e[0m"
-    else echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read
+    else echo -e "\e[31;42m 'MOVING KERNEL AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
     fi
   fi
-else echo -e "\e[31;42m 'MOVING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'MOVING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 #****************************************************************
@@ -333,10 +332,10 @@ then echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE' \e[0m"
     unzip -q patch720p4.4 -d patch720p4.4Extract && unzip -q IyahmanKernels -d IyahmanKernelExtract &&
     unzip -q modemril -d modemrilExtract
     then echo -e "\e[31;42m 'UNZIPPING KERNEL PATCH720P AND RIL INTO TEMPORALY FOLDER DONE' \e[0m"
-    else echo -e "\e[31;42m 'UNZIPPING KERNEL PATCH720P AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read
+    else echo -e "\e[31;42m 'UNZIPPING KERNEL PATCH720P AND RIL INTO TEMPORALY FOLDER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
     fi
   fi
-else echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi 
 
 # #****************************************************************
@@ -349,7 +348,7 @@ fi
 #   zip -qrv ../cyanogenkernel4.4.zip ./ &&
 #   cd ~/android/rom && mv -fv cyanogenkernel4.4.zip $OUTFOLDER
 #   then echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL DONE' \e[0m"
-#   else echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL FAILED' \e[0m" && read
+#   else echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 #   fi
 # fi
 
@@ -361,7 +360,7 @@ sed -i "s/ro.cm.display.version="*"."*"."*"/ro.cm.display.version=$BUILDNAME-`da
 sed -i "s/ro.product.locale.language="*"."*"."*"/ro.product.locale.language=fr/g" build.prop &&
 sed -i "s/ro.product.locale.region="*"."*"."*"/ro.product.locale.region=FR/g" build.prop
 then echo -e "\e[31;42m 'PATCHING BUILD.PROP DONE' \e[0m"
-else echo -e "\e[31;42m 'PATCHING BUILD.PROP FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'PATCHING BUILD.PROP FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 #****************************************************************
@@ -376,10 +375,10 @@ then echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM
     cp -rfavu IyahmanKernelExtract/boot.img $BUILDNAME-`date -I`Extract
     #cp -rfavu modemrilExtract/modemril/* $BUILDNAME-`date -I`Extract
     then echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER DONE' \e[0m"
-    else echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER FAILED' \e[0m" && read
+    else echo -e "\e[31;42m 'COPYING KERNEL PATCH AND RIL INTO TEMPORALY IYAHMANROM FOLDER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
     fi
   fi
-else echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM FOLDER FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM FOLDER FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 #****************************************************************
@@ -400,7 +399,7 @@ then
       cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/priv-app/ &&
       rm -rfv VpnDialogs.apk
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
-      else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
+      else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
     if [ "$VARIANT" != "galaxysmtd" ] ; then
@@ -411,14 +410,14 @@ then
       rm -rfv libvoodoo-sound.so && rm -rfv libvoodoo-daemon-tools.so &&
       rm -rfv libvoodoo-kaudio.so
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
-      else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
+      else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
     if [ "$VARIANT" = "galaxysmtd" ] ; then
       if cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
       rm -rfv DSPManager.apk
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
-      else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read
+      else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
   if echo -e "\e[31;42m 'DELETING UNWANTED CYANOGENMOD STUFF' \e[0m" &&
@@ -471,7 +470,7 @@ then
   cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/tts/ &&
   rm -rfv lang_pico
   then echo -e "\e[31;42m 'DELETING UNWANTED CYANOGENMOD STUFF DONE' \e[0m"
-  else echo -e "\e[31;42m 'DELETING UNWANTED CYANOGENMOD STUFF FAILED' \e[0m" && read
+  else echo -e "\e[31;42m 'DELETING UNWANTED CYANOGENMOD STUFF FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
 echo -e "\e[31;42m 'DELETING UNWANTED STUFF DONE' \e[0m"
 fi
@@ -482,7 +481,7 @@ if echo -e "\e[31;42m 'ZIPPING IYAHMANROM' \e[0m" &&
 cd $TEMPORAIREFOLDER && rm -rfv $BUILDNAME-`date -I`.zip &&
 cd $BUILDNAME-`date -I`Extract && zip -qrv ../$BUILDNAME-`date -I`.zip ./
 then echo -e "\e[31;42m 'ZIPPING IYAHMANROM DONE' \e[0m"
-else echo -e "\e[31;42m 'ZIPPING IYAHMANROM FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'ZIPPING IYAHMANROM FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 #****************************************************************
@@ -490,7 +489,7 @@ fi
 if echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY' \e[0m" &&
 cd $TEMPORAIREFOLDER && mv -fv $BUILDNAME-`date -I`.zip $OUTFOLDER
 then echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY DONE' \e[0m" 
-else echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 #****************************************************************
@@ -502,7 +501,7 @@ if [ "$VARIANT" = "jflte" ] ; then
   cd $OUTFOLDER && mv -fv $CMROMNAME"_dualboot".zip $BUILDNAME-`date -I`"_dualboot".zip &&
   rm -rfv $CMROMNAME.zip 
   then timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
-  else echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 FAILED' \e[0m" && read
+  else echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
 fi
 
@@ -517,10 +516,10 @@ then timer && echo -e "\e[31;42m 'SIGNING ZIP DONE' \e[0m"
     cd $OUTFOLDER && openssl pkcs8 -in $ROMFOLDER/build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
     java -Xmx2048m -jar $ROMFOLDER/out/host/linux-x86/framework/signapk.jar -w $ROMFOLDER/build/target/product/security/testkey.x509.pem $ROMFOLDER/build/target/product/security/testkey.pk8 $BUILDNAME-`date -I`"_dualboot".zip $BUILDNAME-`date -I`"_dualboot"-signed.zip 
     then timer && echo -e "\e[31;42m 'SIGNING DUALBOOT ZIP DONE' \e[0m" 
-    else  echo -e "\e[31;42m 'SIGNING DUALBOOT ZIP FAILED' \e[0m" && read
+    else  echo -e "\e[31;42m 'SIGNING DUALBOOT ZIP FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
     fi
   fi
-else echo -e "\e[31;42m 'SIGNING ZIP FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'SIGNING ZIP FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 #****************************************************************
@@ -532,7 +531,7 @@ then timer && echo -e "\e[31;42m 'ZIPALIGNING DONE' \e[0m"
     if echo -e "\e[31;42m 'ZIPALIGNING DUALBOOT' \e[0m" &&
     cd ~/android/utilitaire/sdk/tools/ && zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed.zip $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed-zipaligned.zip
     then timer && echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT DONE' \e[0m"
-    else echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT FAILED' \e[0m" && read
+    else echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
     fi
   fi
 else echo -e "\e[31;42m 'ZIPALIGNING FAILED' \e[0m"
@@ -543,7 +542,9 @@ fi
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
 rm -rfv $TEMPORAIREFOLDER/* &&
 cd $OUTFOLDER && rm -rfv cm_$VARIANT-ota-*.zip &&
-rm -rfv $BUILDNAME-`date -I`.zip && rm -rfv $BUILDNAME-`date -I`-signed.zip
+rm -rfv $BUILDNAME-`date -I`.zip && rm -rfv $BUILDNAME-`date -I`-signed.zip &&
+cd /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0 &&
+rm -rfv compilog$BUILDNAME-`date -u +%Y%m%d`
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
   if [ "$VARIANT" = "galaxysmtd" ] ; then
     if echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL' \e[0m" &&
@@ -568,24 +569,24 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
     if [ "$VARIANT" = "galaxysmtd" ] ; then
       if cd $ROMFOLDER/kernel/samsung/aries && make mrproper
       then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
-      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
+      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
     if [ "$VARIANT" = "i9100" ] ; then
       if cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper
       then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
-      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
+      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
     if [ "$VARIANT" = "jflte" ] ; then 
       if cd $ROMFOLDER/kernel/samsung/jf && make mrproper
       then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
-      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read
+      else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
 echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
 fi
-else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read
+else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
 echo -e "\e[31;42m '############################################################################################################################' \e[0m"
@@ -603,5 +604,5 @@ echo {$ROMNAME$CMVER POUR $VARIANT FINI EN} "$(($DIFF / 60)) minute(s) and $(($D
 ## Open Final Build Directory:
 spd-say 'BUILD SUCCESFULL' && nautilus $OUTFOLDER
 
-#sudo bash -c sleep 5m; pm-suspend-hybrid
+#fakeroot bash -c sleep 5m; pm-suspend-hybrid
 #exit
