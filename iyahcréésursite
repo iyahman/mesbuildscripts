@@ -17,7 +17,7 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ## Set Basic Parameters :
-#set -xv
+set -xv
 
 ROMNAME="IyahmanRom"
 
@@ -84,7 +84,7 @@ SEMAPHOREFOLDER=~/android/kernel/semaphore/11.0
 STUFFFOLDER=~/android/stuff/cyanogenmod11
 LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
-export USE_CCACHE=1
+#export USE_CCACHE=0
 
 cat /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
 
@@ -110,13 +110,13 @@ fi
 function preparebuild {
 if echo -e "\e[31;42m 'BUILD CM$CMVER ROM' \e[0m" &&
 cd $ROMFOLDER &&
-. build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=1
+. build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=0
 then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   if [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/aries && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=0
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -124,7 +124,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=0
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -132,7 +132,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/jf && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=0
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -187,7 +187,11 @@ fi
 #****************************************************************
 ##Installclean : Wipe out the stuff that changes from one make target to another.
 if echo -e "\e[31;42m 'INSTALLCLEAN' \e[0m" &&
-cd $ROMFOLDER && make installclean 
+cd $ROMFOLDER && make installclean && 
+find ./out/ -name 'build.prop' | xargs rm &&
+echo './out/ -name build.prop | xargs rm done' &&
+find ./out/ -name "cm_$VARIANT-target_files-eng.*.zip" | xargs rm &&
+echo "./out/ -name cm_$VARIANT-target_files-eng.*.zip | xargs rm done"
 then timer && echo -e "\e[31;42m 'INSTALLCLEAN DONE' \e[0m"
 else echo -e "\e[31;42m 'INSTALLCLEAN FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
@@ -283,7 +287,7 @@ if [ "$VARIANT" = "galaxysmtd" ] ; then
    if echo  -e "\e[31;42m'BUILD IYAHMANKERNEL' \e[0m" &&
    cd $SEMAPHOREFOLDER/samsung-kernel-aries &&
   #cp -rfavu $OUTFOLDERrecovery/root/sbin/recovery $SEMAPHOREFOLDER/ics-ramdisk/jb_combo/ics_rec_init/sbin/
-  export USE_CCACHE=1 && ./sbuild.sh galaxys s
+  export USE_CCACHE=0 && ./sbuild.sh galaxys s
   then timer && echo -e "\e[31;42m 'BUILD IYAHMANKERNEL DONE' \e[0m"
   else echo -e "\e[31;42m 'BUILD IYAHMANKERNEL FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
@@ -389,6 +393,7 @@ then
       if cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
       rm -rfv org.adaway.apk && rm -rfv com.github.chenxiaolong.dualbootpatcher.apk &&
       rm -rfv com.github.chenxiaolong.dualbootswitcher.apk &&
+      rm -rfv com.sfr.android.vvm.apk &&
       rm -rfv FaceLock.apk &&
       rm -rfv PrintSpooler.apk &&
       rm -rfv LiveWallpapersPicker.apk &&
