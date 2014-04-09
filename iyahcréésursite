@@ -84,15 +84,27 @@ SEMAPHOREFOLDER=~/android/kernel/semaphore/11.0
 STUFFFOLDER=~/android/stuff/cyanogenmod11
 LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
-#export USE_CCACHE=0
+export USE_CCACHE=1
 
-cat /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
+#cat /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
+
+#****************************************************************
+#Add Cherry Pick :
+function cherrypick {
+if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
+cd /home/iyahman/android/rom/iyahmanrom11.0/build/target/product &&
+git fetch git://github.com/iyahman/android_build && git cherry-pick 9ec8386a55e254a55d3b26f97a0e26e51b000bd8 &&
+git fetch git://github.com/iyahman/android_build && git cherry-pick dab564e34d5e8d4c2725aca5ad2950149931249e
+then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
+else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m"
+fi
+}
 
 #****************************************************************
 ##Make mrproper : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
 function fullcleanup {
 if echo -e "\e[31;42m 'MAKE CLOBBER' \e[0m" &&
-cd $ROMFOLDER && make mrproper
+cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT && make mrproper
 then echo -e "\e[31;42m 'MAKE CLOBBER DONE' \e[0m"
   if . build/envsetup.sh && breakfast $VARIANT &&
   echo -e "\e[31;42m 'WAITING TO CONNECT $VARIANT TO YOUR PC' \e[0m" && 
@@ -110,13 +122,13 @@ fi
 function preparebuild {
 if echo -e "\e[31;42m 'BUILD CM$CMVER ROM' \e[0m" &&
 cd $ROMFOLDER &&
-. build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=0
+. build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=1
 then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   if [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/aries && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=0
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -124,7 +136,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=0
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -132,7 +144,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/jf && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=0
+      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -154,7 +166,7 @@ function timer {
 #****************************************************************
 ## Script speech:
 echo -e "\e[31;42m 'HELLO IYAHMAN' \e[0m"
-echo -e "\e[31;42m  LAUNCH $ROMNAME$CMVER$TOOLCHAIN BUILD SCRIPT V4.2 FOR $VARIANT WITH GAPPS, CUSTOM APK,'HOST AND GPS CONF' \e[0m"
+echo -e "\e[31;42m  LAUNCH $ROMNAME$CMVER$TOOLCHAIN BUILD SCRIPT V4.4 FOR $VARIANT WITH GAPPS, CUSTOM APK,'HOST AND GPS CONF' \e[0m"
 sleep 1s
 
 #****************************************************************
@@ -189,9 +201,9 @@ fi
 if echo -e "\e[31;42m 'INSTALLCLEAN' \e[0m" &&
 cd $ROMFOLDER && make installclean && 
 find ./out/ -name 'build.prop' | xargs rm &&
-echo './out/ -name build.prop | xargs rm done' &&
-find ./out/ -name "cm_$VARIANT-target_files-eng.*.zip" | xargs rm &&
-echo "./out/ -name cm_$VARIANT-target_files-eng.*.zip | xargs rm done"
+echo './out/ -name build.prop | xargs rm done'
+#find ./out/ -name "cm_$VARIANT-target_files-eng."*".zip" | xargs rm &&
+#echo "./out/ -name cm_$VARIANT-target_files-eng.*.zip | xargs rm done"
 then timer && echo -e "\e[31;42m 'INSTALLCLEAN DONE' \e[0m"
 else echo -e "\e[31;42m 'INSTALLCLEAN FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
@@ -247,9 +259,6 @@ else
 fi
 
 #****************************************************************
-#Add Cherry Pick :
-
-#****************************************************************
 #replace original system syze by Iyah 
 if [ "$VARIANT" = "galaxysmtd" ] && [ "SYSTEMSIZE" = "on" ] ; then
   if echo -e "\e[31;42m 'CHANGE SYSTEM SIZE' \e[0m" &&
@@ -262,22 +271,22 @@ fi
 
 #****************************************************************
 ##Build CM10 :
-if preparebuild && mka bacon ; then
+if cherrypick && preparebuild && mka bacon ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 else 
   if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
   echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM' \e[0m" &&
-  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && preparebuild && mka bacon
+  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && cherrypick && preparebuild && mka bacon
   then echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM DONE' \e[0m"
   else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m"
-    if echo -e "\e[31;42m 'FULLCLEANUP FOR REBUILD' \e[0m" &&
-    fullcleanup && preparebuild && mka bacon
-    then echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM DONE' \e[0m"
-    else echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM FAILED' \e[0m" &&
-    echo -e "\e[31;42m '############################################################################################################################' \e[0m" &&
-    echo -e "\e[31;42m '################################################ MANUAL DEBUG REQUIRE ######################################################' \e[0m" &&
-    echo -e "\e[31;42m '############################################################################################################################' \e[0m" && read && spd-say 'SA A MERDÉ'
-    fi
+#     if echo -e "\e[31;42m 'FULLCLEANUP FOR REBUILD' \e[0m" &&
+#     fullcleanup && preparebuild && mka bacon
+#     then echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM DONE' \e[0m"
+#     else echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM FAILED' \e[0m" &&
+#     echo -e "\e[31;42m '############################################################################################################################' \e[0m" &&
+#     echo -e "\e[31;42m '################################################ MANUAL DEBUG REQUIRE ######################################################' \e[0m" &&
+#     echo -e "\e[31;42m '############################################################################################################################' \e[0m" && read && spd-say 'SA A MERDÉ'
+#     fi
   fi
 fi
 
@@ -287,7 +296,7 @@ if [ "$VARIANT" = "galaxysmtd" ] ; then
    if echo  -e "\e[31;42m'BUILD IYAHMANKERNEL' \e[0m" &&
    cd $SEMAPHOREFOLDER/samsung-kernel-aries &&
   #cp -rfavu $OUTFOLDERrecovery/root/sbin/recovery $SEMAPHOREFOLDER/ics-ramdisk/jb_combo/ics_rec_init/sbin/
-  export USE_CCACHE=0 && ./sbuild.sh galaxys s
+  export USE_CCACHE=1 && ./sbuild.sh galaxys s
   then timer && echo -e "\e[31;42m 'BUILD IYAHMANKERNEL DONE' \e[0m"
   else echo -e "\e[31;42m 'BUILD IYAHMANKERNEL FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
@@ -462,7 +471,7 @@ then
   # Gallery cm11
   rm -rfv Gallery2.apk &&
   # camera cm11
-  rm -rfv Camera2.apk &&
+  #rm -rfv Camera2.apk &&
   cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/priv-app/ &&
   #cm updater
   rm -rfv CMUpdater.apk &&
