@@ -189,7 +189,9 @@ fi
 #android update sdk --no-ui
 
 if [ "$MAKECLEAN" = "on" ] ; then
- if echo -e "\e[31;42m 'MAKECLEAN' \e[0m" && 
+ if echo -e "\e[31;42m  '############################################################################################################################'
+echo '###################################################### MAKECLEAN ######################################################' 
+echo '############################################################################################################################' \e[0m" && 
  cd $ROMFOLDER && make clean 
  then echo -e "\e[31;42m 'MAKECLEAN DONE' \e[0m"
  else echo -e "\e[31;42m 'MAKECLEAN' \e[0m" && read && spd-say 'SA A MERDÉ'
@@ -612,7 +614,7 @@ echo -e "\e[31;42m '############################################################
 DATE_END=$(date +"%s")
 echo
 DIFF=$(($DATE_END - $DATE_START))
-echo {$ROMNAME$CMVER POUR $VARIANT FINI EN} "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+echo $ROMNAME$CMVER POUR $VARIANT FINI EN "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
 
 #****************************************************************
 ## Open Final Build Directory:
