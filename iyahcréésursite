@@ -17,7 +17,7 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ## Set Basic Parameters :
-#set -xv
+set -xv
 
 ROMNAME="IyahmanRom"
 
@@ -93,8 +93,8 @@ export USE_CCACHE=1
 function cherrypick {
 if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
 cd /home/iyahman/android/rom/iyahmanrom11.0/build/target/product &&
-git fetch git://github.com/iyahman/android_build && git cherry-pick 9ec8386a55e254a55d3b26f97a0e26e51b000bd8 &&
-git fetch git://github.com/iyahman/android_build && git cherry-pick dab564e34d5e8d4c2725aca5ad2950149931249e
+git fetch git://github.com/iyahman/android_build && git cherry-pick a41ff4864a4f1df7544666fed607619d23ce5f2a &&
+git fetch git://github.com/iyahman/android_build && git cherry-pick a4146e983dc826498a98cb8e957ad376de659a46
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
 else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m"
 fi
@@ -508,14 +508,28 @@ then echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY DONE' \e[0m"
 else echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
+# #****************************************************************
+# ## Dual Boot :
+# if [ "$VARIANT" = "jflte" ] ; then 
+#   if echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505' \e[0m" &&
+#   cd $ROMFOLDER/out/target/product/jflte/ && cp -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip &&
+#   cd ~/android/utilitaire/DualBootPatcher && ./patch-file.sh $OUTFOLDER/$CMROMNAME.zip &&
+#   cd $OUTFOLDER && mv -fv $CMROMNAME"_dualboot".zip $BUILDNAME-`date -I`"_dualboot".zip &&
+#   rm -rfv $CMROMNAME.zip 
+#   then timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
+#   else echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
+#   fi
+# fi
+
 #****************************************************************
 ## Dual Boot :
 if [ "$VARIANT" = "jflte" ] ; then 
   if echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505' \e[0m" &&
-  cd $ROMFOLDER/out/target/product/jflte/ && cp -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip &&
-  cd ~/android/utilitaire/DualBootPatcher && ./patch-file.sh $OUTFOLDER/$CMROMNAME.zip &&
-  cd $OUTFOLDER && mv -fv $CMROMNAME"_dualboot".zip $BUILDNAME-`date -I`"_dualboot".zip &&
-  rm -rfv $CMROMNAME.zip 
+  cd $OUTFOLDER && cp -f $BUILDNAME-`date -I`.zip $TEMPORAIREFOLDER &&
+  cd $TEMPORAIREFOLDER && mv -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip
+  cd ~/android/utilitaire/DualBootPatcher && ./patch-file.sh $TEMPORAIREFOLDER/$CMROMNAME.zip &&
+  cd $TEMPORAIREFOLDER && mv -fv $CMROMNAME"_dualboot".zip $BUILDNAME-`date -I`"_dualboot".zip &&
+  mv $BUILDNAME-`date -I`"_dualboot".zip $OUTFOLDER
   then timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
   else echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
   fi
