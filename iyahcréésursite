@@ -17,7 +17,7 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ## Set Basic Parameters :
-set -xv
+#set -xv
 
 ROMNAME="IyahmanRom"
 
@@ -96,7 +96,7 @@ cd /home/iyahman/android/rom/iyahmanrom11.0/build/target/product &&
 git fetch git://github.com/iyahman/android_build && git cherry-pick a41ff4864a4f1df7544666fed607619d23ce5f2a &&
 git fetch git://github.com/iyahman/android_build && git cherry-pick a4146e983dc826498a98cb8e957ad376de659a46
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
-else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m"
+else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 }
 
@@ -436,6 +436,13 @@ then
       else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
+    if [ "$VARIANT" = "i9100" ] ; then
+      if cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
+      rm -rfv com.sfr.android.moncompte.apk
+      then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
+      else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
+      fi
+    fi
   if echo -e "\e[31;42m 'DELETING UNWANTED CYANOGENMOD STUFF' \e[0m" &&
   cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
   # dictionnaire clavier android
@@ -628,7 +635,7 @@ echo -e "\e[31;42m '############################################################
 DATE_END=$(date +"%s")
 echo
 DIFF=$(($DATE_END - $DATE_START))
-echo $ROMNAME$CMVER POUR $VARIANT FINI EN "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+echo $ROMNAME$CMVER pour $VARIANT fini en "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
 
 #****************************************************************
 ## Open Final Build Directory:
