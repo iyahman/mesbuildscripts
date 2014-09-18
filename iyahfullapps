@@ -17,7 +17,7 @@ DATE_START=$(date +"%s")
 
 #****************************************************************
 ## Set Basic Parameters :
-#set -xv
+# set -xv
 
 ROMNAME="IyahmanRom"
 
@@ -93,8 +93,8 @@ export USE_CCACHE=1
 function cherrypick {
 if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
 cd /home/iyahman/android/rom/iyahmanrom11.0/build/target/product &&
-git fetch git://github.com/iyahman/android_build && git cherry-pick a41ff4864a4f1df7544666fed607619d23ce5f2a &&
-git fetch git://github.com/iyahman/android_build && git cherry-pick a4146e983dc826498a98cb8e957ad376de659a46
+git fetch git://github.com/iyahman/android_build && git cherry-pick 8020252a710e398e3ae110aa632b86a73916fdc1 &&
+git fetch git://github.com/iyahman/android_build && git cherry-pick e44c08c72aaec48ab8e73734a67d4ee62b5b1a12
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
 else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
@@ -402,9 +402,9 @@ if echo -e "\e[31;42m 'DELETING UNWANTED STUFF' \e[0m"
 then 
     if [ "$VARIANT" != "jflte" ] ; then
       if cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
-      rm -rfv org.adaway.apk && rm -rfv com.github.chenxiaolong.dualbootpatcher.apk &&
-      rm -rfv com.github.chenxiaolong.dualbootswitcher.apk &&
-      rm -rfv com.sfr.android.vvm.apk &&
+      #rm -rfv org.adaway.apk && 
+      rm -rfv com.github.chenxiaolong.dualbootpatcher.apk &&
+      #rm -rfv com.sfr.android.vvm.apk &&
       rm -rfv FaceLock.apk &&
       rm -rfv PrintSpooler.apk &&
       rm -rfv LiveWallpapersPicker.apk &&
@@ -438,7 +438,16 @@ then
     fi
     if [ "$VARIANT" = "i9100" ] ; then
       if cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
-      rm -rfv com.sfr.android.moncompte.apk
+      rm -rfv com.sfr.android.moncompte.apk &&
+      rm -rfv com.rhapsody.napster.apk &&
+      cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/lib/ &&
+      rm -rfv libgnencryption.3.2.1.3.so &&
+      rm -rfv libgnlocal_lookup.3.2.1.3.so &&
+      rm -rfv libgnmc_aactag.3.2.1.3.so &&
+      rm -rfv libgnmc_decoder.3.2.1.3.so &&
+      rm -rfv libgnmc_fpx.3.2.1.3.so &&
+      rm -rfv libgnmc_id3tag.3.2.1.3.so &&
+      rm -rfv libgntransition_detector.3.2.1.3.so
       then echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT DONE' \e[0m"
       else echo -e "\e[31;42m 'DELETING UNWANTED STUFF FOR $VARIANT FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -456,7 +465,7 @@ then
   #Bulles
   rm -rfv NoiseField.apk &&
   #calculatrice
-  rm -rfv Calculator.apk &&
+  #rm -rfv Calculator.apk &&
   #Holospiral
   rm -rfv HoloSpiralWallpaper.apk &&
   #CM file manager
@@ -515,19 +524,6 @@ then echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY DONE' \e[0m"
 else echo -e "\e[31;42m 'MOVING IYAHMANROM INTO FINAL DIRECTORY FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
 
-# #****************************************************************
-# ## Dual Boot :
-# if [ "$VARIANT" = "jflte" ] ; then 
-#   if echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505' \e[0m" &&
-#   cd $ROMFOLDER/out/target/product/jflte/ && cp -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip &&
-#   cd ~/android/utilitaire/DualBootPatcher && ./patch-file.sh $OUTFOLDER/$CMROMNAME.zip &&
-#   cd $OUTFOLDER && mv -fv $CMROMNAME"_dualboot".zip $BUILDNAME-`date -I`"_dualboot".zip &&
-#   rm -rfv $CMROMNAME.zip 
-#   then timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
-#   else echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
-#   fi
-# fi
-
 #****************************************************************
 ## Dual Boot :
 if [ "$VARIANT" = "jflte" ] ; then 
@@ -535,7 +531,7 @@ if [ "$VARIANT" = "jflte" ] ; then
   cd $OUTFOLDER && cp -f $BUILDNAME-`date -I`.zip $TEMPORAIREFOLDER &&
   cd $TEMPORAIREFOLDER && mv -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip
   cd ~/android/utilitaire/DualBootPatcher && ./patch-file.sh $TEMPORAIREFOLDER/$CMROMNAME.zip &&
-  cd $TEMPORAIREFOLDER && mv -fv $CMROMNAME"_dualboot".zip $BUILDNAME-`date -I`"_dualboot".zip &&
+  cd $TEMPORAIREFOLDER && mv -fv $CMROMNAME"_dual".zip $BUILDNAME-`date -I`"_dualboot".zip &&
   mv $BUILDNAME-`date -I`"_dualboot".zip $OUTFOLDER
   then timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
   else echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 FAILED' \e[0m" && read && spd-say 'SA A MERDÉ'
