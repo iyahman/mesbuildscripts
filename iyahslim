@@ -2,7 +2,7 @@
 
 #****************************************************************
 ## Script command exemple :
-#iyah $1                    iyah $1 $2
+
 #iyah s1 || iyah s1pucca || iyah s1 linaro || iyah s1 linarof
 #iyah s2 ""
 #iyah s4 ""
@@ -636,6 +636,3 @@ echo $ROMNAME$CMVER pour $VARIANT fini en "$(($DIFF / 60)) minute(s) and $(($DIF
 #****************************************************************
 ## Open Final Build Directory:
 spd-say 'BUILD SUCCESFULL' && nautilus $OUTFOLDER
-
-#fakeroot bash -c sleep 5m; pm-suspend-hybrid
-#exit
