@@ -3,7 +3,7 @@
 #****************************************************************
 ## Script command exemple :
 
-#iyah s1 || iyah s1pucca || iyah s1 linaro || iyah s1 linarof
+#iyah s1 || iyah s1pucca || iyah s1 linaro clean || iyah s1 linarof slim
 #iyah s2 ""
 #iyah s4 ""
 

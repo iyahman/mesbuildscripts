@@ -1,0 +1,14 @@
+#!/bin/bash
+# 
+# cd ~/android/rom/iyahmanrom11.0/
+# # repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
+# # echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0 done'
+# repo sync -j16
+# . build/envsetup.sh && breakfast galaxysmtd
+# . build/envsetup.sh && breakfast i9100
+# . build/envsetup.sh && breakfast jflte
+# ~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
+
+iyah s1
+iyah s2
+iyah s4

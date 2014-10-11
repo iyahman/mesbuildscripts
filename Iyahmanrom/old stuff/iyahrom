@@ -1,0 +1,111 @@
+#!/bin/bash
+
+echo 'HELLO IYAHMAN'
+echo
+echo 'LAUNCH IYAHMANROM FOR GS1 AND GS2'
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+
+#****************************************************************
+## Start Total Timer :
+DATE_START=$(date +"%s")
+
+#****************************************************************
+##Make Clean : deletes all the object files created
+#if echo 'MAKE CLEAN'
+#then cd ~/android/rom/iyahmanrom/
+#make clean
+#echo 'MAKE CLEAN DONE'
+#else read
+#fi
+#. build/envsetup.sh && breakfast galaxysmtd
+#cp -Rv ~/android/extractedfiles/galaxysmtd ~/android/rom/iyahmanrom/device/samsung
+#adb root
+#cd ~/android/rom/iyahmanrom/device/samsung/galaxysmtd/
+#./extract-files.sh
+#~/android/rom/iyahmanrom/vendor/cm/get-prebuilts
+
+#****************************************************************
+##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
+if echo 'MAKE CLOBBER'
+then cd ~/android/rom/iyahmanrom/
+make clobber
+echo 'MAKE CLOBBER DONE'
+else read
+fi
+if . build/envsetup.sh && breakfast galaxysmtd
+#adb root
+#cd ~/android/rom/iyahmanrom/device/samsung/galaxysmtd/
+#./extract-files.sh
+cp -Rv ~/android/extractedfiles/galaxysmtd ~/android/rom/iyahmanrom/device/samsung
+~/android/rom/iyahmanrom/vendor/cm/get-prebuilts
+then echo 'REINSTALL AFTER CLOBBER DONE'
+else read
+fi
+
+iyahs1
+
+#****************************************************************
+## COPYING ROM TO BUREAU :
+if echo 'COPYING BUILD TO BUREAU'
+then cd ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/
+cp -rv IyahmanRomS1-`date -I`-signed.zip /home/iyahman/Bureau
+echo 'RENAMING BUILD DONE'
+else read
+fi
+
+#****************************************************************
+##Make Clean : deletes all the object files created
+#if echo 'MAKE CLEAN'
+#then cd ~/android/rom/iyahmanrom/
+#make clean
+#echo 'MAKE CLEAN DONE'
+#else read
+#fi
+#. build/envsetup.sh && breakfast i9100
+#cp -Rv ~/android/extractedfiles/i9100 ~/android/rom/iyahmanrom/device/samsung
+#adb root
+#cd ~/android/rom/iyahmanrom/device/samsung/galaxysmtd/
+#./extract-files.sh
+#~/android/rom/iyahmanrom/vendor/cm/get-prebuilts
+
+#****************************************************************
+##Make Clobber : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
+if echo 'MAKE CLOBBER'
+then cd ~/android/rom/iyahmanrom/
+make clobber
+echo 'MAKE CLOBBER DONE'
+else read
+fi
+if . build/envsetup.sh && breakfast i9100
+#adb root
+#cd ~/android/rom/iyahmanrom/device/samsung/i9100/
+#./extract-files.sh
+cp -Rv ~/android/extractedfiles/i9100 ~/android/rom/iyahmanrom/device/samsung
+~/android/rom/iyahmanrom/vendor/cm/get-prebuilts
+then echo 'REINSTALL AFTER CLOBBER DONE'
+else read
+fi
+
+iyahs2
+
+#****************************************************************
+## COPYING ROM TO BUREAU :
+if echo 'COPYING BUILD TO BUREAU'
+then cd ~/android/rom/iyahmanrom/out/target/product/i9100/
+cp -rv IyahmanRomS2-`date -I`-signed.zip /home/iyahman/Bureau
+echo 'RENAMING BUILD DONE'
+else read
+fi
+
+
+
+#****************************************************************
+## Report TOTAL timer:
+DATE_END=$(date +"%s")
+echo
+DIFF=$(($DATE_END - $DATE_START))
+echo 'BUILD SEMAPHORE & CM10.1 FOR GS1 AND GS2 FINI EN' "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+

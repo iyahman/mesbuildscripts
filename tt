@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export USE_CCACHE=1
+#rm -rf /home/iyahman/android/rom/iyahmanrom11.0/bootable/recovery/*
+#cp -ravu /home/iyahman/android/kernel/semaphore/11.0/android_bootable_recovery/* /home/iyahman/android/rom/iyahmanrom11.0/bootable/recovery/
+cd ~/android/rom/iyahmanrom11.0
+. build/envsetup.sh && make clean 
+cd ~/android/rom/iyahmanrom11.0
+. build/envsetup.sh && lunch cm_galaxysmtd-userdebug
+make -j4 recoveryimage
+# make -d -j4 recoveryimage
+cp -ravu /home/iyahman/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery /home/iyahman/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo/ics_rec_init/sbin/ && echo recovery build et envoyé dans icsramdisk
+#mka bootimage
+
+semaphore

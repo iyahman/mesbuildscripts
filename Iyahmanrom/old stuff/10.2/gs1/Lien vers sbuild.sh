@@ -1,0 +1,1 @@
+/home/iyahman/android/rom/semaphore/10.2/samsung-kernel-aries/sbuild.sh

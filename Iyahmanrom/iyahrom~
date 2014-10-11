@@ -1,0 +1,478 @@
+#!/bin/bash
+
+echo 'HELLO IYAHMAN'
+echo
+echo 'LAUNCH IYAHMANROM V2.3 GALAXY S1 BUILD SCRIPT: CM10.1, INVERTGAPPS WITH CUSTOM APK, HOST AND GPS CONF; PATCH720P, JW4 MODEM+RIL, BOOTANIMATION & SEMAPHORE KERNEL'
+echo
+echo
+
+#****************************************************************
+## Set Basic Parameters :
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+
+#****************************************************************
+## Start Total Timer :
+DATE_START=$(date +"%s")
+
+#****************************************************************
+##Installclean :
+echo 'INSTALLCLEAN'
+echo
+cd ~/android/rom/iyahmanrom/
+make installclean
+echo 'installclean done'
+find ./out/ -name 'build.prop' | xargs rm
+echo './out/ -name build.prop | xargs rm done'
+find ./out/ -name 'cm_galaxysmtd-target_files-eng.*.zip' | xargs rm
+echo './out/ -name cm_galaxysmtd-target_files-eng.*.zip | xargs rm done'
+echo
+echo 'INSTALLCLEAN DONE'
+echo
+
+#****************************************************************
+##Make Clobber :
+#echo 'MAKE CLOBBER'
+#echo
+#cd ~/android/rom/iyahmanrom/
+#make clobber
+#echo 'MAKE CLOBBER DONE'
+#echo
+
+#****************************************************************
+## Report Timer :
+#END=$(date +%s)
+#ELAPSED=$((END - START))
+#E_MIN=$((ELAPSED / 60))
+#E_SEC=$((ELAPSED - E_MIN * 60))
+#printf "${txtgrn}ELAPSED: "
+#[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+#printf "%d sec(s)\n ${txtrst}" $E_SEC
+#echo
+
+#****************************************************************
+##Remove Previous Kernel Build :
+echo 'REMOVING PREVIOUS BUILD IN semaphore/output/'
+echo
+cd ~/android/rom/semaphore/output/galaxys
+cp IyahmanKernels.zip IyahmanKernelsOld.zip
+echo 'cp IyahmanKernels.zip IyahmanKernelsOld.zip done'
+cp IyahmanKernels.tar IyahmanKernelsOld.tar
+echo 'cp IyahmanKernels.zip IyahmanKernelsOld.tar done'
+rm IyahmanKernels.zip
+echo 'rm IyahmanKernels.zip done'
+rm IyahmanKernels.tar
+echo 'rm IyahmanKernels.tar done'
+echo
+echo 'REMOVING PREVIOUS BUILD IN semaphore/output/  DONE'
+echo
+
+#****************************************************************
+## Clean buildtemporaire:
+echo 'CLEANING TEMPORALY FILE'
+echo
+cd ~/android/rom/buidtemporaire/
+rm -r -f IyahmanRomExtract
+rm -r -f invertgappsExtract
+rm -r invertgapps.zip
+rm -r patch720pExtract
+rm -r patch720p.zip
+rm -r bootanimationExtract
+rm -r bootanimation.zip
+rm -r IyahmanKernelExtract
+rm -r IyahmanKernels.zip
+rm -r modemril.zip
+rm -r modemrilExtract
+echo 'CLEANING TEMPORALY FILE DONE'
+echo
+
+#****************************************************************
+##Synchronization :
+echo 'SYNCHRONIZATION'
+echo
+cd ~/android/rom/iyahmanrom/
+#curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/bin/repo
+#repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1
+#echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-10.1 done'
+repo sync -j16
+#. build/envsetup.sh && breakfast galaxysmtd
+#adb root
+#cd ~/android/rom/iyahmanrom/device/samsung/galaxysmtd/
+#./extract-files.sh
+#~/android/rom/iyahmanrom/vendor/cm/get-prebuilts
+echo 'repo sync -j16 done'
+repo sync
+echo 'repo sync done'
+echo
+echo 'SYNCHRONIZATION DONE'
+echo
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
+echo
+
+#****************************************************************
+##Build Semaphore :
+echo 'BUILD IYAHMANKERNEL'
+echo
+cd /home/iyahman/android/rom/semaphore/samsung-kernel-aries/
+#make clean
+#make CROSS_COMPILE=/home/iyahman/android/linaro/gcc-linaro-arm-linux-gnueabihf-2012.09-20120921_linux/bin/arm-linux-gnueabihf- ARH=arm menuconfig
+./sbuild.sh galaxys s
+echo
+echo 'BUILD IYAHMANKERNEL DONE'
+echo
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
+echo
+
+#****************************************************************
+##Add Cherry Pick :
+#echo
+
+#****************************************************************
+##Build CM10 :
+echo 'BUILD CM10.1 ROM'
+echo
+cd ~/android/rom/iyahmanrom/
+. build/envsetup.sh && brunch galaxysmtd
+echo
+echo 'BUILD CM10.1 ROM DONE'
+echo
+
+#****************************************************************
+## Report timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
+echo
+
+#****************************************************************
+## Save Unofficial Nightly :
+echo 'SAVE UNOFFICIAL NIGHTLY'
+echo
+cd ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/
+cp cm-IyahmanRom.zip cm-10.1-`date -I`-UNOFFICIAL-galaxysmtd.zip
+echo
+echo 'SAVE UNOFFICIAL NIGHTLY DONE'
+echo
+
+#****************************************************************
+## Move Rom And Extra Feature Into Temporaly Folder :
+echo 'MOVING ROM, GAPPS, PATCH720P, BOOT ANIMATION & SEMAPHORE INTO TEMPORALY FOLDER'
+echo
+cd ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/
+mv cm-IyahmanRom.zip ~/android/rom/buidtemporaire
+echo 'mv cm-IyahmanRom.zip ~/android/rom/buidtemporaire done'
+cd /home/iyahman/Bureau/
+cp invertgapps.zip ~/android/rom/buidtemporaire
+echo 'cp invertgapps.zip ~/android/rom/buidtemporaire done'
+cd /home/iyahman/Bureau/
+cp patch720p.zip ~/android/rom/buidtemporaire
+echo 'cp patch720p.zip ~/android/rom/buidtemporaire done'
+cd /home/iyahman/Bureau/
+cp bootanimation.zip ~/android/rom/buidtemporaire
+echo 'cp bootanimation.zip ~/android/rom/buidtemporaire done'
+cd /home/iyahman/android/rom/semaphore/output/galaxys
+cp IyahmanKernels.zip ~/android/rom/buidtemporaire
+echo 'cp IyahmanKernels.zip ~/android/rom/buidtemporaire done'
+cd /home/iyahman/Bureau/
+cp modemril.zip ~/android/rom/buidtemporaire
+echo 'cp modemril.zip ~/android/rom/buidtemporaire done'
+echo
+echo 'MOVING ROM, GAPPS, PATCH720P,BOOT ANIMATION & SEMAPHORE INTO TEMPORALY FOLDER DONE'
+echo
+
+#****************************************************************
+## unzip Rom And Extra Feature Into Respective Temporaly Folder :
+echo 'UNZIPPING ROM, GAPPS, PATCH720P & SEMAPHORE INTO TEMPORALY FOLDER'
+echo
+cd ~/android/rom/buidtemporaire/
+unzip -q cm-IyahmanRom -d IyahmanRomExtract
+echo 'unzip -q cm-IyahmanRom -d IyahmanRomExtract done'
+unzip -q invertgapps -d invertgappsExtract
+echo 'unzip -q invertgapps -d invertgappsExtract done'
+unzip -q patch720p -d patch720pExtract
+echo 'unzip -q patch720p -d patch720pExtract done'
+unzip -q bootanimation -d bootanimationExtract
+echo 'unzip -q bootanimation -d bootanimationExtract done'
+unzip -q IyahmanKernels -d IyahmanKernelExtract
+echo 'unzip -q IyahmanKernels -d IyahmanKernelExtract done'
+unzip -q modemril -d modemrilExtract
+echo 'unzip -q modemril -d modemrilExtract done'
+echo
+echo 'UNZIPPING ROM, GAPPS, PATCH720P & SEMAPHORE INTO TEMPORALY FOLDER DONE'
+echo
+
+#****************************************************************
+## Copy Extra Feature Into Rom Temporaly Folder :
+echo 'COPYING GAPPS PATCH720P SEMAPHORE INTO TEMPORALY IYAHMANROM FOLDER'
+echo
+cd ~/android/rom/buidtemporaire/
+cp -R patch720pExtract/system/* IyahmanRomExtract/system
+echo 'cp -R patch720pExtract/system/* IyahmanRomExtract/system done'
+cp -R bootanimationExtract/system/media/bootanimation.zip IyahmanRomExtract/system/media
+echo 'cp -R bootanimationExtract/system/media/bootanimation.zip IyahmanRomExtract/system/media done'
+cp -R IyahmanKernelExtract/boot.img IyahmanRomExtract
+echo 'cp -R IyahmanKernelExtract/boot.img IyahmanRomExtract done'
+cp -R modemrilExtract/modemril/* IyahmanRomExtract
+echo 'cp -R modemrilExtract/* IyahmanRomExtract done'
+cp -R invertgappsExtract/* IyahmanRomExtract
+echo 'cp -R invertgappsExtract/* IyahmanRomExtract done'
+echo
+echo 'COPYING GAPPS PATCH720P SEMAPHORE INTO TEMPORALY IYAHMANROM FOLDER DONE'
+echo
+
+#****************************************************************
+## Delete Unwanted Apk :
+echo 'DELETING UNWANTED APK'
+echo
+cd ~/android/rom/buidtemporaire/IyahmanRomExtract/system/app/
+#actualité et meteo
+#rm GenieWidget.apk
+#echo 'rm GenieWidget.apk done'
+# clavier android
+rm LatinImeDictionaryPack.apk
+echo 'rm LatinImeDictionaryPack.apk done'
+# dictionnaire clavier android
+rm LatinIME.apk
+echo 'rm LatinIME.apk done'
+#apollo
+rm Apollo.apk
+echo 'rm Apollo.apk done'
+#Lockclock
+#rm LockClock.apk
+#echo 'rm LockClock.apk done'
+#black hole
+rm Galaxy4.apk
+echo 'rm Galaxy4.apk done'
+#boite à outils SIM
+rm Stk.apk
+echo 'rm Stk.apk done'
+#Bulles
+rm NoiseField.apk
+echo 'rm NoiseField.apk done'
+#calculatrice
+rm Calculator.apk
+echo 'rm Calculator.apk done'
+#cm updater
+rm CMUpdater.apk
+echo 'rm CMUpdater.apk done'
+#Holospiral
+rm HoloSpiralWallpaper.apk
+echo 'rm HoloSpiralWallpaper.apk done'
+#voicesearch
+rm VoiceSearchStub.apk
+echo 'rm VoiceSearchStub.apk done'
+#dev tools
+rm Development.apk
+echo 'rm Development.apk done'
+#dsp manager
+rm DSPManager.apk
+echo 'rm DSPManager.apk done'
+#CM file manager
+rm CMFileManager.apk
+echo 'rm CMFileManager.apk done'
+#face unlock
+#rm FaceLock.apk
+#echo 'rm FaceLock.apk done'
+#livewallpaper
+rm LiveWallpapers.apk
+echo 'rm LiveWallpapers.apk done'
+#CM wallpaper
+rm CMWallpapers.apk
+echo 'rm CMWallpapers.apk done'
+#visualisation wallpaper
+rm VisualizationWallpapers.apk
+echo 'rm VisualizationWallpapers.apk done'
+#magic smoke wallpaper
+rm MagicSmokeWallpapers.apk
+echo 'rm MagicSmokeWallpapers.apk done'
+#gmail
+rm Gmail2.apk
+echo 'rm Gmail2.apk done'
+#moteur synthese vocal
+rm GoogleTTS.apk
+echo 'rm GoogleTTS.apk done'
+#movie studio
+rm VideoEditor.apk
+echo 'rm VideoEditor.apk done'
+#navigateur
+#rm Browser.apk
+#echo 'rm Browser.apk done'
+#quicksearhbox
+rm QuickSearchBox.apk
+echo 'rm QuickSearchBox.apk done'
+#phase beam
+rm PhaseBeam.apk
+echo 'rm PhaseBeam.apk done'
+#pico tts
+rm PicoTts.apk
+echo 'rm PicoTts.apk done'
+#google ears
+rm GoogleEars.apk
+echo 'rm GoogleEars.apk done'
+#reconnaissance vocal
+rm VoiceDialer.apk
+echo 'rm VoiceDialer.apk done'
+#service exchange
+rm Exchange2.apk
+echo 'rm Exchange2.apk done'
+#selecteur wallpaper animé
+rm LiveWallpapersPicker.apk
+echo 'rm LiveWallpapersPicker.apk done'
+# talk
+rm Talk.apk
+echo 'rm Talk.apk done'
+# talkback
+rm Talkback.apk
+echo 'rm Talkback.apk done'
+# terminal emulator
+rm Term.apk
+echo 'rm term.apk done'
+#trebuchet
+rm Trebuchet.apk
+echo 'rm Trebuchet.apk done'
+# theme cm file manager
+rm CMFileManagerThemes.apk
+echo 'rm CMFileManagerThemes.apk done'
+#vpn dialog
+rm VpnDialogs.apk
+echo 'rm VpnDialogs.apk done'
+# ecran de veille interactif
+rm BasicDreams.apk
+echo 'rm BasicDreams.apk done'
+# ecran de veille photo
+rm PhotoTable.apk
+echo 'rm PhotoTable.apk done'
+# BackupRestoreConfirmation
+rm BackupRestoreConfirmation.apk
+echo 'rm BackupRestoreConfirmation.apk done'
+# GoogleBackupTransport
+rm GoogleBackupTransport.apk
+echo 'rm GoogleBackupTransport.apk done'
+# Media uploader
+rm MediaUploader.apk
+echo 'rm MediaUploader.apk done'
+echo
+echo 'DELETING UNWANTED APK DONE'
+echo
+
+#****************************************************************
+## Zip Rom In Temporaly Folder:
+echo 'ZIPPING IYAHMANROM'
+echo
+cd ~/android/rom/buidtemporaire/
+rm cm-IyahmanRom.zip
+echo 'remove prebuilt cm-IyahmanRom.zip done'
+cd IyahmanRomExtract
+zip -qr ../cm-IyahmanRom.zip ./
+echo 'make full cm-IyahmanRom.zip done'
+echo
+echo 'ZIPPING IYAHMANROM DONE'
+echo
+
+#****************************************************************
+## Sign cm-IyahmanRom :
+echo 'SIGNING ZIP'
+echo
+cd ~/android/rom/buidtemporaire/
+java -jar ~/android/rom/iyahmanrom/out/host/linux-x86/framework/signapk.jar ~/android/rom/iyahmanrom/build/target/product/security/testkey.x509.pem ~/android/rom/iyahmanrom/build/target/product/security/testkey.pk8 cm-IyahmanRom.zip cm-IyahmanRom-signed.zip
+echo
+echo 'SIGNING ZIP DONE'
+echo
+
+#****************************************************************
+## Zipalign cm-IyahmanRom :
+echo 'ZIPALIGNING'
+echo
+cd ~/android/sdk/tools/
+zipalign -c -v 4 ~/android/rom/buidtemporaire/cm-IyahmanRom-signed.zip
+echo 'ZIPALIGNING DONE'
+echo
+
+#****************************************************************
+## Move rom To Final Folder :
+echo 'MOVING IYAHMANROM INTO FINAL DIRECTORY'
+echo
+cd ~/android/rom/buidtemporaire/
+mv cm-IyahmanRom-signed.zip ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/
+echo 'MOVING IYAHMANROM INTO FINAL DIRECTORY DONE'
+echo
+
+#****************************************************************
+## Rename Rom :
+echo 'RENAMING BUILD'
+echo
+cd ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/
+mv cm-IyahmanRom-signed.zip IyahmanRom-`date -I`-signed.zip
+echo 'RENAMING BUILD DONE'
+echo
+
+#****************************************************************
+## Clean buildtemporaire:
+echo 'CLEANING TEMPORALY FILE'
+echo
+cd ~/android/rom/buidtemporaire/
+rm -r -f IyahmanRomExtract
+rm -r -f invertgappsExtract
+rm -r invertgapps.zip
+rm -r patch720pExtract
+rm -r patch720p.zip
+rm -r bootanimationExtract
+rm -r bootanimation.zip
+rm -r IyahmanKernelExtract
+rm -r IyahmanKernels.zip
+rm -r modemril.zip
+rm -r modemrilExtract
+cd ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/
+rm -r cm-IyahmanRom.zip.md5sum
+cd ~/android/rom/semaphore/output/galaxys
+rm -r IyahmanKernelsOld.zip
+rm -r IyahmanKernelsOld.tar
+echo 'CLEANING TEMPORALY FILE DONE'
+echo
+
+echo
+echo
+echo
+echo 'BUILDING SUCCESSFULL'
+echo
+echo
+echo
+echo
+
+#****************************************************************
+## Report TOTAL timer:
+DATE_END=$(date +"%s")
+echo
+DIFF=$(($DATE_END - $DATE_START))
+echo 'BUILD SEMAPHORE & CM10.1 FINI EN' "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+
+#****************************************************************
+## Open Final Build Directory:
+nautilus ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/
+
+#sudo bash -c "sleep 5m; pm-suspend"
+#exit

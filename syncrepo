@@ -1,0 +1,21 @@
+#!/bin/bash
+date
+
+#****************************************************************
+## Start timer:
+START=$(date +%s)
+
+semaphore
+devilkernel
+iyah
+
+#****************************************************************
+## Report timer:
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
+echo

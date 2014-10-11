@@ -1,0 +1,62 @@
+#!/bin/bash
+date
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+echo wait save in progress...
+#sudo mount /dev/sda2 /media/iyahman
+#sudo mount /dev/sdh1 /media/iyahman
+#sudo mount /dev/sde1 /media/iyahman
+
+
+sudo -i rsync -av /media/iyahman/NTFS320GB/LINUX/bin /media/iyahman/c83f5a35-3beb-41f1-9ab0-3b676913fccd
+
+
+#****************************************************************
+## create save folder destination :
+mkdir -p /media/iyahman/SEA_DISK/WINDOWS/ProgramData
+mkdir -p /media/iyahman/SEA_DISK/WINDOWS/Program Files
+mkdir -p /media/iyahman/SEA_DISK/WINDOWS/"Program Files (x86)"
+mkdir -p /media/iyahman/SEA_DISK/WINDOWS/Users
+mkdir -p /media/iyahman/NTFS320GB/LINUX
+
+if sudo -i rsync -avAHSEX /media/iyahman/NTFS320GB/LINUX/* /media/iyahman/c83f5a35-3beb-41f1-9ab0-3b676913fccd
+then echo linux saved
+else echo linux save failed
+fi
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
+
+if rsync -avAHSEX --stats --force --delete /media/iyahman/DDWINDOWS7/ProgramData /media/iyahman/SEA_DISK/WINDOWS/ProgramData &&
+rsync -avAHSEX --stats --force --delete /media/iyahman/DDWINDOWS7/Program Files /media/iyahman/SEA_DISK/WINDOWS/Program Files &&
+rsync -avAHSEX --stats --force --delete /media/iyahman/DDWINDOWS7/"Program Files (x86)" /media/iyahman/SEA_DISK/WINDOWS/"Program Files (x86)" &&
+rsync -avAHSEX --stats --force --delete /media/iyahman/DDWINDOWS7/Users /media/iyahman/SEA_DISK/WINDOWS/Users
+then echo windows saved
+else echo windows save failed
+fi
+echo
+
+
+#sudo umount /media/iyahman/DDWINDOWS7
+#sudo umount /media/iyahman/SEA_DISK
+#sudo umount /media/iyahman/NTFS320GB
+
+echo save done
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC

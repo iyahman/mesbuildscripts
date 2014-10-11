@@ -1,0 +1,15 @@
+#!/bin/bash
+date
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+
+
+cd /home/iyahman/android/sabermodgcc
+#git clone -b 4.9.0 git://github.com/SaberMod/GCC_SaberMod
+#git clone -b master git://github.com/SaberMod/toolchain_build
+cd /home/iyahman/android/sabermodgcc/GCC_SaberMod
+git pull
+cd /home/iyahman/android/sabermodgcc/toolchain_build
+git pull

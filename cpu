@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#****************************************************************
+## Open ccache and cpu monitor:
+watch -n1 -d ccache -s
+#gnome-system-monitor
