@@ -8,25 +8,13 @@ START=$(date +%s)
 #****************************************************************
 ## Clone iyahman ics-ramdisk github repo :
 #cd ~/android/kernel/semaphore/"original semaphore kernel files"
-#cd /home/iyahman/android/kernel/semaphore/11.0
-#git clone -b kk-4.4 git://github.com/stratosk/ics-ramdisk
+#cd ~/android/kernel/semaphore/11.0
+#git clone -b kk-4.4 git://github.com/iyahman/ics-ramdisk
 
-#****************************************************************
-## add remote to iyahman kk-4.4 branch ics-ramdisk github repo :
-
-#cd ics-ramdisk
-#git remote add upstream https://github.com/iyahman/ics-ramdisk.git
-#git checkout kk-4.4
-
-#****************************************************************
-## List iyahman update, and merge in pc :
-
-#git fetch upstream
-#git merge upstream/kk-4.4
 #****************************************************************
 ## Extract jb_combo file :
 #cd ~/android/kernel/semaphore/"original semaphore kernel files"/ics-ramdisk
-#cd /home/iyahman/android/kernel/semaphore/11.0/ics-ramdisk
+#cd ~/android/kernel/semaphore/11.0/ics-ramdisk
 #sleep 2s
 #tar zxvf jb_combo.tar.gz
 #tar zxvf jb_combo_c.tar.gz
@@ -34,76 +22,33 @@ START=$(date +%s)
 #echo fait
 
 #****************************************************************
-## Clone iyahman ics-ramdisk github repo :
+## Clone iyahman kernel and recovery github repo :
 
 #cd ~/android/kernel/semaphore/"original semaphore kernel files"
-#git clone -b kk-4.4 git://github.com/stratosk/samsung-kernel-aries
-#git clone -b kk-4.4 git://github.com/stratosk/android_bootable_recovery
+#git clone -b kk-4.4 git://github.com/iyahman/samsung-kernel-aries
+#git clone -b kk-4.4 git://github.com/iyahman/android_bootable_recovery
 # 
-# #****************************************************************
-# ## add remote to iyahman kk-4.4 branch samsung-kernel-aries github repo :
-# 
-# cd /home/iyahman/android/kernel/semaphore/11.0/samsung-kernel-aries
-# git remote add upstream https://github.com/iyahman/samsung-kernel-aries.git
-# git checkout kk-4.4
-# 
-# #****************************************************************
-# ## List iyahman update, and merge in pc :
-# 
-# git fetch upstream
-# git merge upstream/kk-4.4
-# 
-# #****************************************************************
-# ## update kernel et cwm :
-# 
-# #****************************************************************
-# #Add Cherry Pick :
-# # function cherrypick {
-# # if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
-# cd /home/iyahman/android/kernel/semaphore/11.0/samsung-kernel-aries &&
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/33/60033/1 && git cherry-pick FETCH_HEAD &&
-# #git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/21/63721/2 && git cherry-pick FETCH_HEAD
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/18/63918/1 && git cherry-pick FETCH_HEAD &&
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/02/64002/1 && git cherry-pick FETCH_HEAD &&
-# #git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/03/67203/1 && git cherry-pick FETCH_HEAD &&
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/28/73228/2 && git cherry-pick FETCH_HEAD
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/00/66200/3 && git cherry-pick FETCH_HEAD
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/01/66201/3 && git cherry-pick FETCH_HEAD
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/02/66202/3 && git cherry-pick FETCH_HEAD
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/03/66203/3 && git cherry-pick FETCH_HEAD
-# git fetch http://review.cyanogenmod.org/CyanogenMod/android_kernel_samsung_aries refs/changes/04/66204/11 && git cherry-pick FETCH_HEAD
-# # wget github.com/Alberto96/samsung-kernel-aries/commit/ed7d9fba906492a99217d9844c6a56e8a71aba62.patch
-# wget github.com/Alberto96/samsung-kernel-aries/commit/b315169c9cb72b33bb68b3ed67fafba568973c54.patch
-# then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
-# else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'SA A MERDÉ'
-# fi
-# }
-cd /home/iyahman/android/kernel/semaphore/11.0/samsung-kernel-aries
-# git push
-# 
-# cherrypick
 
-
-#cd /home/iyahman/android/kernel/semaphore/11.0/samsung-kernel-aries
+cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
 # sed -i 's#../toolchain/arm-linux-gnueabihf-#~/android/utilitaire/linaro/linaro-toolchains1/bin/arm-cortex_a8-linux-gnueabi-#g' sbuild.sh
 # sed -i 's/"Semaphore_KK_*.*.*"/"IyahmanKernel"/g' sbuild.sh
 #patch -p1 < patch-3.0.58-59
-#cp -v /home/iyahman/android/rom/iyahmanrom/out/target/product/galaxysmtd/recovery/root/sbin/recovery /home/iyahman/android/rom/semaphore/10.1/ics-ramdisk/jb_combo/ics_rec_init/sbin/
+#cp -v ~/android/rom/iyahmanrom/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/rom/semaphore/10.1/ics-ramdisk/jb_combo/ics_rec_init/sbin/
 
 
-# make clean
+# make mrproper
 # ./sbuild.sh galaxys
 make mrproper
 ./sbuild.sh galaxys s
-# make clean
+# make mrproper
 # ./sbuild.sh captivate
-# make clean
+# make mrproper
 # ./sbuild.sh captivate s
-# make clean
+# make mrproper
 # ./sbuild.sh vibrant
-# make clean
+# make mrproper
 # ./sbuild.sh vibrant s
-nautilus /home/iyahman/android/kernel/semaphore/11.0/output
+nautilus ~/android/kernel/semaphore/11.0/output
 
 #date
 #echo clone semaphore fait

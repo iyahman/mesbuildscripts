@@ -86,13 +86,13 @@ LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 export USE_CCACHE=1
 
-#cat /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
+#cat ~/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> ~/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
 
 #****************************************************************
 #Add Cherry Pick :
 function cherrypick {
 if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
-cd /home/iyahman/android/rom/iyahmanrom11.0/build/target/product &&
+cd ~/android/rom/iyahmanrom11.0/build/target/product &&
 git fetch git://github.com/iyahman/android_build && git cherry-pick 8020252a710e398e3ae110aa632b86a73916fdc1 &&
 git fetch git://github.com/iyahman/android_build && git cherry-pick e44c08c72aaec48ab8e73734a67d4ee62b5b1a12
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
@@ -576,7 +576,7 @@ if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
 rm -rfv $TEMPORAIREFOLDER/* &&
 cd $OUTFOLDER && rm -rfv cm_$VARIANT-ota-*.zip &&
 rm -rfv $BUILDNAME-`date -I`.zip && rm -rfv $BUILDNAME-`date -I`-signed.zip &&
-cd /home/iyahman/Bureau/mesbuildscripts/Iyahmanrom/11.0 &&
+cd ~/Bureau/mesbuildscripts/Iyahmanrom/11.0 &&
 rm -rfv compilog$BUILDNAME-`date -u +%Y%m%d`
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
   if [ "$VARIANT" = "galaxysmtd" ] ; then
