@@ -1,0 +1,3 @@
+
+cd /dossier ou chercher
+find . -type f -print | sed 's/ /\\ /g' | xargs grep -i "test a chercher"
