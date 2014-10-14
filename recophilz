@@ -12,4 +12,8 @@ make -j4 recoveryimage
 cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo/ics_rec_init/sbin/ && echo recovery build et envoyé dans icsramdisk
 #mka bootimage
 
+cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
+sed -i 's/"IyahmanKernel"/"IyahmanKernel-philz_touch_cwm6"/g' sbuild.sh
 semaphore
+cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
+sed -i 's/"IyahmanKernel-philz_touch_cwm6"/"IyahmanKernel"/g' sbuild.sh
