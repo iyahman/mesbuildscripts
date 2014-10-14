@@ -14,8 +14,6 @@ repo sync -j16
 . build/envsetup.sh && breakfast jflte
 ~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
 
-semaphore
-
 #****************************************************************
 ## Report timer:
 END=$(date +%s)
