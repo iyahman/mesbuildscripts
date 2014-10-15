@@ -2,11 +2,17 @@
 
 export USE_CCACHE=1
 
+#****************************************************************
+## Initialize, clean and sync repo :
+
 cd ~/android/rom/iyahmanrom11.0
 repo init
 repo sync -j16
 . build/envsetup.sh && make clean 
-cd ~/android/rom/iyahmanrom11.0
+
+#****************************************************************
+## Config and compil recovery :
+
 if . build/envsetup.sh && lunch cm_galaxysmtd-userdebug &&
 make -j4 recoveryimage ; then echo ok
 else read

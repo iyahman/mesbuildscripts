@@ -1,6 +1,9 @@
 #!/bin/bash
 # 
 
+#****************************************************************
+#Compil all IyahmanRom :
+
 iyah s1
 iyah s2
 iyah s4
