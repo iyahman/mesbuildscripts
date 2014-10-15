@@ -19,3 +19,4 @@ fi
 # semaphore
 # cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
 # sed -i 's/"IyahmanKernel-philz_touch_cwm6"/"IyahmanKernel"/g' sbuild.sh
+#rmdir -rf ~/android/rom/iyahmanrom11.0/bootable/recovery

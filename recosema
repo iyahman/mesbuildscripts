@@ -1,8 +1,8 @@
 #!/bin/bash
 
 export USE_CCACHE=1
-#rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery/*
-#cp -ravu ~/android/kernel/semaphore/11.0/android_bootable_recovery/* ~/android/rom/iyahmanrom11.0/bootable/recovery/
+rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery/*
+cp -ravu ~/android/kernel/semaphore/11.0/android_bootable_recovery/* ~/android/rom/iyahmanrom11.0/bootable/recovery/
 cd ~/android/rom/iyahmanrom11.0
 . build/envsetup.sh && make clean 
 cd ~/android/rom/iyahmanrom11.0
@@ -15,3 +15,4 @@ cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/roo
 #mka bootimage
 
 semaphore
+rmdir -rf ~/android/rom/iyahmanrom11.0/bootable/recovery

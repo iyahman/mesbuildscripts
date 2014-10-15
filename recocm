@@ -1,0 +1,14 @@
+#!/bin/bash
+
+export USE_CCACHE=1
+
+cd ~/android/rom/iyahmanrom11.0
+repo init
+repo sync -j16
+. build/envsetup.sh && make clean 
+cd ~/android/rom/iyahmanrom11.0
+if . build/envsetup.sh && lunch cm_galaxysmtd-userdebug &&
+make -j4 recoveryimage ; then echo ok
+else read
+fi
+# make -d -j4 recoveryimage
