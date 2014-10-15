@@ -15,4 +15,4 @@ cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/roo
 #mka bootimage
 
 semaphore
-rmdir -rf ~/android/rom/iyahmanrom11.0/bootable/recovery
+rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery
