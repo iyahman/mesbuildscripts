@@ -93,8 +93,8 @@ export USE_CCACHE=1
 function cherrypick {
 if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
 cd ~/android/rom/iyahmanrom11.0/build/target/product &&
-git fetch git://github.com/iyahman/android_build && git cherry-pick 8020252a710e398e3ae110aa632b86a73916fdc1 &&
-git fetch git://github.com/iyahman/android_build && git cherry-pick e44c08c72aaec48ab8e73734a67d4ee62b5b1a12
+git fetch git://github.com/iyahman/android_build && git cherry-pick 3bae84560bb9276fe8d2b923c4548a16bc56afcc &&
+git fetch git://github.com/iyahman/android_build && git cherry-pick 48a6da615516a663b3188a74896c40cabb58f99c
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
 else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
