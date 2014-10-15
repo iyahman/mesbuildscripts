@@ -1,4 +1,6 @@
 mesbuildscripts
 ===============
 
-script 
+personnal script for learn and test
+
+By Iyahman
