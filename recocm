@@ -14,7 +14,7 @@ repo sync -j16
 ## Config and compil recovery :
 
 if . build/envsetup.sh && lunch cm_galaxysmtd-userdebug &&
-make -j4 recoveryimage ; then echo ok
+make -j4 bootimage ; then echo ok
 else read
 fi
 # make -d -j4 recoveryimage

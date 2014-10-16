@@ -12,14 +12,34 @@ cp -ravu ~/android/PHILZCWM/philz_touch_cwm6/* ~/android/rom/iyahmanrom11.0/boot
 cd ~/android/rom/iyahmanrom11.0
 . build/envsetup.sh && make clean 
 
+case "$1" in
+        s1)
+            VARIANT="galaxysmtd"
+            VER="s1"
+            ;;
+
+        s2)
+            VARIANT="i9100"
+            VER="s2"
+            ;;
+                       
+        s4)
+            VARIANT="jflte"
+            VER="s4"
+            ;;
+            
+esac
+
 #****************************************************************
 ## Config and compil recovery :
 
-#if . build/envsetup.sh && lunch cm_galaxysmtd-userdebug &&
-#make -j4 recoveryimage ; then echo ok
-#else read
-#fi
+if [ "$VARIANT" != "galaxysmtd" ] ; then 
+. build/envsetup.sh && lunch cm_galaxysmtd-userdebug && mka -j3 recoveryimage RECOVERY_VARIANT=philz
+elif [ "$VARIANT" != "i9100" ] ; then 
+. build/envsetup.sh && lunch cm_i9100-userdebug && mka -j3 recoveryimage RECOVERY_VARIANT=philz
+elif [ "$VARIANT" != "jflte" ] ; then 
 . build/envsetup.sh && lunch cm_jflte-userdebug && mka -j3 recoveryimage RECOVERY_VARIANT=philz
+fi
 # make -d -j4 recoveryimage
 
 #****************************************************************
