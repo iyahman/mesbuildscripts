@@ -1,6 +1,8 @@
 #!/bin/bash
 
 export USE_CCACHE=1
+export OUT_DIR_COMMON_BASE=/media/iyahman/KINGSTON
+
 rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery/*
 cp -ravu ~/android/kernel/semaphore/11.0/android_bootable_recovery/* ~/android/rom/iyahmanrom11.0/bootable/recovery/
 cd ~/android/rom/iyahmanrom11.0
