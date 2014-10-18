@@ -49,18 +49,18 @@ cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
 #****************************************************************
 ## compil kernel :
 
-# make mrproper
-# ./sbuild.sh galaxys
+make mrproper
+./sbuild.sh galaxys
 make mrproper
 ./sbuild.sh galaxys s
-# make mrproper
-# ./sbuild.sh captivate
-# make mrproper
-# ./sbuild.sh captivate s
-# make mrproper
-# ./sbuild.sh vibrant
-# make mrproper
-# ./sbuild.sh vibrant s
+make mrproper
+./sbuild.sh captivate
+make mrproper
+./sbuild.sh captivate s
+make mrproper
+./sbuild.sh vibrant
+make mrproper
+./sbuild.sh vibrant s
 
 nautilus ~/android/kernel/semaphore/11.0/output
 

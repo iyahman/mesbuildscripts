@@ -6,8 +6,8 @@
 # Tested on galaxysmtd boot.img from CM11
  
 # Config
-fileIn = "/path/to/boot.img"
-fileOut = "whole_disk.cpio"
+fileIn = "/home/iyahman/android/temporaire/boot.img"
+fileOut = "/home/iyahman/android/temporaire/whole_disk.cpio"
  
 # Code
 from subprocess import Popen, PIPE, STDOUT

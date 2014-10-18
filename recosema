@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export USE_CCACHE=1
-export OUT_DIR_COMMON_BASE=/media/iyahman/KINGSTON
 
 rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery/*
 cp -ravu ~/android/kernel/semaphore/11.0/android_bootable_recovery/* ~/android/rom/iyahmanrom11.0/bootable/recovery/
@@ -13,8 +12,12 @@ make -j4 recoveryimage ; then echo ok
 else read
 fi
 # make -d -j4 recoveryimage
-cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo/ics_rec_init/sbin/ && echo recovery build et envoyé dans icsramdisk
+cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo/ics_rec_init/sbin/ && 
+cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo_c/ics_rec_init/sbin/ &&
+cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo_v/ics_rec_init/sbin/ && 
+echo recovery build et envoyé dans icsramdisk
 #mka bootimage
+rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery
 
 semaphore
-rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery
+
