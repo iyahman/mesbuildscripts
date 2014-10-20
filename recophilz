@@ -24,9 +24,9 @@ esac
 ## Clean and copy recovery directory :
 
 # rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery/*
-# cp -ravu ~/android/PHILZCWM/philz_touch_cwm6/* ~/android/rom/iyahmanrom11.0/bootable/recovery/
+# cp -ravu ~/android/philz_touch_cwm6/* ~/android/rom/iyahmanrom11.0/bootable/recovery/
 mkdir -p ~/android/rom/iyahmanrom11.0/bootable/recovery-philz
-cp -ravu ~/android/PHILZCWM/philz_touch_cwm6/* ~/android/rom/iyahmanrom11.0/bootable/recovery-philz/
+cp -ravu ~/android/philz_touch_cwm6/* ~/android/rom/iyahmanrom11.0/bootable/recovery-philz/
 cd ~/android/rom/iyahmanrom11.0
 . build/envsetup.sh && make clean 
 
