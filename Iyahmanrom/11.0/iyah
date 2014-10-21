@@ -273,16 +273,16 @@ fi
 
 #****************************************************************
 ##Build CM10 :
-if cherrypick && preparebuild && mka bacon ; then
+if cherrypick && preparebuild && lunch cm_$VARIANT-user && mka bacon ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 else 
   if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
   echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM' \e[0m" &&
-  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && preparebuild && mka bacon
+  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && preparebuild && lunch cm_$VARIANT-user && mka bacon
   then echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM DONE' \e[0m"
   else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m"
 #     if echo -e "\e[31;42m 'FULLCLEANUP FOR REBUILD' \e[0m" &&
-#     fullcleanup && cherrypick && preparebuild && mka bacon
+#     fullcleanup && cherrypick && preparebuild && lunch cm_$VARIANT-user && mka bacon
 #     then echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM DONE' \e[0m"
 #     else echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM FAILED' \e[0m" &&
 #     echo -e "\e[31;42m '############################################################################################################################' \e[0m" &&
