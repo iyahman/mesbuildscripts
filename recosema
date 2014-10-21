@@ -7,7 +7,7 @@ cp -ravu ~/android/kernel/semaphore/11.0/android_bootable_recovery/* ~/android/r
 cd ~/android/rom/iyahmanrom11.0
 . build/envsetup.sh && make clean 
 cd ~/android/rom/iyahmanrom11.0
-if . build/envsetup.sh && lunch cm_galaxysmtd-userdebug &&
+if . build/envsetup.sh && lunch cm_galaxysmtd-user &&
 make -j4 recoveryimage ; then echo ok
 else read
 fi

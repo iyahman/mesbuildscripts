@@ -32,10 +32,10 @@ repo sync -j16
 ## Config and compil recovery :
 
 if [ "$VARIANT" != "galaxysmtd" ] ; then 
-. build/envsetup.sh && lunch cm_galaxysmtd-userdebug && mka -j4 recoveryimage
+. build/envsetup.sh && lunch cm_galaxysmtd-user && mka -j4 recoveryimage
 elif [ "$VARIANT" != "i9100" ] ; then 
-. build/envsetup.sh && lunch cm_i9100-userdebug && mka -j4 recoveryimage
+. build/envsetup.sh && lunch cm_i9100-user && mka -j4 recoveryimage
 elif [ "$VARIANT" != "jflte" ] ; then 
-. build/envsetup.sh && lunch cm_jflte-userdebug && mka -j4 recoveryimage
+. build/envsetup.sh && lunch cm_jflte-user && mka -j4 recoveryimage
 fi
 # make -d -j4 recoveryimage

@@ -6,9 +6,9 @@ date
 START=$(date +%s)
 
 cd ~/android/rom/iyahmanrom11.0/
-# repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
-# echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0 done'
-repo sync -j16
+repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
+echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0 done'
+repo selfupdate && repo sync -j16
 . build/envsetup.sh && breakfast galaxysmtd
 . build/envsetup.sh && breakfast i9100
 . build/envsetup.sh && breakfast jflte
