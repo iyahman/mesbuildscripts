@@ -85,7 +85,6 @@ STUFFFOLDER=~/android/stuff/cyanogenmod11
 LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 export USE_CCACHE=1
-export ARCH=arm ARM_EABI_TOOLCHAIN=~/android/utilitaire/google-gcc/arm-eabi-4.8/bin ANDROID_EABI_TOOLCHAIN=~/android/utilitaire/google-gcc/arm-linux-androideabi-4.8/bin
 
 #cat ~/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> ~/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
 
