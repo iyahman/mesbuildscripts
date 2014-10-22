@@ -21,6 +21,12 @@ cd ~/android/utilitaire/google-gcc/arm-eabi-4.8 && git status && git pull
 cd ~/android/utilitaire/google-gcc/arm-linux-androideabi-4.8 && git status && git pull
 
 #****************************************************************
+#sync all github repo with latest version from original source
+
+copy samsung blobs to cm directory
+cp -ravu ~/android/stuff/cyanogenmod11/proprietary_vendor_samsung/* ~/android/rom/iyahmanrom11.0/vendor/samsung
+
+#****************************************************************
 ##Update android SDK:
 
 android list sdk
