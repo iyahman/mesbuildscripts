@@ -4,21 +4,21 @@
 #****************************************************************
 #sync all github repo with latest version from my source
 
-cd /home/iyahman/Bureau/mesbuildscripts && git status && git pull
-cd /home/iyahman/android/kernel/KT-AOSP/KT-SGS4 && git status && git pull
-cd /home/iyahman/android/kernel/KT-TW4.4/KT-SGS4 && git status && git pull
-cd /home/iyahman/android/kernel/semaphore/11.0/android_bootable_recovery && git status && git pull
-cd /home/iyahman/android/kernel/semaphore/11.0/android_device_samsung_aries-common && git status && git pull
-cd /home/iyahman/android/kernel/semaphore/11.0/ics-ramdisk && git status && git pull
-cd /home/iyahman/android/kernel/semaphore/11.0/samsung-kernel-aries && git status && git pull
-cd /home/iyahman/android/philz_touch_cwm6 && git status && git pull
+cd ~/Bureau/mesbuildscripts && git status && git pull
+cd ~/android/kernel/KT-AOSP/KT-SGS4 && git status && git pull
+cd ~/android/kernel/KT-TW4.4/KT-SGS4 && git status && git pull
+cd ~/android/kernel/semaphore/11.0/android_bootable_recovery && git status && git pull
+cd ~/android/kernel/semaphore/11.0/android_device_samsung_aries-common && git status && git pull
+cd ~/android/kernel/semaphore/11.0/ics-ramdisk && git status && git pull
+cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries && git status && git pull
+cd ~/android/philz_touch_cwm6 && git status && git pull
 
 #****************************************************************
 #sync all github repo with latest version from original source
 
-cd /home/iyahman/android/stuff/cyanogenmod11/proprietary_vendor_samsung && git status && git pull
-cd /home/iyahman/android/utilitaire/google-gcc/arm-eabi-4.8 && git status && git pull
-cd /home/iyahman/android/utilitaire/google-gcc/arm-linux-androideabi-4.8 && git status && git pull
+cd ~/android/stuff/cyanogenmod11/proprietary_vendor_samsung && git status && git pull
+cd ~/android/utilitaire/google-gcc/arm-eabi-4.8 && git status && git pull
+cd ~/android/utilitaire/google-gcc/arm-linux-androideabi-4.8 && git status && git pull
 
 #****************************************************************
 ##Update android SDK:
