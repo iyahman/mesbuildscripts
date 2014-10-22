@@ -108,9 +108,9 @@ fi
 ##Make mrproper : deletes all the object files AND the intermediate dependency files generated which specify the dependencies of the cpp files.
 function fullcleanup {
 if echo -e "\e[31;42m 'MAKE CLOBBER' \e[0m" &&
-cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT && make mrproper
+cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT user && make mrproper
 then echo -e "\e[31;42m 'MAKE CLOBBER DONE' \e[0m"
-  if . build/envsetup.sh && breakfast $VARIANT &&
+  if . build/envsetup.sh && breakfast $VARIANT user &&
   echo -e "\e[31;42m 'WAITING TO CONNECT $VARIANT TO YOUR PC' \e[0m" && 
   read && adb root && cd $ROMFOLDER/device/samsung/$VARIANT &&
   ./extract-files.sh && $ROMFOLDER/vendor/cm/get-prebuilts
@@ -126,12 +126,12 @@ fi
 function preparebuild {
 if echo -e "\e[31;42m 'BUILD CM$CMVER ROM' \e[0m" &&
 cd $ROMFOLDER &&
-. build/envsetup.sh && breakfast $VARIANT && export USE_CCACHE=1
+. build/envsetup.sh && breakfast $VARIANT user && export USE_CCACHE=1
 then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   if [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/aries && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT user &&      
       export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
@@ -139,7 +139,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "i9100" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT user &&
       export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
@@ -147,7 +147,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/jf && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT user &&      
       export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
