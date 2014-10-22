@@ -85,6 +85,7 @@ STUFFFOLDER=~/android/stuff/cyanogenmod11
 LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 export USE_CCACHE=1
+export ARCH=arm ARM_EABI_TOOLCHAIN=~/android/utilitaire/google-gcc/arm-eabi-4.8/bin ANDROID_EABI_TOOLCHAIN=~/android/utilitaire/google-gcc/arm-linux-androideabi-4.8/bin
 
 #cat ~/Bureau/mesbuildscripts/Iyahmanrom/11.0/iyah 2> ~/Bureau/mesbuildscripts/Iyahmanrom/11.0/compilog$BUILDNAME-`date -u +%Y%m%d`
 
@@ -93,6 +94,9 @@ export USE_CCACHE=1
 function cherrypick {
 if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
 cd ~/android/rom/iyahmanrom11.0/build/target/product &&
+#commit for gcc 4.8
+git fetch git://github.com/iyahman/android_build && git cherry-pick 7ad2dcd7164982be2a8ca76add7f3cebf8f4afc5 &&
+#commit pour build fr
 git fetch git://github.com/iyahman/android_build && git cherry-pick 3bae84560bb9276fe8d2b923c4548a16bc56afcc &&
 git fetch git://github.com/iyahman/android_build && git cherry-pick 48a6da615516a663b3188a74896c40cabb58f99c
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
@@ -273,16 +277,16 @@ fi
 
 #****************************************************************
 ##Build CM10 :
-if cherrypick && preparebuild && lunch cm_$VARIANT-user && mka bacon ; then
+if cherrypick && preparebuild && brunch $VARIANT user ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 else 
   if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
   echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM' \e[0m" &&
-  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && preparebuild && lunch cm_$VARIANT-user && mka bacon
+  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && preparebuild && brunch $VARIANT user
   then echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM DONE' \e[0m"
   else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m"
 #     if echo -e "\e[31;42m 'FULLCLEANUP FOR REBUILD' \e[0m" &&
-#     fullcleanup && cherrypick && preparebuild && lunch cm_$VARIANT-user && mka bacon
+#     fullcleanup && cherrypick && preparebuild && brunch $VARIANT user
 #     then echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM DONE' \e[0m"
 #     else echo -e "\e[31;42m '3ND TRY AFTER FULLCLEANUP BUILD CM$CMVER ROM FAILED' \e[0m" &&
 #     echo -e "\e[31;42m '############################################################################################################################' \e[0m" &&
