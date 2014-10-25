@@ -18,6 +18,7 @@ DATE_START=$(date +"%s")
 #****************************************************************
 ## Set Basic Parameters :
 # set -xv
+updateenvironment
 
 ROMNAME="IyahmanRom"
 
