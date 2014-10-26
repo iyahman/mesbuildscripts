@@ -1,0 +1,18 @@
+#!/bin/bash
+# 
+
+# build source and install builder
+cd ~/android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng
+make
+make install
+# build a15 toolchain for s4
+ct-ng linaro-arm-cortex_a15-linux-gnueabihf-4.9
+ct-ng build.4
+# build a9 toolchain for s2
+ct-ng linaro-arm-cortex_a9-linux-gnueabihf-4.9
+ct-ng build.4
+# build a8 toolchain for s1
+ct-ng linaro-arm-cortex_a8-linux-gnueabi-4.9
+ct-ng build.4
+#open output directory
+nautilus /android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng/builds
