@@ -12,11 +12,13 @@ cd ~/android/kernel/semaphore/11.0/android_device_samsung_aries-common && git st
 cd ~/android/kernel/semaphore/11.0/ics-ramdisk && git status && git pull
 cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries && git status && git pull
 cd ~/android/philz_touch_cwm6 && git status && git pull
+cd ~/android/android_build && git status && git pull
+cd ~/android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng && git status && git pull
 
 #****************************************************************
 #sync all github repo with latest version from original source
 
-cd ~/android/stuff/cyanogenmod11/proprietary_vendor_samsung && git status && git pull
+cd ~/android/proprietary_vendor_samsung && git status && git pull
 cd ~/android/utilitaire/google-gcc/arm-eabi-4.8 && git status && git pull
 cd ~/android/utilitaire/google-gcc/arm-linux-androideabi-4.8 && git status && git pull
 
