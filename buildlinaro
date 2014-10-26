@@ -1,10 +1,10 @@
 #!/bin/bash
 # 
 
-# build source and install builder
+# sync, build source and install builder
 cd ~/android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng
-make
-make install
+git status && git pull
+make && make install
 # build a15 toolchain for s4
 ct-ng linaro-arm-cortex_a15-linux-gnueabihf-4.9
 ct-ng build.4
