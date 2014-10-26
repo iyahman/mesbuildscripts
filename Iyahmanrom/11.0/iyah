@@ -98,6 +98,9 @@ cd ~/android/rom/iyahmanrom11.0/build/target/product &&
 git fetch git://github.com/iyahman/android_build && git cherry-pick 7ad2dcd7164982be2a8ca76add7f3cebf8f4afc5 &&
 #commit for build only rom with gcc 4.8
 git fetch git://github.com/iyahman/android_build && git cherry-pick 5f9fa9d0acc0b081ec194c586a60e3632864fa59 &&
+#commit pour rom avec linaro pour s4
+git fetch git://github.com/iyahman/android_build && git cherry-pick 4e505065f5c8e0d42ba2a21f61cf809342801749 &&
+git fetch git://github.com/iyahman/android_build && git cherry-pick 53b795d99c9e2b9f1f6eaeaac032629e1956519d &&
 #commit pour build fr
 git fetch git://github.com/iyahman/android_build && git cherry-pick 3bae84560bb9276fe8d2b923c4548a16bc56afcc &&
 git fetch git://github.com/iyahman/android_build && git cherry-pick 48a6da615516a663b3188a74896c40cabb58f99c
