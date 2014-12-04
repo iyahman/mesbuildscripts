@@ -18,19 +18,19 @@ cd ~/android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng && git statu
 #****************************************************************
 #sync all github repo with latest version from original source
 
-cd ~/android/rom/proprietary files/cm11/proprietary_vendor_samsung && git status && git pull
-cd ~/android/rom/proprietary files/cm12/proprietary_vendor_samsung && git status && git pull
+cd ~/android/rom/proprietary_files/cm11/proprietary_vendor_samsung && git status && git pull
+cd ~/android/rom/proprietary_files/cm12/proprietary_vendor_samsung && git status && git pull
 cd ~/android/utilitaire/google-gcc/arm-eabi-4.8 && git status && git pull
 cd ~/android/utilitaire/google-gcc/arm-linux-androideabi-4.8 && git status && git pull
 
 #****************************************************************
 #copy samsung blobs to cm directory
 
-cp -ravu ~/android/rom/proprietary files/cm11/proprietary_vendor_samsung/* ~/android/rom/iyahmanrom11.0/vendor/samsung
-cp -ravu ~/android/rom/proprietary files/cm12/proprietary_vendor_samsung/* ~/android/rom/iyahmanrom12.0/vendor/samsung
+cp -ravu ~/android/rom/proprietary_files/cm11/proprietary_vendor_samsung/* ~/android/rom/iyahmanrom11.0/vendor/samsung
+cp -ravu ~/android/rom/proprietary_files/cm12/proprietary_vendor_samsung/* ~/android/rom/iyahmanrom12.0/vendor/samsung
 
 #****************************************************************
 ##Update android SDK:
 
-android list sdk
-android update sdk --no-ui
+#android list sdk
+#android update sdk --no-ui
