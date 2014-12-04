@@ -1,6 +1,10 @@
 #!/bin/bash
 # 
 
+****************************************************************
+## Start Timer :
+START=$(date +%s)
+
 # sync, build source and install builder
 cd ~/android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng
 git status && git pull
@@ -16,3 +20,13 @@ ct-ng linaro-arm-cortex_a8-linux-gnueabi-4.9
 ct-ng build.4
 #open output directory
 nautilus /android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng/builds
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
