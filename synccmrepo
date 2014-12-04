@@ -14,6 +14,15 @@ repo selfupdate && repo sync -j16
 . build/envsetup.sh && breakfast jflte
 ~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
 
+cd ~/android/rom/iyahmanrom12.0/
+repo init -u git://github.com/CyanogenMod/android.git -b cm-12.0
+echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-12.0 done'
+repo selfupdate && repo sync -j16
+. build/envsetup.sh && breakfast galaxysmtd
+. build/envsetup.sh && breakfast i9100
+. build/envsetup.sh && breakfast jflte
+~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
+
 #****************************************************************
 ## Report timer:
 END=$(date +%s)
