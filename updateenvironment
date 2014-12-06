@@ -5,8 +5,6 @@
 #sync all github repo with latest version from my source
 
 cd ~/Bureau/mesbuildscripts && git status && git pull
-cd ~/android/kernel/KT-AOSP/KT-SGS4 && git status && git pull
-cd ~/android/kernel/KT-TW4.4/KT-SGS4 && git status && git pull
 cd ~/android/kernel/semaphore/11.0/android_bootable_recovery && git status && git pull
 cd ~/android/kernel/semaphore/11.0/android_device_samsung_aries-common && git status && git pull
 cd ~/android/kernel/semaphore/11.0/ics-ramdisk && git status && git pull
