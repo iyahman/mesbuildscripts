@@ -95,8 +95,7 @@ function cherrypick {
 if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
 cd ~/android/rom/iyahmanrom$CMVER/build/target/product &&
 #commit pour build fr
-git fetch git://github.com/iyahman/android_build && git cherry-pick c97204191184866dac85ffefd4f3c60a92f14a7e
-git fetch git://github.com/iyahman/android_build && git cherry-pick abe1f6a15838619de40e3bb1167464ddbf6a675b
+git fetch git://github.com/iyahman/android_build cm-$CMVER && git cherry-pick 86a9eda2e12b75376b761cb9b3cac2954ab8f482
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
 else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
