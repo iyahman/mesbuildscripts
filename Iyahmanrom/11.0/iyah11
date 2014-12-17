@@ -571,7 +571,7 @@ fi
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
 rm -rfv $TEMPORAIREFOLDER/* &&
 cd $OUTFOLDER && rm -rfv cm_$VARIANT-ota-*.zip &&
-rm -rfv $BUILDNAME-`date -I`.zip && rm -rfv $BUILDNAME-`date -I`-signed.zip &&
+rm -rfv $BUILDNAME-`date -I`.zip && # rm -rfv $BUILDNAME-`date -I`-signed.zip &&
 cd ~/Bureau/mesbuildscripts/Iyahmanrom/$CMVER &&
 rm -rfv compilog$BUILDNAME-`date -u +%Y%m%d`
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"

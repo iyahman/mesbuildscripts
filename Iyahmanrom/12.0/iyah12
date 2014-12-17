@@ -571,7 +571,7 @@ fi
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" &&
 rm -rfv $TEMPORAIREFOLDER/* &&
 cd $OUTFOLDER && rm -rfv cm_$VARIANT-ota-*.zip &&
-rm -rfv $BUILDNAME-`date -I`.zip && rm -rfv $BUILDNAME-`date -I`-signed.zip &&
+rm -rfv $BUILDNAME-`date -I`.zip && # rm -rfv $BUILDNAME-`date -I`-signed.zip &&
 cd ~/Bureau/mesbuildscripts/Iyahmanrom/$CMVER &&
 rm -rfv compilog$BUILDNAME-`date -u +%Y%m%d`
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
@@ -590,11 +590,11 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
 #     then echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES DONE' \e[0m"
 #     else echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES FAILED' \e[0m"
 #     fi
-  fi
+fi
 #****************************************************************
 ##clean after linaro build:
-  if [ "$TOOLCHAIN" = "-linaro" ] || [ "$FORCETOOLCHAIN" = "on" ] ; then
-  echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD'  \e[0m"
+if [ "$TOOLCHAIN" = "-linaro" ] || [ "$FORCETOOLCHAIN" = "on" ] ; then
+echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD'  \e[0m"
     if [ "$VARIANT" = "galaxysmtd" ] ; then
       if cd $ROMFOLDER/kernel/samsung/aries && make mrproper
       then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
