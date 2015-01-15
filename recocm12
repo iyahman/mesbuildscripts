@@ -1,0 +1,41 @@
+#!/bin/bash
+
+export USE_CCACHE=1
+
+case "$1" in
+        s1)
+            VARIANT="galaxysmtd"
+            VER="s1"
+            ;;
+
+        s2)
+            VARIANT="i9100"
+            VER="s2"
+            ;;
+                       
+        s4)
+            VARIANT="jflte"
+            VER="s4"
+            ;;
+            
+esac
+
+#****************************************************************
+## Initialize, clean and sync repo :
+
+cd ~/android/rom/iyahmanrom12.0
+repo init
+repo sync -j16
+. build/envsetup.sh && make clean 
+
+#****************************************************************
+## Config and compil recovery :
+
+if [ "$VARIANT" != "galaxysmtd" ] ; then 
+. build/envsetup.sh && lunch cm_galaxysmtd-user && mka -j4 recoveryimage
+elif [ "$VARIANT" != "i9100" ] ; then 
+. build/envsetup.sh && lunch cm_i9100-user && mka -j4 recoveryimage
+elif [ "$VARIANT" != "jfltexx" ] ; then 
+. build/envsetup.sh && lunch cm_jflte-user && mka -j4 recoveryimage
+fi
+# make -d -j4 recoveryimage
