@@ -45,12 +45,12 @@ case "$1" in
             ;;
             
         s4)
-            VARIANT="jflte"
+            VARIANT="jfltexx"
             VER="s4"
             ;;
             
         s4pucca)
-	    VARIANT="jflte"
+	    VARIANT="jfltexx"
             VER="s4"
             ROMNAME="PuccaRom"
             ;;
@@ -141,7 +141,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
-  elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
+  elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jfltexx" ] ; then 
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       cd $ROMFOLDER/kernel/samsung/jf && make mrproper &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
@@ -172,7 +172,7 @@ sleep 1s
 
 #****************************************************************
 ## Variant selection verification:
-if [ "$VARIANT" != "galaxysmtd" ] && [ "$VARIANT" != "i9100" ] && [ "$VARIANT" != "jflte" ]
+if [ "$VARIANT" != "galaxysmtd" ] && [ "$VARIANT" != "i9100" ] && [ "$VARIANT" != "jfltexx" ]
 then spd-say 'bug' && echo -e "\e[31;42m  '############################################################################################################################'
 echo '###################################################### PAS DE VARIANTE SELECTIONNÉE POUR $ROMNAME$CMVER ######################################################' 
 echo '############################################################################################################################' \e[0m" && read && spd-say 'SA A MERDÉ' && exit
@@ -396,7 +396,7 @@ fi
 # ## Delete Unwanted Apk :
 # if echo -e "\e[31;42m 'DELETING UNWANTED STUFF' \e[0m"
 # then 
-#     if [ "$VARIANT" != "jflte" ] ; then
+#     if [ "$VARIANT" != "jfltexx" ] ; then
 #       if cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/app/ &&
 #       #rm -rfv org.adaway.apk && 
 #       rm -rfv com.github.chenxiaolong.dualbootpatcher.apk &&
@@ -522,7 +522,7 @@ fi
 
 #****************************************************************
 ## Dual Boot :
-# if [ "$VARIANT" = "jflte" ] ; then 
+# if [ "$VARIANT" = "jfltexx" ] ; then 
 #   if echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505' \e[0m" &&
 #   cd $OUTFOLDER && cp -f $BUILDNAME-`date -I`.zip $TEMPORAIREFOLDER &&
 #   cd $TEMPORAIREFOLDER && mv -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip
@@ -540,7 +540,7 @@ if echo -e "\e[31;42m 'SIGNING ZIP' \e[0m" &&
 cd $OUTFOLDER && openssl pkcs8 -in $ROMFOLDER/build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
 java -Xmx2048m -jar $ROMFOLDER/out/host/linux-x86/framework/signapk.jar -w $ROMFOLDER/build/target/product/security/testkey.x509.pem $ROMFOLDER/build/target/product/security/testkey.pk8 $BUILDNAME-`date -I`.zip $BUILDNAME-`date -I`-signed.zip 
 then timer && echo -e "\e[31;42m 'SIGNING ZIP DONE' \e[0m"
-#   if [ "$VARIANT" = "jflte" ] ; then 
+#   if [ "$VARIANT" = "jfltexx" ] ; then 
 #     if echo -e "\e[31;42m 'SIGNING ZIP' \e[0m" &&
 #     cd $OUTFOLDER && openssl pkcs8 -in $ROMFOLDER/build/target/product/security/testkey.pk8 -inform DER -nocrypt &&
 #     java -Xmx2048m -jar $ROMFOLDER/out/host/linux-x86/framework/signapk.jar -w $ROMFOLDER/build/target/product/security/testkey.x509.pem $ROMFOLDER/build/target/product/security/testkey.pk8 $BUILDNAME-`date -I`"_dualboot".zip $BUILDNAME-`date -I`"_dualboot"-signed.zip 
@@ -556,7 +556,7 @@ fi
 if echo -e "\e[31;42m 'ZIPALIGNING' \e[0m" &&
 cd ~/android/utilitaire/sdk/tools/ && zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`-signed.zip $OUTFOLDER$BUILDNAME-`date -I`-signed-zipaligned.zip
 then timer && echo -e "\e[31;42m 'ZIPALIGNING DONE' \e[0m"
-#   if [ "$VARIANT" = "jflte" ] ; then 
+#   if [ "$VARIANT" = "jfltexx" ] ; then 
 #     if echo -e "\e[31;42m 'ZIPALIGNING DUALBOOT' \e[0m" &&
 #     cd ~/android/utilitaire/sdk/tools/ && zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed.zip $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed-zipaligned.zip
 #     then timer && echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT DONE' \e[0m"
@@ -583,9 +583,9 @@ then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
     else echo -e "\e[31;42m 'CLEANING OLD SEMAPHORE KERNEL FAILED' \e[0m"
     fi
   fi
-#   if [ "$VARIANT" = "jflte" ] ; then
+#   if [ "$VARIANT" = "jfltexx" ] ; then
 #     if echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES' \e[0m" &&
-#     cd $ROMFOLDER/out/target/product/jflte/ && rm -rfv $BUILDNAME-`date -I`"_dualboot".zip &&
+#     cd $ROMFOLDER/out/target/product/jfltexx/ && rm -rfv $BUILDNAME-`date -I`"_dualboot".zip &&
 #     rm -rfv $BUILDNAME-`date -I`"_dualboot"-signed.zip
 #     then echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES DONE' \e[0m"
 #     else echo -e "\e[31;42m 'CLEANING DUALBOOT TEMPORALY FILES FAILED' \e[0m"
@@ -607,7 +607,7 @@ echo -e "\e[31;42m 'CLEAN KERNEL DIRECTORY AFTER LINARO BUILD'  \e[0m"
       else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
     fi
-    if [ "$VARIANT" = "jflte" ] ; then 
+    if [ "$VARIANT" = "jfltexx" ] ; then 
       if cd $ROMFOLDER/kernel/samsung/jf && make mrproper
       then echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD DONE'  \e[0m"
       else echo -e "\e[31;42m 'CLEAN $VARIANT KERNEL DIRECTORY AFTER LINARO BUILD FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
