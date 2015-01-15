@@ -1,0 +1,32 @@
+#!/bin/bash
+date
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+
+cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
+make mrproper
+./sbuild.sh galaxys
+make mrproper
+./sbuild.sh galaxys s
+make mrproper
+./sbuild.sh captivate
+make mrproper
+./sbuild.sh captivate s
+make mrproper
+./sbuild.sh vibrant
+make mrproper
+./sbuild.sh vibrant s
+
+nautilus ~/android/kernel/semaphore/11.0/output
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
