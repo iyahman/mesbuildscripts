@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project name="CyanogenMod/android_device_samsung_galaxysmtd" path="device/samsung/galaxysmtd" remote="github" />
+  <project name="CyanogenMod/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_aries-common" path="device/samsung/aries-common" remote="github" />
+  <project name="CyanogenMod/android_kernel_samsung_aries" path="kernel/samsung/aries" remote="github" />
+  <project name="CyanogenMod/android_hardware_samsung" path="hardware/samsung" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_i9100" path="device/samsung/i9100" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_galaxys2-common" path="device/samsung/galaxys2-common" remote="github" />
+  <project name="CyanogenMod/android_kernel_samsung_smdk4412" path="kernel/samsung/smdk4412" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_jflte" path="device/samsung/jflte" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_qcom-common" path="device/samsung/qcom-common" remote="github" />
+  <project name="CyanogenMod/android_kernel_samsung_jf" path="kernel/samsung/jf" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_captivatemtd" path="device/samsung/captivatemtd" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_jf-common" path="device/samsung/jf-common" remote="github" />
+  <project name="TheMuppets/proprietary_vendor_samsung" path="vendor/samsung" remote="github" revision="cm-11.0" />
+  <project name="PhilZ-cwm6/philz_touch_cwm6" path="bootable/recovery-philz" remote="github" revision="cm-11.0" />
+</manifest>
