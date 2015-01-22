@@ -2,10 +2,21 @@
 # 
 
 #****************************************************************
+## Start Timer :
+START=$(date +%s)
+#****************************************************************
 #Compil all IyahmanRom :
-
 iyah11 s1
 iyah11 s2
 iyah11 s4
-
 iyah12 s4
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
