@@ -10,6 +10,9 @@ cd ~/android/kernel/semaphore/11.0/android_device_samsung_aries-common && git st
 cd ~/android/kernel/semaphore/11.0/ics-ramdisk && git status && git pull
 cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries && git status && git pull
 cd ~/android/philz_touch_cwm6 && git status && git pull
+cd /home/iyahman/android/utilitaire/linaro/arm-cortex_a8-linux-gnueabi-linaro_4.9 && git status && git pull
+cd /home/iyahman/android/utilitaire/linaro/arm-cortex_a9-linux-gnueabihf-linaro_4.9 && git status && git pull
+cd /home/iyahman/android/utilitaire/linaro/arm-cortex_a15-linux-gnueabihf-linaro_4.9 && git status && git pull
 cd ~/android/utilitaire/linaro/linaro-crosstool/linaro_crosstool-ng && git status && git pull
 
 #****************************************************************
