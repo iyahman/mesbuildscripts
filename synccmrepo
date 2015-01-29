@@ -27,7 +27,7 @@ repo selfupdate && repo sync -j16
 . build/envsetup.sh && breakfast i9100
 . build/envsetup.sh && breakfast i9300
 . build/envsetup.sh && breakfast jfltexx
-~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
+~/android/rom/iyahmanrom12.0/vendor/cm/get-prebuilts
 
 #****************************************************************
 ## Report timer:
