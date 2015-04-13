@@ -15,4 +15,10 @@
   <project name="CyanogenMod/android_device_samsung_jf-common" path="device/samsung/jf-common" remote="github" />
   <project name="TheMuppets/proprietary_vendor_samsung" path="vendor/samsung" remote="github" revision="cm-11.0" />
   <project name="PhilZ-cwm6/philz_touch_cwm6" path="bootable/recovery-philz" remote="github" revision="cm-11.0" />
+  <project name="SaberMod/arm-androideabi-4.8" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-SM-4.8" remote="github" revision="master" />
+  <project name="Christopher83/arm-cortex_a15-linux-gnueabihf-linaro_4.9" path="prebuilts/gcc/linux-x86/arm/arm-eabi-linaroa15-4.9" remote="github" revision="master" />
+  <project name="Christopher83/arm-cortex_a9-linux-gnueabihf-linaro_4.9" path="prebuilts/gcc/linux-x86/arm/arm-eabi-linaroa9-4.9" remote="github" revision="master" />
+  <project name="Christopher83/arm-cortex_a8-linux-gnueabi-linaro_4.9" path="prebuilts/gcc/linux-x86/arm/arm-eabi-linaroa8-4.9" remote="github" revision="master" />
+  <project name="CyanogenMod/android_device_samsung_i9300" path="device/samsung/i9300" remote="github" />
+  <project name="CyanogenMod/android_device_samsung_smdk4412-common" path="device/samsung/smdk4412-common" remote="github" />
 </manifest>

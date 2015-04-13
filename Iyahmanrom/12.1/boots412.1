@@ -4,12 +4,12 @@
 ## Start Total Timer :
 DATE_START=$(date +"%s")
 
-cd ~/android/rom/iyahmanrom12.0
+cd ~/android/rom/iyahmanrom12.1
 . build/envsetup.sh && breakfast jfltexx
-cd ~/android/rom/iyahmanrom12.0/kernel/samsung/jf
+cd ~/android/rom/iyahmanrom12.1/kernel/samsung/jf
 # make menuconfig KCONFIG_CONFIG=arch/arm/configs/cyanogen_jf_defconfig 
 make mrproper
-cd ~/android/rom/iyahmanrom12.0
+cd ~/android/rom/iyahmanrom12.1
 make installclean
 mka bootimage
 

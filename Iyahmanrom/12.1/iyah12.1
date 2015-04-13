@@ -82,13 +82,13 @@ if [ "$3" = "clean" ] ; then
 MAKECLEAN="on"
 fi
 
-CMVER='12.0'
+CMVER='12.1'
 BUILDNAME=$ROMNAME$CMVER-$VARIANT$TOOLCHAIN
-CMROMNAME=cm-12-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
+CMROMNAME=cm-12.1-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
 ROMFOLDER=~/android/rom/iyahmanrom$CMVER
 OUTFOLDER=$ROMFOLDER/out/target/product/$VARIANT/
 SEMAPHOREFOLDER=~/android/iyahmangithub/cm11/semaphore/$CMVER
-STUFFFOLDER=~/android/stuff/cyanogenmod12
+STUFFFOLDER=~/android/stuff/cyanogenmod12.1
 LINAROFOLDER=~/android/utilitaire/linaro/$TOOLCHAINVER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 
@@ -99,27 +99,22 @@ TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 #****************************************************************
 ##Add Cherry Pick :
 function cherrypick {
-if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
-cd ~/android/rom/iyahmanrom$CMVER/build/target/product && git fetch git://github.com/iyahman/android_build cm-$CMVER &&
+if echo -e "\e[31;42m 'add cherry-pick' \e[0m" 
+&& cd ~/android/rom/iyahmanrom$CMVER/build/target/product && git fetch git://github.com/iyahman/android_build cm-12.1 &&
 ##commit pour build fr
-git cherry-pick b2c031c14e5b60b3d5577ca7a192c4f3283572a6 && 
-##remove useless packages
-git cherry-pick 50d8b8751886cfc227ebe96f81fe996e33736296 &&
-cd ~/android/rom/iyahmanrom12.0/vendor/cm && git fetch https://github.com/iyahman/android_vendor_cm.git cm-$CMVER && 
-git cherry-pick de3c9183c70e71f9079c30e8f684b35b0a55c185 &&
+git cherry-pick ac7adb30ba54b97bc166dd3bc25882d5509eda11 && 
+.\" ##remove useless packages
+.\" git cherry-pick 50d8b8751886cfc227ebe96f81fe996e33736296 &&
+.\" cd ~/android/rom/iyahmanrom12.1/vendor/cm && git fetch https://github.com/iyahman/android_vendor_cm.git cm-12.0 && 
+.\" git cherry-pick de3c9183c70e71f9079c30e8f684b35b0a55c185 &&
 ##commit pour f2fs
-cd ~/android/rom/iyahmanrom12.0/device/samsung/qcom-common && git fetch https://github.com/iyahman/android_device_samsung_qcom-common.git cm-$CMVER &&
-git cherry-pick e8e87d23d555aa190c723db0958e84c0060e350c &&
+cd ~/android/rom/iyahmanrom12.1/device/samsung/qcom-common && git fetch https://github.com/iyahman/android_device_samsung_qcom-common.git cm-12.1 &&
+git cherry-pick e8e87d23d555aa190c723db0958e84c0060e350c
 ##add fast charge support
-cd ~/android/rom/iyahmanrom12.0/kernel/samsung/jf && git fetch https://github.com/iyahman/android_kernel_samsung_jf.git cm-12.0 &&
+cd ~/android/rom/iyahmanrom12.1/kernel/samsung/jf && git fetch https://github.com/iyahman/android_kernel_samsung_jf.git cm-12.1 &&
 git cherry-pick 7b3509c739696dbf8dfc3a495c7fde1df396cd4d &&
 ##commit pour scheduler et governor
 git cherry-pick 5415e155adbe775caa057279a362d4b4711083ca 
-##Privacy guard: option to disable notification
-# cd ~/android/rom/iyahmanrom12.0/frameworks/base &&
-# git fetch https://github.com/iyahman/android_frameworks_base.git cm-12.0 && git cherry-pick 10e3a877b5606616b515152448401a4ae6634fb8 &&
-# cd ~/android/rom/iyahmanrom12.0/packages/apps/Settings &&
-# git fetch https://github.com/iyahman/android_packages_apps_Settings.git cm-12.0 && git cherry-pick c6cf5e437bb9989e06ee544806e0ddcbc288374f && git cherry-pick 1435e70cbd5244f28dc3000e97d77a729591b184
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
 else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'FAILED'
 fi
@@ -169,7 +164,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       ##commit pour linaro for kernel compil and sabermod for rom
       cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
-      git fetch git://github.com/iyahman/android_build cm-$CMVER && git cherry-pick cd015f86b6904138f26d056d1cafadd702f9cb9c &&
+      git fetch git://github.com/iyahman/android_build cm-12.1 && git cherry-pick cc3cfcf290c02cfa08e460a4c5a3da2cb78df76b &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'FAILED'
@@ -259,7 +254,7 @@ fi
 ## Clean buildtemporaire:
 if echo -e "\e[31;42m 'CLEANING TEMPORALY FILE' \e[0m" && 
 rm -rfv $TEMPORAIREFOLDER/* &&
-rm -rfv $OUTFOLDER/cm-12.0-*-UNOFFICIAL-$VARIANT.zip.md5sum
+rm -rfv $OUTFOLDER/cm-12.1-*-UNOFFICIAL-$VARIANT.zip.md5sum
 then echo -e "\e[31;42m 'CLEANING TEMPORALY FILE DONE' \e[0m"
 else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read && spd-say 'FAILED'
 fi
@@ -294,7 +289,7 @@ if [ "$VARIANT" = "galaxysmtd" ] && [ "SYSTEMSIZE" = "on" ] ; then
 fi
 
 #****************************************************************
-##Build CM12 :
+##Build CM12.1 :
 if cherrypick && preparebuild && brunch $VARIANT ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 # else 
@@ -340,7 +335,7 @@ fi
 # ## Move Rom And Extra Feature Into Temporaly Folder :
 # if echo -e "\e[31;42m 'MOVING ROM, GAPPS INTO TEMPORALY FOLDER' \e[0m" &&
 # cd $OUTFOLDER && mv -fv $BUILDNAME-`date -I`.zip $TEMPORAIREFOLDER &&
-# cd $STUFFFOLDER && cp -rfavu gapps12.0.zip $TEMPORAIREFOLDER #&&
+# cd $STUFFFOLDER && cp -rfavu gapps12.1.zip $TEMPORAIREFOLDER #&&
 # #cp -rfavu bootanimation.zip $TEMPORAIREFOLDER
 # then echo -e "\e[31;42m 'MOVING ROM, GAPP INTO TEMPORALY FOLDER DONE' \e[0m"
 #   if [ "$VARIANT" = "galaxysmtd" ] ; then
@@ -360,7 +355,7 @@ fi
 # if echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER' \e[0m" &&
 # cd $TEMPORAIREFOLDER && unzip -q $BUILDNAME-`date -I` -d $BUILDNAME-`date -I`Extract &&
 # echo 'unzip -q cm-$ROMNAME$CMVER-$VARIANT -d $ROMNAME$CMVER-$VARIANTExtract done' &&
-# unzip -q gapps12.0 -d gapps12.0Extract
+# unzip -q gapps12.1 -d gapps12.1Extract
 # #unzip -q bootanimation -d bootanimationExtract
 # #echo 'unzip -q bootanimation -d bootanimationExtract done'
 # then echo -e "\e[31;42m 'UNZIPPING ROM, GAPPS INTO TEMPORALY FOLDER DONE' \e[0m"
@@ -403,7 +398,7 @@ fi
 # #****************************************************************
 # ## Copy Extra Feature Into Rom Temporaly Folder :
 # if echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM FOLDER' \e[0m" &&
-# cd $TEMPORAIREFOLDER && cp -rfavu gapps12.0Extract/* $BUILDNAME-`date -I`Extract
+# cd $TEMPORAIREFOLDER && cp -rfavu gapps12.1Extract/* $BUILDNAME-`date -I`Extract
 # #cp -rfavu bootanimationExtract/system/media/bootanimation.zip $ROMNAME$CMVER-$VARIANTExtract/system/media
 # then echo -e "\e[31;42m 'COPYING GAPPS AND OTHER STUFF INTO TEMPORALY IYAHMANROM FOLDER DONE' \e[0m"
 #   if [ "$VARIANT" = "galaxysmtd" ] ; then
@@ -508,9 +503,9 @@ fi
 # #   rm -rfv CMWallpapers.apk &&
 # #   #fond d'ecran de visualisation
 # #   rm -rfv VisualizationWallpapers.apk &&
-# #   # Gallery cm11
+# #   # Gallery cm12
 # #   rm -rfv Gallery2.apk &&
-# #   # camera cm11
+# #   # camera cm12
 # #   #rm -rfv Camera2.apk &&
 # #   cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/system/priv-app/ &&
 # #   #cm updater

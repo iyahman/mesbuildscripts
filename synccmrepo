@@ -5,8 +5,8 @@ date
 ## Start timer:
 START=$(date +%s)
 
-#****************************************************************
-## Prepare cm11 android 4.4.4:
+# #****************************************************************
+# ## Prepare cm11 android 4.4.4:
 # cd ~/android/rom/iyahmanrom11.0/
 # repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
 # echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0 done'
@@ -16,16 +16,31 @@ START=$(date +%s)
 # . build/envsetup.sh && breakfast i9300
 # . build/envsetup.sh && breakfast jflte
 # ~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
+# 
+# #****************************************************************
+# ## Prepare cm12 android 5.0.2:
+# cd ~/android/rom/iyahmanrom12.0/
+# repo init -u git://github.com/CyanogenMod/android.git -b cm-12.0
+# echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-12.0 done'
+# repo sync -j16
+# repo selfupdate && repo sync -j16
+# # . build/envsetup.sh && breakfast galaxysmtd
+# # . build/envsetup.sh && breakfast i9100
+# # . build/envsetup.sh && breakfast i9300
+# . build/envsetup.sh && breakfast jfltexx
+# ~/android/rom/iyahmanrom12.0/vendor/cm/get-prebuilts
+
 
 #****************************************************************
-## Prepare cm12 android 5.0.2:
-cd ~/android/rom/iyahmanrom12.0/
-repo init -u git://github.com/CyanogenMod/android.git -b cm-12.0
-echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-12.0 done'
+## Prepare cm12 android 5.1:
+cd ~/android/rom/iyahmanrom12.1/
+repo init -u git://github.com/CyanogenMod/android.git -b cm-12.1
+echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-12.1 done'
+repo sync -j16
 repo selfupdate && repo sync -j16
-. build/envsetup.sh && breakfast galaxysmtd
-. build/envsetup.sh && breakfast i9100
-. build/envsetup.sh && breakfast i9300
+# . build/envsetup.sh && breakfast galaxysmtd
+# . build/envsetup.sh && breakfast i9100
+# . build/envsetup.sh && breakfast i9300
 . build/envsetup.sh && breakfast jfltexx
 ~/android/rom/iyahmanrom12.0/vendor/cm/get-prebuilts
 
@@ -39,3 +54,6 @@ printf "${txtgrn}ELAPSED: "
 [ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
 printf "%d sec(s)\n ${txtrst}" $E_SEC
 echo
+
+
+#iyah12 s4 linaro

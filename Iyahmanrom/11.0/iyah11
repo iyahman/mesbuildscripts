@@ -18,7 +18,7 @@ DATE_START=$(date +"%s")
 #****************************************************************
 ## Set Basic Parameters :
 # set -xv
-updateenvironment
+#updateenvironment
 
 ROMNAME="IyahmanRom"
 
@@ -81,7 +81,7 @@ BUILDNAME=$ROMNAME$CMVER-$VARIANT$TOOLCHAIN
 CMROMNAME=cm-11-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
 ROMFOLDER=~/android/rom/iyahmanrom$CMVER
 OUTFOLDER=$ROMFOLDER/out/target/product/$VARIANT/
-SEMAPHOREFOLDER=~/android/kernel/semaphore/$CMVER
+SEMAPHOREFOLDER=~/android/iyahmangithub/cm11/semaphore/$CMVER
 STUFFFOLDER=~/android/stuff/cyanogenmod11
 LINAROFOLDER=~/android/utilitaire/linaro/linaro-toolchain$VER/bin
 TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
@@ -95,7 +95,7 @@ function cherrypick {
 if echo -e "\e[31;42m 'add cherry-pick' \e[0m" &&
 cd ~/android/rom/iyahmanrom$CMVER/build/target/product &&
 #commit pour build fr
-git fetch git://github.com/iyahman/android_build cm-$CMVER && git cherry-pick 86a9eda2e12b75376b761cb9b3cac2954ab8f482
+git fetch git://github.com/iyahman/android_build cm-$CMVER && git cherry-pick 77fe3e1db662b814830c944826171d0c54322e19 && git cherry-pick 5c7dccd50e6e91a19be4383e8fc292a8e1328b6c
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
 else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'SA A MERDÉ'
 fi
@@ -127,25 +127,28 @@ cd $ROMFOLDER &&
 then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   if [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd $ROMFOLDER/kernel/samsung/aries && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
+      ##commit pour linaro for kernel compil and sabermod for rom
+      cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
+      git fetch git://github.com/iyahman/android_build cm-11.0-i9000 && git cherry-pick 4331a12cc958f263217e663b218baa6e07f1f3ae &&
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "i9100" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
+       ##commit pour linaro for kernel compil and sabermod for rom
+      cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
+      git fetch git://github.com/iyahman/android_build cm-11.0-i9100 && git cherry-pick a06c9b721bddfc3a1624050972c47b0b4697603c &&
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jflte" ] ; then 
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd $ROMFOLDER/kernel/samsung/jf && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN=$LINAROFOLDER && export USE_CCACHE=1
+      ##commit pour linaro for kernel compil and sabermod for rom
+      cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
+      git fetch git://github.com/iyahman/android_build cm-11.0-jflte && git cherry-pick e5d1db5faccca6b0a43e40f7b3e2c4c8f8094c0d &&
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'SA A MERDÉ'
       fi
@@ -268,13 +271,13 @@ if [ "$VARIANT" = "galaxysmtd" ] && [ "SYSTEMSIZE" = "on" ] ; then
 fi
 
 #****************************************************************
-##Build CM10 :
+##Build CM11 :
 if cherrypick && preparebuild && brunch $VARIANT ; then
 timer && echo -e "\e[31;42m 'BUILD CM$CMVER ROM DONE' \e[0m"
 else 
   if echo -e "\e[31;42m 'BUILD CM$CMVER ROM FAILED' \e[0m" && 
   echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM' \e[0m" &&
-  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && preparebuild && brunch $VARIANT
+  rm -rfv $ROMFOLDER/out/target/product/$VARIANT && brunch $VARIANT
   then echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM DONE' \e[0m"
   else echo -e "\e[31;42m '2ND TRY BUILD CM$CMVER ROM FAILED' \e[0m"
 #     if echo -e "\e[31;42m 'FULLCLEANUP FOR REBUILD' \e[0m" &&

@@ -6,10 +6,11 @@
 START=$(date +%s)
 #****************************************************************
 #Compil all IyahmanRom :
-iyah11 s1
-iyah11 s2
-iyah11 s4
-iyah12 s4
+iyah11 s1 linaro
+iyah11 s2 linaro
+iyah11 s4 linaro
+# iyah12 s4 linaro
+# iyah12.1 s4 linaro
 
 #****************************************************************
 ## Report Timer :
