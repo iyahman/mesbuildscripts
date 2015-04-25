@@ -5,17 +5,18 @@ date
 ## Start timer:
 START=$(date +%s)
 
-# #****************************************************************
-# ## Prepare cm11 android 4.4.4:
-# cd ~/android/rom/iyahmanrom11.0/
-# repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
-# echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0 done'
-# repo selfupdate && repo sync -j16
-# . build/envsetup.sh && breakfast galaxysmtd
-# . build/envsetup.sh && breakfast i9100
-# . build/envsetup.sh && breakfast i9300
-# . build/envsetup.sh && breakfast jflte
-# ~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
+#****************************************************************
+## Prepare cm11 android 4.4.4:
+mkdir -p ~/android/rom/iyahmanrom11.0
+cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/iyahmanrom11.0
+repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
+echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0 done'
+repo selfupdate && repo sync -j4
+. build/envsetup.sh && breakfast galaxysmtd
+. build/envsetup.sh && breakfast i9100
+. build/envsetup.sh && breakfast i9300
+. build/envsetup.sh && breakfast jflte
+~/android/rom/iyahmanrom11.0/vendor/cm/get-prebuilts
 # 
 # #****************************************************************
 # ## Prepare cm12 android 5.0.2:
@@ -33,16 +34,16 @@ START=$(date +%s)
 
 #****************************************************************
 ## Prepare cm12 android 5.1:
-cd ~/android/rom/iyahmanrom12.1/
-repo init -u git://github.com/CyanogenMod/android.git -b cm-12.1
-echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-12.1 done'
-repo sync -j16
-repo selfupdate && repo sync -j16
+# cd ~/android/rom/iyahmanrom12.1/
+# repo init -u git://github.com/CyanogenMod/android.git -b cm-12.1
+# echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-12.1 done'
+# repo sync -j16
+# repo selfupdate && repo sync -j16
 # . build/envsetup.sh && breakfast galaxysmtd
 # . build/envsetup.sh && breakfast i9100
 # . build/envsetup.sh && breakfast i9300
-. build/envsetup.sh && breakfast jfltexx
-~/android/rom/iyahmanrom12.0/vendor/cm/get-prebuilts
+# . build/envsetup.sh && breakfast jfltexx
+# ~/android/rom/iyahmanrom12.0/vendor/cm/get-prebuilts
 
 #****************************************************************
 ## Report timer:

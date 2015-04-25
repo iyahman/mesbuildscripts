@@ -85,12 +85,12 @@ fi
 CMVER='12.1'
 BUILDNAME=$ROMNAME$CMVER-$VARIANT$TOOLCHAIN
 CMROMNAME=cm-12.1-`date -u +%Y%m%d`-UNOFFICIAL-$VARIANT
-ROMFOLDER=~/android/rom/iyahmanrom$CMVER
+ROMFOLDER=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/iyahmanrom$CMVER
 OUTFOLDER=$ROMFOLDER/out/target/product/$VARIANT/
-SEMAPHOREFOLDER=~/android/iyahmangithub/cm11/semaphore/$CMVER
-STUFFFOLDER=~/android/stuff/cyanogenmod12.1
-LINAROFOLDER=~/android/utilitaire/linaro/$TOOLCHAINVER/bin
-TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
+SEMAPHOREFOLDER=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/iyahmangithub/cm11/semaphore/$CMVER
+STUFFFOLDER=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/stuff/cyanogenmod12.1
+LINAROFOLDER=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/utilitaire/linaro/$TOOLCHAINVER/bin
+TEMPORAIREFOLDER=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/temporaire/buildtemporaire
 
 #****************************************************************
 ##copy log error 
@@ -99,19 +99,14 @@ TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 #****************************************************************
 ##Add Cherry Pick :
 function cherrypick {
-if echo -e "\e[31;42m 'add cherry-pick' \e[0m" 
-&& cd ~/android/rom/iyahmanrom$CMVER/build/target/product && git fetch git://github.com/iyahman/android_build cm-12.1 &&
+if echo -e "\e[31;42m 'add cherry-pick' \e[0m" && cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/iyahmanrom$CMVER/build/target/product && git fetch git://github.com/iyahman/android_build cm-12.1 &&
 ##commit pour build fr
-git cherry-pick ac7adb30ba54b97bc166dd3bc25882d5509eda11 && 
-.\" ##remove useless packages
-.\" git cherry-pick 50d8b8751886cfc227ebe96f81fe996e33736296 &&
-.\" cd ~/android/rom/iyahmanrom12.1/vendor/cm && git fetch https://github.com/iyahman/android_vendor_cm.git cm-12.0 && 
-.\" git cherry-pick de3c9183c70e71f9079c30e8f684b35b0a55c185 &&
+git cherry-pick ac7adb30ba54b97bc166dd3bc25882d5509eda11 &&
 ##commit pour f2fs
-cd ~/android/rom/iyahmanrom12.1/device/samsung/qcom-common && git fetch https://github.com/iyahman/android_device_samsung_qcom-common.git cm-12.1 &&
+cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/iyahmanrom12.1/device/samsung/qcom-common && git fetch https://github.com/iyahman/android_device_samsung_qcom-common.git cm-12.1 &&
 git cherry-pick e8e87d23d555aa190c723db0958e84c0060e350c
 ##add fast charge support
-cd ~/android/rom/iyahmanrom12.1/kernel/samsung/jf && git fetch https://github.com/iyahman/android_kernel_samsung_jf.git cm-12.1 &&
+cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/iyahmanrom12.1/kernel/samsung/jf && git fetch https://github.com/iyahman/android_kernel_samsung_jf.git cm-12.1 &&
 git cherry-pick 7b3509c739696dbf8dfc3a495c7fde1df396cd4d &&
 ##commit pour scheduler et governor
 git cherry-pick 5415e155adbe775caa057279a362d4b4711083ca 
@@ -163,7 +158,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "jfltexx" ] ; then 
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       ##commit pour linaro for kernel compil and sabermod for rom
-      cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
+      cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/iyahmanrom$CMVER/build/target/product && 
       git fetch git://github.com/iyahman/android_build cm-12.1 && git cherry-pick cc3cfcf290c02cfa08e460a4c5a3da2cb78df76b &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
@@ -230,8 +225,8 @@ fi
 #****************************************************************
 ## Save extracted files :
 #if echo -e "\e[31;42m 'SAVE EXTRACTED FILES' \e[0m" &&
-#adb root && mkdir ~/android/rom/extractedfiles/$VARIANT &&
-#cd ~/android/rom/extractedfiles/$VARIANT/ &&
+#adb root && mkdir /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/extractedfiles/$VARIANT &&
+#cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom/extractedfiles/$VARIANT/ &&
 #sleep 3s && ./extract-files.sh
 #then echo -e "\e[31;42m 'SAVE EXTRACTED FILES DONE' \e[0m"
 #else echo -e "\e[31;42m 'SAVE EXTRACTED FILES FAILED' \e[0m" && read && spd-say 'FAILED'
@@ -375,10 +370,10 @@ fi
 # # if [ "$TOOLCHAIN" != "-linaro" ] || [ "$FORCETOOLCHAIN" != "on" ] ; then
 # #   if echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL' \e[0m" &&
 # #   cd $TEMPORAIREFOLDER/$BUILDNAME-`date -I`Extract/ &&
-# #   cp -rfavu boot.img ~/android/temporaire/ossaturekernel$VARIANT &&
-# #   cd ~/android/temporaire/ossaturekernel$VARIANT &&
+# #   cp -rfavu boot.img /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/temporaire/ossaturekernel$VARIANT &&
+# #   cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/temporaire/ossaturekernel$VARIANT &&
 # #   zip -qrv ../cyanogenkernel4.4.zip ./ &&
-# #   cd ~/android/rom && mv -fv cyanogenkernel4.4.zip $OUTFOLDER
+# #   cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/rom && mv -fv cyanogenkernel4.4.zip $OUTFOLDER
 # #   then echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL DONE' \e[0m"
 # #   else echo -e "\e[31;42m 'SAVE GALAXYSMTD CYANOGENMODKERNEL FAILED' \e[0m" && read && spd-say 'FAILED'
 # #   fi
@@ -547,7 +542,7 @@ fi
 # #   if echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505' \e[0m" &&
 # #   cd $OUTFOLDER && cp -f $BUILDNAME-`date -I`.zip $TEMPORAIREFOLDER &&
 # #   cd $TEMPORAIREFOLDER && mv -f $BUILDNAME-`date -I`.zip $CMROMNAME.zip
-# #   cd ~/android/utilitaire/DualBootPatcher && ./patch-file.sh $TEMPORAIREFOLDER/$CMROMNAME.zip &&
+# #   cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/utilitaire/DualBootPatcher && ./patch-file.sh $TEMPORAIREFOLDER/$CMROMNAME.zip &&
 # #   cd $TEMPORAIREFOLDER && mv -fv $CMROMNAME"_dual".zip $BUILDNAME-`date -I`"_dualboot".zip &&
 # #   mv $BUILDNAME-`date -I`"_dualboot".zip $OUTFOLDER
 # #   then timer && echo -e "\e[31;42m 'PATCH FOR DUALBOOT I9505 DONE' \e[0m" 
@@ -575,11 +570,11 @@ fi
 # #****************************************************************
 # ## Zipalign $BUILDNAME-`date -I` :
 # if echo -e "\e[31;42m 'ZIPALIGNING' \e[0m" &&
-# cd ~/android/utilitaire/sdk/tools/ && zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`-signed.zip $OUTFOLDER$BUILDNAME-`date -I`-signed-zipaligned.zip
+# cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/utilitaire/sdk/tools/ && zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`-signed.zip $OUTFOLDER$BUILDNAME-`date -I`-signed-zipaligned.zip
 # then timer && echo -e "\e[31;42m 'ZIPALIGNING DONE' \e[0m"
 # #   if [ "$VARIANT" = "jfltexx" ] ; then 
 # #     if echo -e "\e[31;42m 'ZIPALIGNING DUALBOOT' \e[0m" &&
-# #     cd ~/android/utilitaire/sdk/tools/ && zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed.zip $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed-zipaligned.zip
+# #     cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/android/utilitaire/sdk/tools/ && zipalign -f -v 4 $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed.zip $OUTFOLDER$BUILDNAME-`date -I`"_dualboot"-signed-zipaligned.zip
 # #     then timer && echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT DONE' \e[0m"
 # #     else echo -e "\e[31;42m 'ZIPALIGNING  DUALBOOT FAILED' \e[0m" && read && spd-say 'FAILED'
 # #     fi
