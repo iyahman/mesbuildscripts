@@ -26,13 +26,15 @@ esac
 
 #****************************************************************
 ## Clean and copy recovery directory :
-mkdir -p ~/android/rom/iyahmanrom11.0/bootable/recovery-philz
-cp -ravu ~/android/iyahmangithub/cm11/philz_touch_cwm6/* ~/android/rom/iyahmanrom11.0/bootable/recovery-philz/
-cd ~/android/rom/iyahmanrom11.0
-. build/envsetup.sh && make clean 
+mkdir -p ~/android/rom/iyahmanrom12.1/bootable/recovery-philz
+cp -ravu ~/android/iyahmangithub/cm12.1/philz_touch_cwm6/* ~/android/rom/iyahmanrom12.1/bootable/recovery-philz/
+
+cd ~/android/rom/iyahmanrom12.1
+. build/envsetup.sh && make clean
 
 #****************************************************************
 ## Config and compil recovery :
+
 if [ "$VARIANT" = "galaxysmtd" ] ; then 
 . build/envsetup.sh && lunch cm_galaxysmtd-user && mka -j3 recoveryimage RECOVERY_VARIANT=philz
 elif [ "$VARIANT" = "i9100" ] ; then 
@@ -40,17 +42,6 @@ elif [ "$VARIANT" = "i9100" ] ; then
 elif [ "$VARIANT" = "jflte" ] ; then 
 . build/envsetup.sh && lunch cm_jflte-user && mka -j3 recoveryimage RECOVERY_VARIANT=philz
 fi
-
-#****************************************************************
-## Copy recovey binary to semaphore ramdidsk, rename build and commpil kernel :
-# cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo/ics_rec_init/sbin/ && echo recovery build et envoyé dans icsramdisk
-# 
-# cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
-# sed -i 's/"IyahmanKernel"/"IyahmanKernel-philz_touch_cwm6"/g' sbuild.sh
-# semaphore
-# cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
-# sed -i 's/"IyahmanKernel-philz_touch_cwm6"/"IyahmanKernel"/g' sbuild.sh
-# rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery
 
 #****************************************************************
 ## Report Timer :
@@ -61,3 +52,4 @@ E_SEC=$((ELAPSED - E_MIN * 60))
 printf "${txtgrn}ELAPSED: "
 [ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
 printf "%d sec(s)\n ${txtrst}" $E_SEC
+

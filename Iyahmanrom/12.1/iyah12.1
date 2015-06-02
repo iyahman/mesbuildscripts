@@ -2,10 +2,10 @@
 
 #****************************************************************
 ## Script command exemple :
-#iyah $1                    iyah $1 $2
-#iyah s1 || iyah s1pucca || iyah s1 linaro || iyah s1 linarof
-#iyah s2 ""
-#iyah s4 ""
+# iyah $1                    iyah $1 $2
+# iyah s1 || iyah s1pucca || iyah s1 linaro || iyah s1 linarof
+# iyah s2 ""
+# iyah s4 ""
 
 #****************************************************************
 ## Start Timer :
@@ -99,14 +99,10 @@ TEMPORAIREFOLDER=~/android/temporaire/buildtemporaire
 #****************************************************************
 ##Add Cherry Pick :
 function cherrypick {
-if echo -e "\e[31;42m 'add cherry-pick' \e[0m" 
-&& cd ~/android/rom/iyahmanrom$CMVER/build/target/product && git fetch git://github.com/iyahman/android_build cm-12.1 &&
+if echo -e "\e[31;42m 'add cherry-pick' \e[0m" && 
+cd ~/android/rom/iyahmanrom$CMVER/build/target/product && git fetch git://github.com/iyahman/android_build cm-12.1 &&
 ##commit pour build fr
 git cherry-pick ac7adb30ba54b97bc166dd3bc25882d5509eda11 && 
-.\" ##remove useless packages
-.\" git cherry-pick 50d8b8751886cfc227ebe96f81fe996e33736296 &&
-.\" cd ~/android/rom/iyahmanrom12.1/vendor/cm && git fetch https://github.com/iyahman/android_vendor_cm.git cm-12.0 && 
-.\" git cherry-pick de3c9183c70e71f9079c30e8f684b35b0a55c185 &&
 ##commit pour f2fs
 cd ~/android/rom/iyahmanrom12.1/device/samsung/qcom-common && git fetch https://github.com/iyahman/android_device_samsung_qcom-common.git cm-12.1 &&
 git cherry-pick e8e87d23d555aa190c723db0958e84c0060e350c
@@ -154,9 +150,10 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       fi
   elif [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "i9100" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd $ROMFOLDER/kernel/samsung/smdk4412 && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&
-      export ARCH=arm ARM_EABI_TOOLCHAIN="$LINAROFOLDER"
+      ##commit pour linaro for kernel compil and sabermod for rom
+      cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
+      git fetch git://github.com/iyahman/android_build cm-12.1-i9100 && git cherry-pick 287b10d5b1607054a9c32ad78c5f8dbf46230e78 &&
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'FAILED'
       fi
@@ -164,7 +161,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       ##commit pour linaro for kernel compil and sabermod for rom
       cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
-      git fetch git://github.com/iyahman/android_build cm-12.1 && git cherry-pick cc3cfcf290c02cfa08e460a4c5a3da2cb78df76b &&
+      git fetch git://github.com/iyahman/android_build cm-12.1 && git cherry-pick 316a14fe682c3f06aace4351dc34ff2a4be6835a &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'FAILED'

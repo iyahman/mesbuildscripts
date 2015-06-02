@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#****************************************************************
+## Start Total Timer :
+DATE_START=$(date +"%s")
+
+cd ~/android/rom/iyahmanrom11.0
+# repo sync -j16
+# cd ~/android/rom/iyahmanrom11.0/build/target/product 
+# git fetch git://github.com/iyahman/android_build cm-11.0-i9000 && git cherry-pick 4331a12cc958f263217e663b218baa6e07f1f3ae
+# cd ~/android/rom/iyahmanrom11.0
+# . build/envsetup.sh && breakfast galaxysmtd
+# cd ~/android/rom/iyahmanrom11.0/kernel/samsung/aries
+# # make menuconfig KCONFIG_CONFIG=arch/arm/configs/cyanogen_jf_defconfig 
+# make mrproper
+# cd ~/android/rom/iyahmanrom11.0
+# make installclean
+# mka bootimage
+repo sync -j16
+cd ~/android/rom/iyahmanrom11.0/build/target/product 
+git fetch git://github.com/iyahman/android_build cm-11.0-i9100 && git cherry-pick a06c9b721bddfc3a1624050972c47b0b4697603c
+cd ~/android/rom/iyahmanrom11.0
+. build/envsetup.sh && breakfast i9100
+cd ~/android/rom/iyahmanrom11.0/kernel/samsung/smdk4412
+# make menuconfig KCONFIG_CONFIG=arch/arm/configs/cyanogen_jf_defconfig 
+make mrproper
+cd ~/android/rom/iyahmanrom11.0
+make installclean
+mka bootimage
+repo sync -j16
+cd ~/android/rom/iyahmanrom11.0/build/target/product 
+git fetch git://github.com/iyahman/android_build cm-11.0-jflte && git cherry-pick e5d1db5faccca6b0a43e40f7b3e2c4c8f8094c0d
+cd ~/android/rom/iyahmanrom11.0
+. build/envsetup.sh && breakfast jflte
+cd ~/android/rom/iyahmanrom11.0/kernel/samsung/jf
+# make menuconfig KCONFIG_CONFIG=arch/arm/configs/cyanogen_jf_defconfig 
+make mrproper
+cd ~/android/rom/iyahmanrom11.0
+make installclean
+mka bootimage
+
+#****************************************************************
+## Report TOTAL timer:
+DATE_END=$(date +"%s")
+echo
+DIFF=$(($DATE_END - $DATE_START))
+echo $ROMNAME$CMVER pour $VARIANT fini en "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
