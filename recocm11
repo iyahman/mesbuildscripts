@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export USE_CCACHE=1
+export OUT_DIR_COMMON_BASE=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/Bureau/outputbuildcm11
 
 case "$1" in
         s1)
@@ -24,18 +25,25 @@ esac
 ## Initialize, clean and sync repo :
 
 cd ~/android/rom/iyahmanrom11.0
-repo init
+make clean
 repo sync -j16
-. build/envsetup.sh && make clean 
+# . build/envsetup.sh && make clean 
 
 #****************************************************************
 ## Config and compil recovery :
 
-if [ "$VARIANT" != "galaxysmtd" ] ; then 
-. build/envsetup.sh && lunch cm_galaxysmtd-user && mka -j4 recoveryimage
-elif [ "$VARIANT" != "i9100" ] ; then 
-. build/envsetup.sh && lunch cm_i9100-user && mka -j4 recoveryimage
-elif [ "$VARIANT" != "jflte" ] ; then 
-. build/envsetup.sh && lunch cm_jflte-user && mka -j4 recoveryimage
+if [ "$VARIANT" = "galaxysmtd" ] ; then 
+. build/envsetup.sh && lunch cm_galaxysmtd-userdebug && mka -j4 recoveryimage
+elif [ "$VARIANT" = "i9100" ] ; then 
+. build/envsetup.sh && lunch cm_i9100-userdebug && mka -j4 recoveryimage
+elif [ "$VARIANT" = "jflte" ] ; then 
+. build/envsetup.sh && lunch cm_jflte-userdebug && mka -j4 recoveryimage
 fi
 # make -d -j4 recoveryimage
+
+
+cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/Bureau/outputbuildcm11/iyahmanrom11.0/target/product/$VARIANT
+mv recovery.img recovery-"$VARIANT".img
+tar -H ustar -c recovery-"$VARIANT".img > recovery-"$VARIANT".tar
+md5sum -t recovery-"$VARIANT".tar >> recovery-"$VARIANT".tar
+mv recovery-"$VARIANT".tar recovery-"$VARIANT".tar.md5

@@ -5,6 +5,7 @@
 START=$(date +%s)
 
 export USE_CCACHE=1
+export OUT_DIR_COMMON_BASE=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/Bureau/outputbuildcm11
 
 case "$1" in
         s1)
@@ -24,34 +25,28 @@ case "$1" in
             
 esac
 
-#****************************************************************
-## Clean and copy recovery directory :
-mkdir -p ~/android/rom/iyahmanrom11.0/bootable/recovery-philz
-cp -ravu ~/android/philz_touch_cwm6/* ~/android/rom/iyahmanrom11.0/bootable/recovery-philz/
+
 cd ~/android/rom/iyahmanrom11.0
-. build/envsetup.sh && make clean 
+make clean
+repo sync -j16
+# . build/envsetup.sh && make clean
 
 #****************************************************************
 ## Config and compil recovery :
+
 if [ "$VARIANT" = "galaxysmtd" ] ; then 
-. build/envsetup.sh && lunch cm_galaxysmtd-user && mka -j3 recoveryimage RECOVERY_VARIANT=philz
+. build/envsetup.sh && lunch cm_galaxysmtd-userdebug && mka -j3 recoveryimage RECOVERY_VARIANT=philz
 elif [ "$VARIANT" = "i9100" ] ; then 
-. build/envsetup.sh && lunch cm_i9100-user && mka -j3 recoveryimage RECOVERY_VARIANT=philz
+. build/envsetup.sh && lunch cm_i9100-userdebug && mka -j3 recoveryimage RECOVERY_VARIANT=philz
 elif [ "$VARIANT" = "jflte" ] ; then 
-. build/envsetup.sh && lunch cm_jflte-user && mka -j3 recoveryimage RECOVERY_VARIANT=philz
+. build/envsetup.sh && lunch cm_jflte-userdebug && mka -j3 recoveryimage RECOVERY_VARIANT=philz
 fi
 
-#****************************************************************
-## Copy recovey binary to semaphore ramdidsk, rename build and commpil kernel :
-# cp -ravu ~/android/rom/iyahmanrom11.0/out/target/product/galaxysmtd/recovery/root/sbin/recovery ~/android/kernel/semaphore/11.0/ics-ramdisk/jb_combo/ics_rec_init/sbin/ && echo recovery build et envoyé dans icsramdisk
-# 
-# cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
-# sed -i 's/"IyahmanKernel"/"IyahmanKernel-philz_touch_cwm6"/g' sbuild.sh
-# semaphore
-# cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
-# sed -i 's/"IyahmanKernel-philz_touch_cwm6"/"IyahmanKernel"/g' sbuild.sh
-# rm -rf ~/android/rom/iyahmanrom11.0/bootable/recovery
-
+cd /media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/Bureau/outputbuildcm11/iyahmanrom11.0/target/product/$VARIANT
+mv recovery.img recovery-philz"$VARIANT".img
+tar -H ustar -c recovery-philz"$VARIANT".img > recovery-philz"$VARIANT".tar
+md5sum -t recovery-philz"$VARIANT".tar >> recovery-philz"$VARIANT".tar
+mv recovery-philz"$VARIANT".tar recovery-philz"$VARIANT".tar.md5
 #****************************************************************
 ## Report Timer :
 END=$(date +%s)
