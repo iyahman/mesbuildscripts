@@ -24,7 +24,7 @@ esac
 ## Initialize, clean and sync repo :
 
 cd ~/android/rom/iyahmanrom11.0
-repo sync -j16
+repo sync -cj16
 . build/envsetup.sh && make clean 
 
 #****************************************************************

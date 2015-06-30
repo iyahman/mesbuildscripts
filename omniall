@@ -1,0 +1,46 @@
+#!/bin/bash
+# 
+
+****************************************************************
+## Start Timer :
+START=$(date +%s)
+
+cd ~/android/rom/omnirom
+repo sync -cj4
+. build/envsetup.sh
+# make clobber
+##galaxysmtd
+cd ~/android/rom/omnirom/kernel/samsung/aries
+make mrproper
+git fetch https://github.com/iyahman/android_kernel_samsung_aries.git android-5.1 &&
+git cherry-pick 332b219c32a3292e09f0397b8c52fc0857265729 && git cherry-pick 7f325d07148a65a3b16c9e87d94a507558ceee22
+# export CROSS_COMPILE=~/android/utilitaire/linaro/linaro-toolchains1/bin/arm-cortex_a8-linux-gnueabi-
+# export ARCH=arm
+cd ~/android/rom/omnirom
+export ANDROID_TOOLCHAIN=/home/iyahman/android/rom/omnirom/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-UBER-5.1/bin/arm-linux-androideabi-
+export ARM_EABI_TOOLCHAIN=/home/iyahman/android/rom/omnirom/prebuilts/gcc/linux-x86/arm/arm-eabi-linaroa8-4.9/bin/arm-cortex_a8-linux-gnueabi-
+make installclean && brunch galaxysmtd
+mv ~/android/rom/omnirom/out/target/product/galaxysmtd/omni-5.1.1-`date -u +%Y%m%d`-galaxysmtd-HOMEMADE.zip /home/iyahman/Bureau/outomni
+##vibrantmtd
+make installclean && brunch vibrantmtd
+mv ~/android/rom/omnirom/out/target/product/vibrantmtd/omni-5.1.1-`date -u +%Y%m%d`-vibrantmtd-HOMEMADE.zip /home/iyahman/Bureau/outomni
+# ##I9100
+# export ARM_EABI_TOOLCHAIN=/home/iyahman/android/rom/omnirom/prebuilts/gcc/linux-x86/arm/arm-eabi-linaroa9-4.9/bin/arm-cortex_a9-linux-gnueabi-
+# . build/envsetup.sh && make installclean && 
+# brunch i9100
+cd ~/android/rom/omnirom/.repo/local_manifests
+sed '/<project name="android_device_samsung_i9100" path="device/samsung/i9100" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+sed '/<project name="android_device_samsung_galaxys2-common" path="device/samsung/galaxys2-common" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+sed '/<project name="android_kernel_samsung_smdk4412" path="kernel/samsung/smdk4412" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+sed '/<project name="android_hardware_samsung" path="hardware/samsung" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+nautilus /home/iyahman/Bureau/outomni
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC

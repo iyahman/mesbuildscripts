@@ -6,13 +6,15 @@
 START=$(date +%s)
 #****************************************************************
 #Compil all IyahmanRom :
-recocm12.1 s4
-recophilz12.1 s4
+# recocm12.1 s4
+# recophilz12.1 s4
 # iyah11 s1 linaro
 # iyah11 s2 linaro
 # iyah11 s4 linaro
-# iyah12.1 s2 linaro
-# iyah12.1 s4 linaro
+iyah12.1 s4 linaro
+iyah12.1 s2 linaro
+omniall
+makegapps
 
 #****************************************************************
 ## Report Timer :

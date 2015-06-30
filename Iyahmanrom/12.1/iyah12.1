@@ -142,9 +142,10 @@ cd $ROMFOLDER &&
 then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
   if [ "$TOOLCHAIN" = "-linaro" ] && [ "$VARIANT" = "galaxysmtd" ] ; then
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
-      cd $ROMFOLDER/kernel/samsung/aries && make mrproper &&
-      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT &&      
-      export ARCH=arm ARM_EABI_TOOLCHAIN="$LINAROFOLDER"
+      ##commit pour linaro for kernel compil and sabermod for rom
+      cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
+      git fetch git://github.com/iyahman/android_build cm-11.0-i9000 && git cherry-pick 4331a12cc958f263217e663b218baa6e07f1f3ae &&
+      cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'FAILED'
       fi
@@ -264,11 +265,11 @@ cd $ROMFOLDER &&
 # chmod a+x ~/bin/repo &&
 # repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER &&
 # echo -e "\e[31;42m 'repo init -u git://github.com/CyanogenMod/android.git -b cm-$CMVER done' \e[0m" &&
-repo selfupdate && repo sync -j16
+repo selfupdate && repo sync -cj16
 then timer && echo -e "\e[31;42m 'REPO SYNC -j16 DONE ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m"
 else 
   if echo -e "\e[31;42m 'REPO SYNC -j16 FAILED ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m" &&
-  repo selfupdate && repo sync -j4
+  repo selfupdate && repo sync -cj4
   then timer && echo -e "\e[31;42m 'REPO SYNC -j4 DONE THIS TIME ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m"
   else echo -e "\e[31;42m 'REPO SYNC -j4 FAILED THIS TIME AGAIN ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m" && read && spd-say 'FAILED'
   fi

@@ -14,9 +14,15 @@ cd ~/android/stuff/opengapps
 ./download_sources.sh
 # to build all platforms and releases
 # make
-
+#git fetch git://github.com/iyahman/opengapps master && git cherry-pick f497344443b4f2b3e14d01ac52d8bcd23b9d01d3
 # to build specific
-make arm-22
+make arm-22-aroma
+make arm-22-stock
+make arm-22-pico
+# make arm-21
+# make arm-19
+#git reset --hard HEAD~1
+# git reset --hard 4ed8969a24ceb43e1d5286fc667368241b2fd894
 
 nautilus /home/iyahman/android/stuff/opengapps/out
 
