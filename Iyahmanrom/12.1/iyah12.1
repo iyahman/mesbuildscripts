@@ -108,9 +108,10 @@ cd ~/android/rom/iyahmanrom12.1/device/samsung/qcom-common && git fetch https://
 git cherry-pick e8e87d23d555aa190c723db0958e84c0060e350c
 ##add fast charge support
 cd ~/android/rom/iyahmanrom12.1/kernel/samsung/jf && git fetch https://github.com/iyahman/android_kernel_samsung_jf.git cm-12.1 &&
-git cherry-pick 7b3509c739696dbf8dfc3a495c7fde1df396cd4d &&
+git cherry-pick 7b3509c739696dbf8dfc3a495c7fde1df396cd4d 
+# &&
 ##commit pour scheduler et governor
-git cherry-pick 5415e155adbe775caa057279a362d4b4711083ca 
+# git cherry-pick 5415e155adbe775caa057279a362d4b4711083ca 
 then echo -e "\e[31;42m 'add cherry-pick done' \e[0m"
 else echo -e "\e[31;42m 'add cherry-pick failed' \e[0m" && read && spd-say 'FAILED'
 fi
@@ -162,7 +163,7 @@ then echo -e "\e[31;42m 'BREAKFAST CM$CMVER ROM DONE' \e[0m" &&
       if echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL'  \e[0m" &&
       ##commit pour linaro for kernel compil and sabermod for rom
       cd ~/android/rom/iyahmanrom$CMVER/build/target/product && 
-      git fetch git://github.com/iyahman/android_build cm-12.1 && git cherry-pick 316a14fe682c3f06aace4351dc34ff2a4be6835a &&
+      git fetch git://github.com/iyahman/android_build cm-12.1 && git cherry-pick 316a14fe682c3f06aace4351dc34ff2a4be6835a && git cherry-pick 167e9be02f6e8d4c0b6b71e8dd941cf5b6b1d535 &&
       cd $ROMFOLDER && . build/envsetup.sh && breakfast $VARIANT
       then echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL DONE'  \e[0m"
       else echo -e "\e[31;42m 'SET LINARO TOOLCHAIN FOR $VARIANT CYANOGEN KERNEL FAILED'  \e[0m" && read && spd-say 'FAILED'
@@ -274,6 +275,16 @@ else
   else echo -e "\e[31;42m 'REPO SYNC -j4 FAILED THIS TIME AGAIN ON  git://github.com/CyanogenMod/android.git -b cm-$CMVER' \e[0m" && read && spd-say 'FAILED'
   fi
 fi
+
+
+cd ~/android/rom/iyahmanrom12.1/prebuilts/gcc/linux-x86/arm
+mv -v arm-linux-androideabi-4.8 aarm-linux-androideabi-4.8
+mv -v arm-linux-androideabi-UBER-4.9 arm-linux-androideabi-4.8
+mv -v arm-eabi-4.8 aarm-eabi-4.8
+mv -v arm-eabi-linaroa15-4.9 arm-eabi-4.8
+
+
+# read -p "Appuyer sur une touche pour continuer ..."
 
 #****************************************************************
 #replace original system syze by Iyah 
@@ -636,6 +647,12 @@ fi
 # fi
 # else echo -e "\e[31;42m 'CLEANING TEMPORALY FILE FAILED' \e[0m" && read && spd-say 'FAILED'
 # fi
+
+cd ~/android/rom/iyahmanrom12.1/prebuilts/gcc/linux-x86/arm
+mv -v arm-linux-androideabi-4.8 arm-linux-androideabi-UBER-4.9
+mv -v aarm-linux-androideabi-4.8 arm-linux-androideabi-4.8
+mv -v arm-eabi-4.8 arm-eabi-linaroa15-4.9
+mv -v aarm-eabi-4.8 arm-eabi-4.8
 
 echo -e "\e[31;42m '############################################################################################################################' \e[0m"
 echo -e "\e[31;42m '###################################################### BUILD TERMINÉ #######################################################' \e[0m"

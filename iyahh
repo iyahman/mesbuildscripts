@@ -11,9 +11,10 @@ START=$(date +%s)
 # iyah11 s1 linaro
 # iyah11 s2 linaro
 # iyah11 s4 linaro
-iyah12.1 s4 linaro
-iyah12.1 s2 linaro
-omniall
+# syncromrepo
+iyah12.1 s4
+# iyah12.1 s2 linaro
+# omniall
 makegapps
 
 #****************************************************************

@@ -1,38 +1,67 @@
 #!/bin/bash
 # 
 
-****************************************************************
+#****************************************************************
 ## Start Timer :
 START=$(date +%s)
 
 cd ~/android/rom/omnirom
+repo selfupdate
+# repo sync -cj16
 repo sync -cj4
 . build/envsetup.sh
 # make clobber
 ##galaxysmtd
 cd ~/android/rom/omnirom/kernel/samsung/aries
 make mrproper
-git fetch https://github.com/iyahman/android_kernel_samsung_aries.git android-5.1 &&
+#big mem commit
+cd ~/android/rom/omnirom/device/samsung/aries-common
+git fetch https://github.com/xc-racer99/android_device_samsung_aries-common.git android-5.1 && git cherry-pick 356284ac2ec9a6c69fba27066932860aee1aed99 &&
+# fix encryption commit
+git cherry-pick 2de7cae2dccc3bf2fb2223c8c500c05257880250 &&
+cd ~/android/rom/omnirom/kernel/samsung/aries
+# git fetch https://gerrit.omnirom.org/android_kernel_samsung_aries refs/changes/22/13322/1 && git cherry-pick FETCH_HEAD
+git fetch https://github.com/iyahman/android_kernel_samsung_aries.git android-5.1 && 
+# git cherry-pick 9ada0bcf98622366b97a0f4c6bd92cf1c214ed80
+#gcc 4.8+ commit
 git cherry-pick 332b219c32a3292e09f0397b8c52fc0857265729 && git cherry-pick 7f325d07148a65a3b16c9e87d94a507558ceee22
-# export CROSS_COMPILE=~/android/utilitaire/linaro/linaro-toolchains1/bin/arm-cortex_a8-linux-gnueabi-
-# export ARCH=arm
+# cd ~/android/rom/omnirom/kernel/samsung/aries/arch/arm/configs
+# echo "CONFIG_S5P_HUGEMEM=y" >> omni_galaxysmtd_defconfig
+# echo "CONFIG_S5P_HUGEMEM=y" >> omni_vibrantmtd_defconfig
+# cd ~/android/rom/omnirom/kernel/samsung/aries
+# echo "CONFIG_S5P_HUGEMEM=y" >> .config
+cd ~/android/rom/omnirom/prebuilts/gcc/linux-x86/arm
+mv -v arm-linux-androideabi-4.8 aarm-linux-androideabi-4.8
+mv -v arm-linux-androideabi-UBER-4.8 arm-linux-androideabi-4.8
+mv -v arm-eabi-4.7 aarm-eabi-4.7
+mv -v arm-eabi-linaroa8-4.9 arm-eabi-4.7
+#galaxysmtd
 cd ~/android/rom/omnirom
-export ANDROID_TOOLCHAIN=/home/iyahman/android/rom/omnirom/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-UBER-5.1/bin/arm-linux-androideabi-
-export ARM_EABI_TOOLCHAIN=/home/iyahman/android/rom/omnirom/prebuilts/gcc/linux-x86/arm/arm-eabi-linaroa8-4.9/bin/arm-cortex_a8-linux-gnueabi-
-make installclean && brunch galaxysmtd
-mv ~/android/rom/omnirom/out/target/product/galaxysmtd/omni-5.1.1-`date -u +%Y%m%d`-galaxysmtd-HOMEMADE.zip /home/iyahman/Bureau/outomni
-##vibrantmtd
-make installclean && brunch vibrantmtd
-mv ~/android/rom/omnirom/out/target/product/vibrantmtd/omni-5.1.1-`date -u +%Y%m%d`-vibrantmtd-HOMEMADE.zip /home/iyahman/Bureau/outomni
+. build/envsetup.sh && make installclean && brunch galaxysmtd
+# make installclean && lunch 8 && make -j4 bootimage
+mv -v ~/android/rom/omnirom/out/target/product/galaxysmtd/omni-5.1.1-`date -u +%Y%m%d`-galaxysmtd-HOMEMADE.zip /home/iyahman/Bureau/outomni
+#vibrantmtd
+. build/envsetup.sh && make installclean && brunch vibrantmtd
+mv -v ~/android/rom/omnirom/out/target/product/vibrantmtd/omni-5.1.1-`date -u +%Y%m%d`-vibrantmtd-HOMEMADE.zip /home/iyahman/Bureau/outomni
+# cd ~/android/rom/omnirom/kernel/samsung/aries
+# git checkout -- arch/arm/configs/omni_galaxysmtd_defconfig
+# git checkout -- arch/arm/configs/omni_vibrantmtd_defconfig
+cd ~/android/rom/omnirom/prebuilts/gcc/linux-x86/arm
+mv -v arm-linux-androideabi-4.8 arm-linux-androideabi-UBER-4.8
+mv -v aarm-linux-androideabi-4.8 arm-linux-androideabi-4.8
+mv -v arm-eabi-4.7 arm-eabi-linaroa8-4.9
+mv -v aarm-eabi-4.7 arm-eabi-4.7
 # ##I9100
 # export ARM_EABI_TOOLCHAIN=/home/iyahman/android/rom/omnirom/prebuilts/gcc/linux-x86/arm/arm-eabi-linaroa9-4.9/bin/arm-cortex_a9-linux-gnueabi-
+# cd ~/android/rom/omnirom
 # . build/envsetup.sh && make installclean && 
 # brunch i9100
 cd ~/android/rom/omnirom/.repo/local_manifests
-sed '/<project name="android_device_samsung_i9100" path="device/samsung/i9100" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
-sed '/<project name="android_device_samsung_galaxys2-common" path="device/samsung/galaxys2-common" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
-sed '/<project name="android_kernel_samsung_smdk4412" path="kernel/samsung/smdk4412" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
-sed '/<project name="android_hardware_samsung" path="hardware/samsung" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+sed '/<project name="android_device_samsung_aries-common" path="device/samsung/aries-common" remote="omnirom" revision="android-5.1"/>/d' roomservice.xml
+# sed '/<project name="android_device_samsung_i9100" path="device/samsung/i9100" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+# sed '/<project name="android_device_samsung_galaxys2-common" path="device/samsung/galaxys2-common" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+# sed '/<project name="android_kernel_samsung_smdk4412" path="kernel/samsung/smdk4412" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
+# sed '/<project name="android_hardware_samsung" path="hardware/samsung" remote="omnirom" revision="android-4.4"/>/d' roomservice.xml
 nautilus /home/iyahman/Bureau/outomni
 
 #****************************************************************
