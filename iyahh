@@ -9,10 +9,10 @@ START=$(date +%s)
 export OUT_DIR_COMMON_BASE=/media/iyahman/90ceb06a-8e7e-4c74-9aad-66fc1319ccd9/home/iyahman/Bureau/outputbuildcm11
 
 #Compil all IyahmanRom :
-# iyah11 s1 linaro
+iyah11 s1 linaro
 # for testing..
-cd /home/iyahman/android/rom/iyahmanrom11.0
-. build/envsetup.sh && brunch galaxysmtd
+# cd /home/iyahman/android/rom/iyahmanrom11.0
+# . build/envsetup.sh && brunch galaxysmtd
 iyah11 s2 linaro
 cd /home/iyahman/android/rom/iyahmanrom11.0
 #. build/envsetup.sh && brunch galaxysmtd
