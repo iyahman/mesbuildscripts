@@ -11,11 +11,14 @@ START=$(date +%s)
 # iyah11 s1 linaro
 # iyah11 s2 linaro
 # iyah11 s4 linaro
-# syncromrepo
-iyah12.1 s4
-# iyah12.1 s2 linaro
-# omniall
 makegapps
+iyah12.1 s4 linaro
+iyah12.1 s2 linaro
+# omniall
+# cd /media/iyahman/ubuntu2dd/iyahmanrom13
+# repo sync -cj8 --force-sync
+# . build/envsetup.sh && breakfast i9100 && brunch i9100
+# . build/envsetup.sh && breakfast jfltexx && brunch jfltexx
 
 #****************************************************************
 ## Report Timer :

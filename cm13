@@ -1,0 +1,35 @@
+#!/bin/bash
+# 
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+#****************************************************************
+export USE_CCACHE=1
+export CCACHE_DIR=/media/iyahman/ubuntu2dd/ccache/
+
+cd /media/iyahman/ubuntu2dd/iyahmanrom13
+repo sync -cj8 --force-sync
+# cd /media/iyahman/ubuntu2dd/iyahmanrom13/device/samsung/jf-common
+# git fetch git://github.com/AntaresOne/android_device_samsung_jf-common aosp-6.0-test && git cherry-pick 227696a92dd194e9ae1b108e277708a7252c7573
+cd /media/iyahman/ubuntu2dd/iyahmanrom13
+if
+. build/envsetup.sh && make installclean && breakfast jfltexx && brunch jfltexx
+then
+nautilus /media/iyahman/ubuntu2dd/iyahmanrom13/out/target/product/jfltexx
+fi
+if
+. build/envsetup.sh && make installclean && breakfast i9100 && brunch i9100
+then
+nautilus /media/iyahman/ubuntu2dd/iyahmanrom13/out/target/product/i9100
+fi
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC

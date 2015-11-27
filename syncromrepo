@@ -30,10 +30,24 @@ repo selfupdate && repo sync -cj16
 . build/envsetup.sh && breakfast i9300
 . build/envsetup.sh && breakfast jfltexx
 ~/android/rom/iyahmanrom12.1/vendor/cm/get-prebuilts
+#****************************************************************
+## Prepare cm13 android 6.0:
+if cd /media/iyahman/ubuntu2dd/iyahmanrom13/
+then repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0
+     echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 done'
+     repo sync -cj16
+     repo selfupdate && repo sync -cj16
+     . build/envsetup.sh && breakfast galaxysmtd
+     . build/envsetup.sh && breakfast i9100
+     . build/envsetup.sh && breakfast i9300
+     . build/envsetup.sh && breakfast jfltexx
+     ~/android/rom/iyahmanrom12.1/vendor/cm/get-prebuilts
+else echo 'error'
+fi
 
-# cd ~/android/rom/omnirom/
-# repo init -u https://github.com/omnirom/android.git -b android-5.1
-# repo sync -cj16
+cd ~/android/rom/omnirom/
+repo init -u https://github.com/omnirom/android.git -b android-5.1
+repo sync -cj16
 
 #****************************************************************
 ## Report timer:

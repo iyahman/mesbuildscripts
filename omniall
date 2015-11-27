@@ -8,17 +8,25 @@ START=$(date +%s)
 cd ~/android/rom/omnirom
 repo selfupdate
 # repo sync -cj16
-repo sync -cj4
+repo sync -cj4 --force-sync
 . build/envsetup.sh
 # make clobber
 ##galaxysmtd
 cd ~/android/rom/omnirom/kernel/samsung/aries
 make mrproper
-#big mem commit
+#big memin menu commit
 cd ~/android/rom/omnirom/device/samsung/aries-common
 git fetch https://github.com/xc-racer99/android_device_samsung_aries-common.git android-5.1 && git cherry-pick 356284ac2ec9a6c69fba27066932860aee1aed99 &&
 # fix encryption commit
 git cherry-pick 2de7cae2dccc3bf2fb2223c8c500c05257880250 &&
+# Fix HSPA setting in DeviceSettings
+git cherry-pick d73063012dfb2166934482b6455c035a833d5bca &&
+# Remove deprecated egl.cfg
+git cherry-pick a4851c60fd1f9eae4196eed93b26993eec4b75e1 &&
+# Update keymap for Android 5.x
+git cherry-pick b24b9386a5b2170c5187afebfab562e347c9e9e5 &&
+# Remove deprecated dalvik.gc.type-precise
+git cherry-pick e862ed180d75e8a93d7c5f6e920d121d4a455b22 &&
 cd ~/android/rom/omnirom/kernel/samsung/aries
 # git fetch https://gerrit.omnirom.org/android_kernel_samsung_aries refs/changes/22/13322/1 && git cherry-pick FETCH_HEAD
 git fetch https://github.com/iyahman/android_kernel_samsung_aries.git android-5.1 && 
@@ -32,7 +40,7 @@ git cherry-pick 332b219c32a3292e09f0397b8c52fc0857265729 && git cherry-pick 7f32
 # echo "CONFIG_S5P_HUGEMEM=y" >> .config
 cd ~/android/rom/omnirom/prebuilts/gcc/linux-x86/arm
 mv -v arm-linux-androideabi-4.8 aarm-linux-androideabi-4.8
-mv -v arm-linux-androideabi-UBER-4.8 arm-linux-androideabi-4.8
+mv -v arm-linux-androideabi-UBER-4.9 arm-linux-androideabi-4.8
 mv -v arm-eabi-4.7 aarm-eabi-4.7
 mv -v arm-eabi-linaroa8-4.9 arm-eabi-4.7
 #galaxysmtd
@@ -47,7 +55,7 @@ mv -v ~/android/rom/omnirom/out/target/product/vibrantmtd/omni-5.1.1-`date -u +%
 # git checkout -- arch/arm/configs/omni_galaxysmtd_defconfig
 # git checkout -- arch/arm/configs/omni_vibrantmtd_defconfig
 cd ~/android/rom/omnirom/prebuilts/gcc/linux-x86/arm
-mv -v arm-linux-androideabi-4.8 arm-linux-androideabi-UBER-4.8
+mv -v arm-linux-androideabi-4.8 arm-linux-androideabi-UBER-4.9
 mv -v aarm-linux-androideabi-4.8 arm-linux-androideabi-4.8
 mv -v arm-eabi-4.7 arm-eabi-linaroa8-4.9
 mv -v aarm-eabi-4.7 arm-eabi-4.7
