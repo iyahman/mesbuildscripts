@@ -1,0 +1,11 @@
+#!/bin/bash
+date
+
+# 
+# sudo update-alternatives --install "/usr/bin/java" "java" \
+# > "/opt/java/64/jdk1.6.0_45/bin/java" 1
+
+sudo update-alternatives --config javap
+# 
+# java -version
+# javac -version

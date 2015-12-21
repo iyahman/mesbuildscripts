@@ -13,7 +13,7 @@ START=$(date +%s)
 # iyah11 s4 linaro
 makegapps
 iyah12.1 s4 linaro
-iyah12.1 s2 linaro
+# iyah12.1 s2 linaro
 # omniall
 # cd /media/iyahman/ubuntu2dd/iyahmanrom13
 # repo sync -cj8 --force-sync

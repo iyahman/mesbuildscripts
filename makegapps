@@ -19,18 +19,15 @@ git pull
 #git fetch git://github.com/iyahman/opengapps master && git cherry-pick f497344443b4f2b3e14d01ac52d8bcd23b9d01d3
 # to build specific
 
-make arm-19-aroma
-make arm-19-stock
-make arm-19-pico
-make arm-20-aroma
-make arm-20-stock
-make arm-20-pico
-make arm-22-aroma
-make arm-22-stock
+# make arm-19-aroma
+# make arm-19-super
+# make arm-19-pico
+# make arm-22-aroma
+# make arm-22-super
 make arm-22-pico
 make arm-23-aroma
-make arm-23-stock
-make arm-23-pico
+# make arm-23-super
+# make arm-23-pico
 
 #git reset --hard HEAD~1
 # git reset --hard 4ed8969a24ceb43e1d5286fc667368241b2fd894

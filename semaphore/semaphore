@@ -4,21 +4,21 @@
 ## Start Timer :
 START=$(date +%s)
 
-cd ~/android/kernel/semaphore/11.0/samsung-kernel-aries
+cd ~/android/iyahmangithub/cm11/semaphore/11.0/samsung-kernel-aries
 make mrproper
 ./sbuild.sh galaxys
 make mrproper
 ./sbuild.sh galaxys s
-make mrproper
-./sbuild.sh captivate
-make mrproper
-./sbuild.sh captivate s
-make mrproper
-./sbuild.sh vibrant
-make mrproper
-./sbuild.sh vibrant s
+# make mrproper
+# ./sbuild.sh captivate
+# make mrproper
+# ./sbuild.sh captivate s
+# make mrproper
+# ./sbuild.sh vibrant
+# make mrproper
+# ./sbuild.sh vibrant s
 
-nautilus ~/android/kernel/semaphore/11.0/output
+nautilus ~/android/iyahmangithub/cm11/semaphore/11.0/output
 
 #****************************************************************
 ## Report Timer :
