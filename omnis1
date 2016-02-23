@@ -1,0 +1,62 @@
+#!/bin/bash
+# 
+
+export USE_CCACHE=1
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+
+cd ~/android/rom/omnirom
+repo selfupdate
+# repo sync -j8 --force-sync
+repo sync -j8
+. build/envsetup.sh
+make clobber
+cd ~/android/rom/omnirom/kernel/samsung/aries
+make mrproper
+
+cd ~/android/rom/omnirom/build
+git fetch https://github.com/iyahman/android_build1.git android-6.0 && 
+# eng and fr language
+git cherry-pick e123a9e7beb777261a6eccfed6f4bdb07abe6674 
+# # uber 5.3 for arm eabi
+# git cherry-pick 0fb0ab2e99910980006ae41fc39b7f7c2372f37c
+# # uber 4.9 for arm androideabi
+# git cherry-pick 8a1c7b2212be227b5e804754f3c548d563888437
+
+cd ~/android/rom/omnirom/kernel/samsung/aries
+git fetch https://github.com/iyahman/android_kernel_samsung_aries.git android-6.0 && 
+# wifi hacking commit
+git cherry-pick be9656cd35b0b7e787def8035b60d0d2b39d3b7d 
+
+# cd ~/android/rom/omnirom/prebuilts/gcc/linux-x86/arm
+# mv -v arm-linux-androideabi-4.8 aarm-linux-androideabi-4.8
+# mv -v arm-linux-androideabi-UBER-4.9 arm-linux-androideabi-4.8
+# mv -v arm-eabi-4.7 aarm-eabi-4.7
+# mv -v arm-eabi-linaroa8-4.9 arm-eabi-4.7
+
+#galaxysmtd
+cd ~/android/rom/omnirom
+. build/envsetup.sh 
+# make clean
+# make installclean && breakfast galaxysmtd && mka bootimage
+make installclean && brunch galaxysmtd
+
+# cd ~/android/rom/omnirom/prebuilts/gcc/linux-x86/arm
+# mv -v arm-linux-androideabi-4.8 arm-linux-androideabi-UBER-4.9
+# mv -v aarm-linux-androideabi-4.8 arm-linux-androideabi-4.8
+# mv -v arm-eabi-4.7 arm-eabi-linaroa8-4.9
+# mv -v aarm-eabi-4.7 arm-eabi-4.7
+
+nautilus /home/iyahman/android/rom/omnirom/out/target/product/galaxysmtd
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC

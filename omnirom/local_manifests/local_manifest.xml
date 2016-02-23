@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <remote fetch="https://gitlab.com" name="gitlab" />
+  <remote fetch="https://bitbucket.org/" name="bitbucket" />
+  <remove-project name="android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" remote="omnirom" revision="android-5.1" />
+  <remove-project name="android_device_samsung_aries-common" path="device/samsung/aries-common" remote="omnirom" revision="android-5.1" />
+  <remove-project name="android_kernel_samsung_aries" path="kernel/samsung/aries" remote="omnirom" revision="android-5.1" />
+  <remove-project name="android_hardware_samsung" path="hardware/samsung" remote="omnirom" revision="android-5.1" />
+  <remove-project name="android_prebuilts_gcc_linux-x86_arm_arm-eabi-4.7" path="prebuilts/gcc/linux-x86/arm/arm-eabi-4.7" remote="omnirom" revision="android-5.1" />
+  <remove-project name="android_prebuilts_gcc_darwin-x86_arm_arm-eabi-4.7" path="prebuilts/gcc/darwin-x86/arm/arm-eabi-4.7" remote="omnirom" revision="android-5.1" />
+  <remove-project path="build" name="android_build" remote="omnirom" revision="android-6.0" groups="pdk" />
+  <project name="UBERTC/arm-linux-androideabi-4.9" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-UBER-4.9" remote="bitbucket" revision="master" />
+  <project name="UBERTC/arm-linux-androideabi-5.3" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-UBER-5.3" remote="bitbucket" revision="master" />
+  <project name="UBERTC/arm-eabi-5.3" path="prebuilts/gcc/linux-x86/arm/arm-eabi-UBER-5.3" remote="bitbucket" revision="master" />
+  <project name="Coldwindofnowhere/android_build" path="build" remote="github" revision="android-6.0" />
+  <project name="lollipopi9000/proprietary_vendor_samsung" path="vendor/samsung" remote="github" revision="cm-13.0" />
+  <project name="Coldwindofnowhere/android_device_samsung_aries-common-1" path="device/samsung/aries-common" remote="github" revision="android-6.0" />
+  <project name="lollipopi9000/android_device_samsung_galaxysmtd" path="device/samsung/galaxysmtd" remote="github" revision="android-6.0" />
+  <project name="Coldwindofnowhere/android_kernel_samsung_aries" path="kernel/samsung/aries" remote="github" revision="android-6.0" />
+  <project name="lollipopi9000/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" remote="github" revision="cm-13.0" />
+  <project name="lollipopi9000/android_hardware_samsung" path="hardware/samsung" remote="github" revision="android-6.0" />
+</manifest>

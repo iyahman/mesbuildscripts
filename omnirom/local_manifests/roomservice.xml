@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Please do not manually edit this file-->
+<manifest>
+  <remote fetch="https://bitbucket.org/" name="bitbucket" />
+  <project name="lollipopi9000/proprietary_vendor_samsung" path="vendor/samsung" remote="github" revision="cm-13.0" />
+  <project name="Coldwindofnowhere/android_device_samsung_aries-common-1" path="device/samsung/aries-common" remote="github" revision="android-6.0" />
+  <project name="lollipopi9000/android_device_samsung_galaxysmtd" path="device/samsung/galaxysmtd" remote="github" revision="android-6.0" />
+  <project name="Coldwindofnowhere/android_kernel_samsung_aries" path="kernel/samsung/aries" remote="github" revision="android-6.0" />
+  <project name="lollipopi9000/android_packages_apps_SamsungServiceMode" path="packages/apps/SamsungServiceMode" remote="github" revision="cm-13.0" />
+  <project name="lollipopi9000/android_hardware_samsung" path="hardware/samsung" remote="github" revision="android-6.0" />
+  <remove-project name="android_frameworks_opt_telephony" />
+  <project name="lollipopi9000/android_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="github" revision="android-6.0" />
+  <remove-project name="android_bootable_recovery" />
+  <project name="Coldwindofnowhere/android_bootable_recovery" path="bootable/recovery" remote="github" revision="android-6.0" />
+  <remove-project name="platform/system/bt" />
+  <project name="lollipopi9000/android_system_bt" path="system/bt" remote="github" revision="android-6.0" />
+  <remove-project name="android_system_core" />
+  <project name="lollipopi9000/android_system_core" path="system/core" remote="github" revision="android-6.0" />
+  <remove-project name="android_system_vold" />
+  <project name="lollipopi9000/android_system_vold" path="system/vold" remote="github" revision="android-6.0" />
+  <remove-project name="android_hardware_ril" />
+  <project name="lollipopi9000/android_hardware_ril" path="hardware/ril" remote="github" revision="android-6.0" />
+  <remove-project name="android_system_extras" />
+  <project name="lollipopi9000/android_system_extras" path="system/extras" remote="github" revision="android-6.0" />
+  <remove-project name="android_frameworks_base" />
+  <project name="Coldwindofnowhere/android_frameworks_base" path="frameworks/base" remote="github" revision="android-6.0" />
+  <remove-project name="android_frameworks_native" />à
+  <project name="lollipopi9000/android_frameworks_native" path="frameworks/native" remote="github" revision="android-6.0" />
+  <remove-project name="android_build" />
+  <project name="Coldwindofnowhere/android_build" path="build" remote="github" revision="android-6.0" />
+  <remove-project name="android_bionic" />
+  <project name="lollipopi9000/android_bionic" path="bionic" remote="github" revision="android-6.0" />
+  <remove-project name="platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9" />
+  <project name="UBERTC/arm-linux-androideabi-4.9" path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-UBER-4.9" remote="bitbucket" revision="master" />
+  <project name="UBERTC/arm-eabi-4.9" path="prebuilts/gcc/linux-x86/arm/arm-eabi-UBER-4.9" remote="bitbucket" revision="master" />
+  <project name="UBERTC/arm-eabi-5.3" path="prebuilts/gcc/linux-x86/arm/arm-eabi-UBER-5.3" remote="bitbucket" revision="master" />
+  <project name="UBERTC/arm-eabi-6.0" path="prebuilts/gcc/linux-x86/arm/arm-eabi-UBER-6.0" remote="bitbucket" revision="master" />
+</manifest>

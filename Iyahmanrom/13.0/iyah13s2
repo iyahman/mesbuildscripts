@@ -1,0 +1,60 @@
+#!/bin/bash
+# 
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+#****************************************************************
+export USE_CCACHE=1
+export CCACHE_DIR=/media/iyahman/ubuntu2dd/ccache/
+
+# export TW_THEME=portrait_mdpi
+
+cd /media/iyahman/ubuntu2dd/iyahmanrom13
+repo selfupdate
+repo sync -cj16 --force-sync
+. build/envsetup.sh
+# make clobber
+# breakfast i9100
+# cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/smdk4412
+# make mrproper
+
+cd  /media/iyahman/ubuntu2dd/iyahmanrom13/build
+git fetch https://github.com/iyahman/android_build.git cm-13.0
+##fr commit
+git cherry-pick 3468a8d4f4a729f35b469a1870c7d8db9649c140
+##use uber4.9 for arm-linux-androideabi
+git cherry-pick 4fad83fde0177738c8d1a82c1daf38b7c96777db
+##add uber5.2 eabi for kernel
+# git cherry-pick 0d091defa4c4004c5f5fe9217856235d189e5234
+# 
+# cd  /media/iyahman/ubuntu2dd/iyahmanrom13/device/samsung/galaxys2-common
+# git fetch https://github.com/iyahman/android_device_samsung_galaxys2-common.git cm-13.0
+# ##twrp commit
+# git cherry-pick 78bbb2daf599eb36d71b8e13e99cbdc7be7a34fc
+
+# cd /media/iyahman/ubuntu2dd/iyahmanrom13/bootable
+# mv -v recovery recovery1
+# mv -v twrp recovery
+
+cd /media/iyahman/ubuntu2dd/iyahmanrom13
+. build/envsetup.sh
+make installclean 
+find ./out/ -name 'build.prop' | xargs rm
+# breakfast i9100 
+brunch i9100
+nautilus /media/iyahman/ubuntu2dd/iyahmanrom13/out/target/product/i9100
+
+# cd /media/iyahman/ubuntu2dd/iyahmanrom13/bootable
+# mv -v recovery twrp
+# mv -v recovery1 recovery
+
+#****************************************************************
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
