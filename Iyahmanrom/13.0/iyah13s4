@@ -11,6 +11,15 @@ export CCACHE_DIR=/media/iyahman/ubuntu2dd/ccache/
 cd /media/iyahman/ubuntu2dd/iyahmanrom13
 repo selfupdate
 repo sync -cj16 --force-sync
+# ccache -c && ccache -z
+# rm -R /media/iyahman/ubuntu2dd/ccache
+# make clobber
+# rm -R /media/iyahman/ubuntu2dd/iyahmanrom13/vendor/samsung/jf-common
+# # cd /media/iyahman/ubuntu2dd
+# # git clone -b jf-6.0-newril https://github.com/JDCTeam/proprietary_vendor_samsung.git
+# cd /media/iyahman/ubuntu2dd/proprietary_vendor_samsung && git pull
+# cp -R /media/iyahman/ubuntu2dd/proprietary_vendor_samsung/jf-common /media/iyahman/ubuntu2dd/iyahmanrom13/vendor/samsung
+# cd /media/iyahman/ubuntu2dd/iyahmanrom13
 # . build/envsetup.sh
 # make clobber
 # breakfast jfltexx
@@ -31,12 +40,16 @@ git fetch https://github.com/iyahman/android_build.git cm-13.0
 git cherry-pick 3468a8d4f4a729f35b469a1870c7d8db9649c140
 ##use uber4.9 for arm-linux-androideabi
 git cherry-pick 4fad83fde0177738c8d1a82c1daf38b7c96777db
-##add uber5.2 eabi for kernel
+# ##use uber5.3 for arm-linux-androideabi
+# git cherry-pick 3ed95fa169779cc47df5899dd5aca6e9db6cbda4
+# ##add uber5.2 eabi for kernel
 # git cherry-pick 0d091defa4c4004c5f5fe9217856235d189e5234
+# ##add uber5.3 eabi for kernel and 4.9 arm-androideabi
+# git cherry-pick 01600c695fc437d9b2d376bf9786f1e47eadebbc
 
 cd /media/iyahman/ubuntu2dd/iyahmanrom13/device/samsung/jf-common
 git fetch https://github.com/iyahman/android_device_samsung_jf-common.git cm-13.0
-##use arm-eabi for kernel compil
+# ##use arm-eabi for kernel compil
 # git cherry-pick 9b7b90a2d60f3bf1926b2bf87690f403fd9a5484
 ##add ubertoolchain optimization
 git cherry-pick ae41a423273297d60731ac6c168f8f91627ca4bb

@@ -5,9 +5,10 @@
 DATE_START=$(date +"%s")
 
 cd /media/iyahman/ubuntu2dd/iyahmanrom13
+make clobber
 . build/envsetup.sh && breakfast jfltexx
 cd /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/jf
-make menuconfig KCONFIG_CONFIG=arch/arm/configs/cyanogen_jf_defconfig 
+# make menuconfig KCONFIG_CONFIG=arch/arm/configs/cyanogen_jf_defconfig 
 make mrproper
 cd /media/iyahman/ubuntu2dd/iyahmanrom13
 make installclean
@@ -18,4 +19,4 @@ mka bootimage
 DATE_END=$(date +"%s")
 echo
 DIFF=$(($DATE_END - $DATE_START))
-echo $ROMNAME$CMVER pour $VARIANT fini en "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
+echo Kernel pour galaxy s4 jfltexx fini en "$(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
