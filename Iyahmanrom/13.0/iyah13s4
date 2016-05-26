@@ -13,6 +13,7 @@ repo selfupdate
 repo sync -cj16 --force-sync
 # ccache -c && ccache -z
 # rm -R /media/iyahman/ubuntu2dd/ccache
+# . build/envsetup.sh
 # make clobber
 # rm -R /media/iyahman/ubuntu2dd/iyahmanrom13/vendor/samsung/jf-common
 # # cd /media/iyahman/ubuntu2dd
@@ -20,14 +21,12 @@ repo sync -cj16 --force-sync
 # cd /media/iyahman/ubuntu2dd/proprietary_vendor_samsung && git pull
 # cp -R /media/iyahman/ubuntu2dd/proprietary_vendor_samsung/jf-common /media/iyahman/ubuntu2dd/iyahmanrom13/vendor/samsung
 # cd /media/iyahman/ubuntu2dd/iyahmanrom13
-# . build/envsetup.sh
-# make clobber
-# breakfast jfltexx
-# cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/jf
-# make mrproper
-# breakfast i9100
-# cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/smdk4412
-# make mrproper
+. build/envsetup.sh
+# make clean
+
+breakfast jfltexx
+cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/jf
+make mrproper
 
 # cd /media/iyahman/ubuntu2dd/iyahmanrom13/android
 # git fetch https://github.com/iyahman/android.git cm-13.0
@@ -65,18 +64,10 @@ git cherry-pick 7b3509c739696dbf8dfc3a495c7fde1df396cd4d
 ##fix for gcc5/6 compil
 # git cherry-pick cf092d1fdefc0cf3d20504a6b8d0d3db3c07569e
 ## fauxsound support
-git cherry-pick c0f42bc87792ab289cbbe2b7eb5362d35f592996
-git cherry-pick e56542c84e1df819325e5d26192eb5d4fe3785db
+# git cherry-pick c0f42bc87792ab289cbbe2b7eb5362d35f592996
+# git cherry-pick e56542c84e1df819325e5d26192eb5d4fe3785db
 ##scheduler and governor
 git cherry-pick b59ed35066d89a4ee323aa10db665de80204522a
-
-
-# cd /media/iyahman/ubuntu2dd/iyahmanrom13/prebuilts/gcc/linux-x86/arm
-# mv -v arm-linux-androideabi-4.9 aarm-linux-androideabi-4.9
-# mv -v arm-linux-androideabi-UBER-4.9 arm-linux-androideabi-4.9
-
-# mv -v arm-eabi-4.8 aarm-eabi-4.8
-# mv -v arm-eabi-UBER-4.9 arm-eabi-4.8
 
 cd /media/iyahman/ubuntu2dd/iyahmanrom13
 . build/envsetup.sh
@@ -86,22 +77,6 @@ find ./out/ -name 'build.prop' | xargs rm
 # mka bootimage
 brunch jfltexx
 nautilus /media/iyahman/ubuntu2dd/iyahmanrom13/out/target/product/jfltexx
-
-# cd /media/iyahman/ubuntu2dd/iyahmanrom13
-# . build/envsetup.sh
-# make installclean 
-# find ./out/ -name 'build.prop' | xargs rm
-# # breakfast i9100 
-# brunch i9100
-# nautilus /media/iyahman/ubuntu2dd/iyahmanrom13/out/target/product/i9100
-
-
-# cd /media/iyahman/ubuntu2dd/iyahmanrom13/prebuilts/gcc/linux-x86/arm
-# mv -v arm-linux-androideabi-4.9 arm-linux-androideabi-UBER-4.9
-# mv -v aarm-linux-androideabi-4.9 arm-linux-androideabi-4.9
-
-# mv -v arm-eabi-4.8 arm-eabi-UBER-4.9
-# mv -v aarm-eabi-4.8 arm-eabi-4.8
 
 #****************************************************************
 ## Report Timer :

@@ -14,7 +14,7 @@ START=$(date +%s)
 # iyah12.1 s4 linaro
 # iyah12.1 s2 linaro
 # omnis1
-iyah13s2
+# iyah13s2
 iyah13s4
 makegapps
 

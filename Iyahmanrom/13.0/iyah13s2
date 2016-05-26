@@ -16,8 +16,8 @@ repo sync -cj16 --force-sync
 . build/envsetup.sh
 # make clobber
 # breakfast i9100
-# cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/smdk4412
-# make mrproper
+cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/smdk4412
+make mrproper
 
 cd  /media/iyahman/ubuntu2dd/iyahmanrom13/build
 git fetch https://github.com/iyahman/android_build.git cm-13.0
