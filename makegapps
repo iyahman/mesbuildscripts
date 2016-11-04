@@ -14,6 +14,7 @@ cd ~/android/stuff/opengapps
 git status
 git pull
 ./download_sources.sh --shallow arm
+./download_sources.sh --shallow arm64
 # to build all platforms and releases
 # make
 #git fetch git://github.com/iyahman/opengapps master && git cherry-pick f497344443b4f2b3e14d01ac52d8bcd23b9d01d3
@@ -28,8 +29,8 @@ git pull
 # make arm-23-pico
 make arm-23-aroma
 # make arm-23-super
-
-
+make arm64-24-aroma
+make arm-24-pico
 #git reset --hard HEAD~1
 # git reset --hard 4ed8969a24ceb43e1d5286fc667368241b2fd894
 

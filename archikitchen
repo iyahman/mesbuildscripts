@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+
+
+
+#****************************************************************
+## Initialize, clean and sync repo :
+
+cd /home/iyahman/android/utilitaire/ArchiKitchen
+. archi
+
+

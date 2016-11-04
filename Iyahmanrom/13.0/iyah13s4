@@ -8,75 +8,75 @@ START=$(date +%s)
 export USE_CCACHE=1
 export CCACHE_DIR=/media/iyahman/ubuntu2dd/ccache/
 
-cd /media/iyahman/ubuntu2dd/iyahmanrom13
+cd /home/iyahman/android/rom/iyahmanrom13
 repo selfupdate
 repo sync -cj16 --force-sync
 # ccache -c && ccache -z
 # rm -R /media/iyahman/ubuntu2dd/ccache
 # . build/envsetup.sh
 # make clobber
-# rm -R /media/iyahman/ubuntu2dd/iyahmanrom13/vendor/samsung/jf-common
+# rm -R /home/iyahman/android/rom/iyahmanrom13/vendor/samsung/jf-common
 # # cd /media/iyahman/ubuntu2dd
 # # git clone -b jf-6.0-newril https://github.com/JDCTeam/proprietary_vendor_samsung.git
 # cd /media/iyahman/ubuntu2dd/proprietary_vendor_samsung && git pull
-# cp -R /media/iyahman/ubuntu2dd/proprietary_vendor_samsung/jf-common /media/iyahman/ubuntu2dd/iyahmanrom13/vendor/samsung
-# cd /media/iyahman/ubuntu2dd/iyahmanrom13
+# cp -R /media/iyahman/ubuntu2dd/proprietary_vendor_samsung/jf-common /home/iyahman/android/rom/iyahmanrom13/vendor/samsung
+# cd /home/iyahman/android/rom/iyahmanrom13
 . build/envsetup.sh
 # make clean
 
 breakfast jfltexx
-cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/jf
+cd  /home/iyahman/android/rom/iyahmanrom13/kernel/samsung/jf
 make mrproper
 
-# cd /media/iyahman/ubuntu2dd/iyahmanrom13/android
+# cd /home/iyahman/android/rom/iyahmanrom13/android
 # git fetch https://github.com/iyahman/android.git cm-13.0
 # ##still use busybox
 # git cherry-pick 82ca80f28a539324c9a4c1210053767644fac702
 
-cd  /media/iyahman/ubuntu2dd/iyahmanrom13/build
-git fetch https://github.com/iyahman/android_build.git cm-13.0
-##fr commit
-git cherry-pick 3468a8d4f4a729f35b469a1870c7d8db9649c140
-##use uber4.9 for arm-linux-androideabi
-git cherry-pick 4fad83fde0177738c8d1a82c1daf38b7c96777db
-# ##use uber5.3 for arm-linux-androideabi
-# git cherry-pick 3ed95fa169779cc47df5899dd5aca6e9db6cbda4
-# ##add uber5.2 eabi for kernel
-# git cherry-pick 0d091defa4c4004c5f5fe9217856235d189e5234
-# ##add uber5.3 eabi for kernel and 4.9 arm-androideabi
-# git cherry-pick 01600c695fc437d9b2d376bf9786f1e47eadebbc
-
-cd /media/iyahman/ubuntu2dd/iyahmanrom13/device/samsung/jf-common
-git fetch https://github.com/iyahman/android_device_samsung_jf-common.git cm-13.0
-# ##use arm-eabi for kernel compil
-# git cherry-pick 9b7b90a2d60f3bf1926b2bf87690f403fd9a5484
-##add ubertoolchain optimization
-git cherry-pick ae41a423273297d60731ac6c168f8f91627ca4bb
-## set selinux to permissive
-git cherry-pick 41dd47249c03799d5ef11950be7838aca7b7ef4e
-
-cd  /media/iyahman/ubuntu2dd/iyahmanrom13/kernel/samsung/jf
-git fetch https://github.com/iyahman/android_kernel_samsung_jf.git cm-13.0
+# cd  /home/iyahman/android/rom/iyahmanrom13/build
+# git fetch https://github.com/iyahman/android_build.git cm-13.0
+# ##fr commit
+# git cherry-pick 3468a8d4f4a729f35b469a1870c7d8db9649c140
+# ##use uber4.9 for arm-linux-androideabi
+# git cherry-pick 4fad83fde0177738c8d1a82c1daf38b7c96777db
+# # ##use uber5.3 for arm-linux-androideabi
+# # git cherry-pick 3ed95fa169779cc47df5899dd5aca6e9db6cbda4
+# # ##add uber5.2 eabi for kernel
+# # git cherry-pick 0d091defa4c4004c5f5fe9217856235d189e5234
+# # ##add uber5.3 eabi for kernel and 4.9 arm-androideabi
+# # git cherry-pick 01600c695fc437d9b2d376bf9786f1e47eadebbc
+# 
+# cd /home/iyahman/android/rom/iyahmanrom13/device/samsung/jf-common
+# git fetch https://github.com/iyahman/android_device_samsung_jf-common.git cm-13.0
+# # ##use arm-eabi for kernel compil
+# # git cherry-pick 9b7b90a2d60f3bf1926b2bf87690f403fd9a5484
+# ##add ubertoolchain optimization
+# git cherry-pick ae41a423273297d60731ac6c168f8f91627ca4bb
+# ## set selinux to permissive
+# # git cherry-pick 41dd47249c03799d5ef11950be7838aca7b7ef4e
+# 
+# cd  /home/iyahman/android/rom/iyahmanrom13/kernel/samsung/jf
+# git fetch https://github.com/iyahman/android_kernel_samsung_jf.git cm-13.0
 ##switch to o3 optimization
-git cherry-pick 0b8114befd483c6705be2ab4671e706e927f2e2e
+# git cherry-pick 0b8114befd483c6705be2ab4671e706e927f2e2e
 ## fastcharge support
-git cherry-pick 7b3509c739696dbf8dfc3a495c7fde1df396cd4d
+# git cherry-pick 7b3509c739696dbf8dfc3a495c7fde1df396cd4d
 ##fix for gcc5/6 compil
 # git cherry-pick cf092d1fdefc0cf3d20504a6b8d0d3db3c07569e
 ## fauxsound support
 # git cherry-pick c0f42bc87792ab289cbbe2b7eb5362d35f592996
 # git cherry-pick e56542c84e1df819325e5d26192eb5d4fe3785db
 ##scheduler and governor
-git cherry-pick b59ed35066d89a4ee323aa10db665de80204522a
+# git cherry-pick b59ed35066d89a4ee323aa10db665de80204522a
 
-cd /media/iyahman/ubuntu2dd/iyahmanrom13
+cd /home/iyahman/android/rom/iyahmanrom13
 . build/envsetup.sh
 make installclean 
 find ./out/ -name 'build.prop' | xargs rm
 # breakfast jfltexx
 # mka bootimage
 brunch jfltexx
-nautilus /media/iyahman/ubuntu2dd/iyahmanrom13/out/target/product/jfltexx
+nautilus /home/iyahman/android/rom/iyahmanrom13/out/target/product/jfltexx
 
 #****************************************************************
 ## Report Timer :

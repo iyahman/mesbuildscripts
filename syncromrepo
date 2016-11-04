@@ -30,25 +30,36 @@ START=$(date +%s)
 # . build/envsetup.sh && breakfast i9300
 # . build/envsetup.sh && breakfast jfltexx
 # ~/android/rom/iyahmanrom12.1/vendor/cm/get-prebuilts
-#****************************************************************
-# ## Prepare cm13 android 6.0:
-# if cd /media/iyahman/ubuntu2dd/iyahmanrom13/
-# then repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0
-#      echo 'repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0 done'
-#      repo sync -cj16
-#      repo selfupdate && repo sync -cj16
-#      . build/envsetup.sh && breakfast galaxysmtd
-#      . build/envsetup.sh && breakfast i9100
-#      . build/envsetup.sh && breakfast i9300
-#      . build/envsetup.sh && breakfast jfltexx
-#      /media/iyahman/ubuntu2dd/iyahmanrom13.0/vendor/cm/get-prebuilts
-# else echo 'error'
-# fi
 
-cd ~/android/rom/omnirom/
-# repo init -u https://github.com/omnirom/android.git -b android-6.0
+# #****************************************************************
+# # ## Prepare cm13 android 6.0:
+cd ~/android/rom/iyahmanrom13
+repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0
 repo sync -cj16
-repo sync -cj16
+repo selfupdate && repo sync -cj16
+. build/envsetup.sh && breakfast jfltexx
+# 
+# #****************************************************************
+# # ## Prepare opticm13 android 6.0:
+# cd /media/iyahman/ubuntu2dd/Opticm13/
+# repo sync -cj4 --force-sync
+# repo sync -cj2 --force-sync
+
+#****************************************************************
+# ## Prepare cm14 android 7.0:
+cd ~/android/rom/iyahmanrom14
+repo init -u git://github.com/CyanogenMod/android.git -b cm-14.0
+repo selfupdate && repo sync -cj16
+repo sync -cj4 --force-sync
+. build/envsetup.sh && breakfast hero2lte
+. build/envsetup.sh && breakfast jfltexx
+
+# #****************************************************************
+# # ## Prepare omnirom:
+# cd ~/android/rom/omnirom/
+# # repo init -u https://github.com/omnirom/android.git -b android-6.0
+# repo sync -cj16
+# repo sync -cj16
 
 #****************************************************************
 ## Report timer:
