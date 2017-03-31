@@ -1,0 +1,39 @@
+#!/bin/bash
+# 
+
+export USE_CCACHE=0
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+#****************************************************************
+#Compil cm14:
+
+cd /home/iyahman/android/rom/iyahmanrom14
+repo sync -cj16 --force-sync
+# repo sync -cj4 --force-sync
+cd /home/iyahman/android/rom/iyahmanrom14/build
+git fetch https://github.com/iyahman/android_build-1.git cm-14.1
+##fr commit
+git cherry-pick 8a8ae476ec7f120bd563dc8332922862a509aa2f
+##UBER 4.9
+git cherry-pick 553ab1d2c4cfc5944eb5373a25e1c69361dab07d
+cd /home/iyahman/android/rom/iyahmanrom14/device/samsung/hero2lte
+git fetch https://github.com/iyahman/android_device_samsung_hero2lte.git LaOS-N
+##compil TWRP for S7edge
+git cherry-pick 2b8fb65a765e39c7427022ed7b8261b616c78350
+cd /home/iyahman/android/rom/iyahmanrom14
+# . build/envsetup.sh
+# make clobber
+. build/envsetup.sh
+lunch lineage_hero2lte-eng
+mka recoveryimage
+
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC

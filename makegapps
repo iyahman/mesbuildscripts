@@ -13,13 +13,15 @@ START=$(date +%s)
 cd ~/android/stuff/opengapps
 git status
 git pull
-./download_sources.sh --shallow arm
-./download_sources.sh --shallow arm64
-# to build all platforms and releases
-# make
-#git fetch git://github.com/iyahman/opengapps master && git cherry-pick f497344443b4f2b3e14d01ac52d8bcd23b9d01d3
-# to build specific
 
+# ./download_sources.sh --shallow arm
+./download_sources.sh --shallow arm64
+
+## to build all platforms and releases
+
+# make
+
+# to build specific
 # make arm-19-aroma
 # make arm-19-super
 # make arm-19-pico
@@ -27,12 +29,16 @@ git pull
 # make arm-22-super
 # make arm-22-pico
 # make arm-23-pico
-make arm-23-aroma
+# make arm-23-aroma
 # make arm-23-super
-make arm64-24-aroma
-make arm-24-pico
-#git reset --hard HEAD~1
-# git reset --hard 4ed8969a24ceb43e1d5286fc667368241b2fd894
+# make arm-25-aroma
+make arm-25-pico
+make arm-25-nano
+make arm-25-micro
+# make arm64-25-aroma
+make arm64-25-pico
+make arm64-25-micro
+# make arm64-25-mini
 
 nautilus /home/iyahman/android/stuff/opengapps/out
 

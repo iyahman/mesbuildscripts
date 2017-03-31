@@ -19,4 +19,4 @@ cd ~/android/cyanostuff/Alucard-Kernel-jfltexx && git status && git pull
 ##Update android SDK:
 
 android list sdk
-android update sdk --no-ui
+echo yes | android update sdk --no-ui

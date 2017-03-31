@@ -1,0 +1,48 @@
+#!/bin/bash
+# 
+
+export USE_CCACHE=0
+
+#****************************************************************
+## Start Timer :
+START=$(date +%s)
+#****************************************************************
+#Compil cm14:
+
+cd /home/iyahman/android/rom/iyahmanrom14
+repo sync -cj16 --force-sync
+# repo sync -cj4 --force-sync
+cd /home/iyahman/android/rom/iyahmanrom14/build
+git fetch https://github.com/iyahman/android_build-1.git cm-14.1
+##fr commit
+git cherry-pick 8a8ae476ec7f120bd563dc8332922862a509aa2f
+##UBER 4.9
+git cherry-pick 553ab1d2c4cfc5944eb5373a25e1c69361dab07d
+cd /home/iyahman/android/rom/iyahmanrom14/device/samsung/jf-common
+git fetch https://github.com/iyahman/android_device_samsung_jf-common-1.git cm-14.1
+##compil TWRP for S4
+git cherry-pick 4fecce4ea089585a1a3b14e306b7b2ced0ef22a0 && git cherry-pick 4625ba0c1c74be2e98bfe859f9c7a206e6bbdb95 && git cherry-pick d3750c7c455058dcdd09de531bf2e1b145c18c64 
+git cherry-pick ac563c534fc3c02a20719db7db9e087f6711aeb0
+cd /home/iyahman/android/rom/iyahmanrom14/device/samsung/jfltexx
+git fetch https://github.com/iyahman/android_device_samsung_jfltexx.git cm-14.1
+##compil TWRP for S4
+git cherry-pick 04a1a1fdb59707e4371a6e7144e838f08d1e6e9b
+git cherry-pick 73f7c9b60a86e5f7ce98d8060018553108ae5a9a
+# twrp compil on off
+# git cherry-pick c6a8a2be2f5f4cc0de6b2263e612573f1db16d3b
+
+cd /home/iyahman/android/rom/iyahmanrom14
+. build/envsetup.sh
+make clobber
+. build/envsetup.sh
+lunch lineage_jfltexx-userdebug
+mka recoveryimage
+
+## Report Timer :
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
