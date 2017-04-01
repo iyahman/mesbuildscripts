@@ -1,0 +1,6 @@
+#!/bin/bash
+
+sudo mount /dev/$1 /mnt
+for i in /sys /proc /run /dev /dev/pts; do sudo mount --bind "$i" "/mnt$i"; done
+sudo cp /etc/resolv.conf /mnt/etc/
+sudo chroot /mnt

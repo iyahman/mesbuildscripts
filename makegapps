@@ -29,7 +29,7 @@ git pull
 # make arm-22-super
 # make arm-22-pico
 # make arm-23-pico
-# make arm-23-aroma
+make arm-23-aroma
 # make arm-23-super
 # make arm-25-aroma
 make arm-25-pico
