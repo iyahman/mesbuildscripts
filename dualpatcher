@@ -1,0 +1,43 @@
+#!/bin/bash
+date
+
+#****************************************************************
+## Start timer:
+START=$(date +%s)
+
+#****************************************************************
+## set environment variables
+export ANDROID_HOME=/home/iyahman/android/utilitaire/android-sdk
+export ANDROID_NDK_HOME=/home/iyahman/android/utilitaire/android-ndk
+export ANDROID_NDK=/home/iyahman/android/utilitaire/android-ndk
+
+#****************************************************************
+## sync DualBootPatcher
+
+cd /home/iyahman/android/utilitaire/DualBootPatcher
+git status
+git pull
+git submodule update --init --recursive
+
+#****************************************************************
+## compil DualBootPatcher
+
+cd build
+cmake .. \
+    -DMBP_BUILD_TARGET=android \
+    -DMBP_BUILD_TYPE=debug
+make
+rm -rf assets && cpack -G TXZ
+make apk
+
+#****************************************************************
+## Report timer:
+END=$(date +%s)
+ELAPSED=$((END - START))
+E_MIN=$((ELAPSED / 60))
+E_SEC=$((ELAPSED - E_MIN * 60))
+printf "${txtgrn}ELAPSED: "
+[ $E_MIN != 0 ] && printf "%d min(s) " $E_MIN
+printf "%d sec(s)\n ${txtrst}" $E_SEC
+echo
+
