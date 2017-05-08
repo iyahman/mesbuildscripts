@@ -7,40 +7,24 @@ START=$(date +%s)
 #****************************************************************
 export USE_CCACHE=1
 
-cd /media/iyahman/ubuntu2dd/Opticm13
+cd /run/media/iyahman/LINUXEXTEND1/rom/opticm13
 repo selfupdate
 repo sync -cj16 --force-sync
 # ccache -c && ccache -z
 # rm -R /media/iyahman/ubuntu2dd/ccache
 # make clobber
-# rm -R /media/iyahman/ubuntu2dd/Opticm13/vendor/samsung/jf-common
-# # cd /media/iyahman/ubuntu2dd
-# # git clone -b jf-6.0-newril https://github.com/JDCTeam/proprietary_vendor_samsung.git
-# cd /media/iyahman/ubuntu2dd/proprietary_vendor_samsung && git pull
-# cp -R /media/iyahman/ubuntu2dd/proprietary_vendor_samsung/jf-common /media/iyahman/ubuntu2dd/Opticm13/vendor/samsung
-# cd /media/iyahman/ubuntu2dd/Opticm13
-. build/envsetup.sh
-make installclean 
-find ./out/ -name 'build.prop' | xargs rm
-# make clobber
-# breakfast jflte
-cd  /media/iyahman/ubuntu2dd/Opticm13/kernel/samsung/jf
-make mrproper
-cd  /media/iyahman/ubuntu2dd/Opticm13/kernel/samsung/alucard24
-make mrproper
-
 
 ##fr commit
-cd  /media/iyahman/ubuntu2dd/Opticm13/build && git fetch https://github.com/iyahman/android_build.git cm-13.0 && 
+cd  /run/media/iyahman/LINUXEXTEND1/rom/opticm13/build && git fetch https://github.com/iyahman/android_build.git cm-13.0 && 
 git cherry-pick 3468a8d4f4a729f35b469a1870c7d8db9649c140
 # # ##twrp commit
-# cd  /media/iyahman/ubuntu2dd/Opticm13/device/samsung/jf-common && git fetch https://github.com/iyahman/android_device_samsung_jf-common.git cm-13.0 && 
+# cd  /run/media/iyahman/LINUXEXTEND1/rom/opticm13/device/samsung/jf-common && git fetch https://github.com/iyahman/android_device_samsung_jf-common.git cm-13.0 && 
 # git cherry-pick e0f0525eb288a763cdcf263694cddbb876da3151
-# cd  /media/iyahman/ubuntu2dd/Opticm13/device/samsung/jflte && git fetch https://github.com/iyahman/android_device_samsung_jfltexx.git cm-13.0 && 
+# cd  /run/media/iyahman/LINUXEXTEND1/rom/opticm13/device/samsung/jflte && git fetch https://github.com/iyahman/android_device_samsung_jfltexx.git cm-13.0 && 
 # git cherry-pick 04a1a1fdb59707e4371a6e7144e838f08d1e6e9b
 
 # ##still use busybox 'useless cause in roomservice'
-# cd /media/iyahman/ubuntu2dd/Opticm13/android && git fetch https://github.com/iyahman/android.git cm-13.0 &&
+# cd /run/media/iyahman/LINUXEXTEND1/rom/opticm13/android && git fetch https://github.com/iyahman/android.git cm-13.0 &&
 # git cherry-pick 82ca80f28a539324c9a4c1210053767644fac702
 
 ##use uber4.9 for arm-linux-androideabi
@@ -52,18 +36,24 @@ git cherry-pick 4fad83fde0177738c8d1a82c1daf38b7c96777db
 # ##add uber5.3 eabi for kernel and 4.9 arm-androideabi
 # git cherry-pick 01600c695fc437d9b2d376bf9786f1e47eadebbc
 
-cd /media/iyahman/ubuntu2dd/Opticm13
-. build.sh
-# . build/envsetup.sh
-# make installclean 
-# find ./out/ -name 'build.prop' | xargs rm
+cd /run/media/iyahman/LINUXEXTEND1/rom/opticm13
+# . build.sh
+. build/envsetup.sh
+cd  /run/media/iyahman/LINUXEXTEND1/rom/opticm13/kernel/samsung/jf
+make mrproper
+cd  /run/media/iyahman/LINUXEXTEND1/rom/opticm13/kernel/samsung/alucard24
+make mrproper
+make installclean 
+find ./out/ -name 'build.prop' | xargs rm
+lunch cm_jflte-userdebug
+make -j4 otapackage
 # breakfast jflte
 # make -j4 recoveryimage
 # make -j4 recoveryzip
 # # mka bootimage
 # brunch jflte
-nautilus /media/iyahman/ubuntu2dd/Opticm13
-iyahh
+nautilus /run/media/iyahman/LINUXEXTEND1/rom/opticm13
+
 
 
 #****************************************************************

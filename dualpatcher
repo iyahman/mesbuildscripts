@@ -7,9 +7,9 @@ START=$(date +%s)
 
 #****************************************************************
 ## set environment variables
-export ANDROID_HOME=/home/iyahman/android/utilitaire/android-sdk
-export ANDROID_NDK_HOME=/home/iyahman/android/utilitaire/android-ndk
-export ANDROID_NDK=/home/iyahman/android/utilitaire/android-ndk
+export ANDROID_HOME=/opt/android-sdk
+export ANDROID_NDK_HOME=/opt/android-ndk
+export ANDROID_NDK=/opt/android-ndk
 
 #****************************************************************
 ## sync DualBootPatcher

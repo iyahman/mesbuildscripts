@@ -10,7 +10,7 @@ START=$(date +%s)
 #Compil cm14:
 
 cd /home/iyahman/android/rom/iyahmanrom14
-repo sync -cj16 --force-sync
+repo sync -j$( nproc --all ) --force-sync -c --no-clone-bundle --no-tags --optimized-fetch --prune
 # repo sync -cj4 --force-sync
 cd /home/iyahman/android/rom/iyahmanrom14/build
 git fetch https://github.com/iyahman/android_build-1.git cm-14.1
@@ -30,6 +30,32 @@ git cherry-pick 04a1a1fdb59707e4371a6e7144e838f08d1e6e9b
 git cherry-pick 73f7c9b60a86e5f7ce98d8060018553108ae5a9a
 # twrp compil on off
 # git cherry-pick c6a8a2be2f5f4cc0de6b2263e612573f1db16d3b
+
+#****************************************************************
+# substratum oms support
+cd /home/iyahman/android/rom/iyahmanrom14/vendor/cm
+git pull https://github.com/LineageOMS/android_vendor_cm cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Settings
+git pull https://github.com/LineageOMS/android_packages_apps_Settings cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/PhoneCommon
+git pull https://github.com/LineageOMS/android_packages_apps_PhoneCommon cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Dialer
+git pull https://github.com/LineageOMS/android_packages_apps_Dialer cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Contacts
+git pull https://github.com/LineageOMS/android_packages_apps_Contacts cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/frameworks/native
+git pull https://github.com/LineageOMS/android_frameworks_native cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/frameworks/base
+git pull https://github.com/LineageOMS/android_frameworks_base cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/ContactsCommon
+git pull https://github.com/LineageOMS/android_packages_apps_ContactsCommon cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/system/sepolicy
+git pull https://github.com/LineageOMS/android_system_sepolicy cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/PackageInstaller
+git pull https://github.com/LineageOMS/android_packages_apps_PackageInstaller cm-14.1
+cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/ExactCalculator
+git pull https://github.com/LineageOMS/android_packages_apps_ExactCalculator cm-14.1
+
 cd /home/iyahman/android/rom/iyahmanrom14
 . build/envsetup.sh
 make installclean 

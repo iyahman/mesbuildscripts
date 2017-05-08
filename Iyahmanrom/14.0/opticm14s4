@@ -7,18 +7,22 @@ START=$(date +%s)
 #****************************************************************
 
 export USE_CCACHE=1
-export ANDROID_CCACHE_DIR="/media/iyahman/LINUXEXTEND/.ccache"
+export ANDROID_CCACHE_DIR="/media/iyahman/LINUXEXTEND1/.ccache"
 
-cd /media/iyahman/LINUXEXTEND/rom/opticm14
-. build.sh
-# cd /media/iyahman/LINUXEXTEND/rom/opticm14/build
-# git fetch https://github.com/iyahman/android_build-1.git cm-14.1
-# ##fr commit
-# git cherry-pick 8a8ae476ec7f120bd563dc8332922862a509aa2f
+cd /media/iyahman/LINUXEXTEND1/rom/opticm14
+repo selfupdate
+repo sync -cj8 --force-sync
+# . build.sh
+cd /media/iyahman/LINUXEXTEND1/rom/opticm14/build
+git fetch https://github.com/iyahman/android_build-1.git cm-14.1
+##fr commit
+git cherry-pick 8a8ae476ec7f120bd563dc8332922862a509aa2f
+cd /media/iyahman/LINUXEXTEND1/rom/opticm14
+. build/envsetup.sh
+lunch cm_jflte-userdebug
+make -j4 otapackage
 
-echo 1
-
-nautilus /media/iyahman/LINUXEXTEND/rom/opticm14
+nautilus /media/iyahman/LINUXEXTEND1/rom/opticm14
 
 
 #****************************************************************

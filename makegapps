@@ -29,15 +29,15 @@ git pull
 # make arm-22-super
 # make arm-22-pico
 # make arm-23-pico
-make arm-23-aroma
+# make arm-23-aroma
 # make arm-23-super
-# make arm-25-aroma
-make arm-25-pico
-make arm-25-nano
-make arm-25-micro
-# make arm64-25-aroma
+make arm-25-aroma
+#  make arm-25-pico
+# make arm-25-nano
+# make arm-25-micro
+make arm64-25-aroma
 make arm64-25-pico
-make arm64-25-micro
+# make arm64-25-micro
 # make arm64-25-mini
 
 nautilus /home/iyahman/android/stuff/opengapps/out
