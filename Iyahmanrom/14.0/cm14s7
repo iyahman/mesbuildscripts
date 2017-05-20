@@ -37,7 +37,7 @@ git pull https://github.com/LineageOMS/android_packages_apps_Dialer cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Contacts
 git pull https://github.com/LineageOMS/android_packages_apps_Contacts cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/frameworks/native
-git pull https://github.com/LineageOMS/android_frameworks_native cm-14.1
+git pull -f https://github.com/LineageOMS/android_frameworks_native cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/frameworks/base
 git pull https://github.com/LineageOMS/android_frameworks_base cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/ContactsCommon
