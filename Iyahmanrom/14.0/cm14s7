@@ -19,27 +19,27 @@ git fetch https://github.com/iyahman/android_build-1.git cm-14.1
 git cherry-pick 8a8ae476ec7f120bd563dc8332922862a509aa2f
 ##UBER 4.9
 git cherry-pick 553ab1d2c4cfc5944eb5373a25e1c69361dab07d
-cd /home/iyahman/android/rom/iyahmanrom14/device/samsung/hero2lte
-git fetch https://github.com/iyahman/android_device_samsung_hero2lte.git LaOS-N
+# cd /home/iyahman/android/rom/iyahmanrom14/device/samsung/hero2lte
+# git fetch https://github.com/iyahman/android_device_samsung_hero2lte.git LaOS-N
 ##compil TWRP for S7edge
 # git cherry-pick 2b8fb65a765e39c7427022ed7b8261b616c78350
 
 #****************************************************************
 # substratum oms support
-cd /home/iyahman/android/rom/iyahmanrom14/vendor/cm
-git pull https://github.com/LineageOMS/android_vendor_cm cm-14.1
-cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Settings
-git pull https://github.com/LineageOMS/android_packages_apps_Settings cm-14.1
-cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/PhoneCommon
-git pull https://github.com/LineageOMS/android_packages_apps_PhoneCommon cm-14.1
-cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Dialer
-git pull https://github.com/LineageOMS/android_packages_apps_Dialer cm-14.1
+# cd /home/iyahman/android/rom/iyahmanrom14/vendor/cm
+# git pull https://github.com/LineageOMS/android_vendor_cm cm-14.1
+# cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Settings
+# git pull https://github.com/LineageOMS/android_packages_apps_Settings cm-14.1
+# cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/PhoneCommon
+# git pull https://github.com/LineageOMS/android_packages_apps_PhoneCommon cm-14.1
+# cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Dialer
+# git pull https://github.com/LineageOMS/android_packages_apps_Dialer cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/Contacts
 git pull https://github.com/LineageOMS/android_packages_apps_Contacts cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/frameworks/native
 git pull -f https://github.com/LineageOMS/android_frameworks_native cm-14.1
-cd /home/iyahman/android/rom/iyahmanrom14/frameworks/base
-git pull https://github.com/LineageOMS/android_frameworks_base cm-14.1
+# cd /home/iyahman/android/rom/iyahmanrom14/frameworks/base
+# git pull https://github.com/LineageOMS/android_frameworks_base cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/packages/apps/ContactsCommon
 git pull https://github.com/LineageOMS/android_packages_apps_ContactsCommon cm-14.1
 cd /home/iyahman/android/rom/iyahmanrom14/system/sepolicy

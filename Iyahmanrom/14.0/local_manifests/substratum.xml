@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+     Get rid of Lineage repos
+<!--      <remove-project name="LineageOS/android_frameworks_base" /> -->
+<!--      <remove-project name="LineageOS/android_frameworks_native" /> -->
+<!--      <remove-project name="LineageOS/android_packages_apps_Contacts" /> -->
+<!--      <remove-project name="LineageOS/android_packages_apps_ContactsCommon" /> -->
+<!--       <remove-project name="LineageOS/android_packages_apps_Dialer" />  -->
+<!--      <remove-project name="LineageOS/android_packages_apps_ExactCalculator" /> -->
+<!--      <remove-project name="LineageOS/android_packages_apps_PackageInstaller" /> -->
+<!--       <remove-project name="LineageOS/android_packages_apps_PhoneCommon" /> -->  -->
+<!--      <remove-project name="LineageOS/android_packages_apps_Settings" /> -->
+<!--      <remove-project name="LineageOS/android_system_sepolicy" /> -->
+<!--      <remove-project name="LineageOS/android_vendor_cm" /> -->
+
+     Add repos for Substratum support
+<!--      <project path="frameworks/base" name="iyahman/android_frameworks_base-1" /> -->
+<!--      <project path="frameworks/native" name="iyahman/android_frameworks_native" /> -->
+<!--      <project path="packages/apps/Contacts" name="iyahman/android_packages_apps_Contacts" /> -->
+<!--      <project path="packages/apps/ContactsCommon" name="iyahman/android_packages_apps_ContactsCommon" /> -->
+<!--       <project path="packages/apps/Dialer" name="iyahman/android_packages_apps_Dialer" />  -->
+<!--      <project path="packages/apps/ExactCalculator" name="iyahman/android_packages_apps_ExactCalculator" /> -->
+<!--      <project path="packages/apps/PackageInstaller" name="iyahman/android_packages_apps_PackageInstaller" /> -->
+<!--       <project path="packages/apps/PhoneCommon" name="iyahman/android_packages_apps_PhoneCommon" />  -->
+<!--      <project path="packages/apps/Settings" name="iyahman/android_packages_apps_Settings-1" /> -->
+<!--      <project path="system/sepolicy" name="iyahman/android_system_sepolicy" /> -->
+<!--      <project path="vendor/cm" name="iyahman/android_vendor_cm-1" /> -->
+
+    <!-- Track ThemeInterfacer -->
+    <project path="packages/services/ThemeInterfacer" name="substratum/interfacer" remote="github" revision="n-rootless" />
+</manifest>

@@ -60,7 +60,7 @@ cd /home/iyahman/android/rom/iyahmanrom14
 . build/envsetup.sh
 make installclean 
 find ./out/ -name 'build.prop' | xargs rm
-# make clobber
+make clobber
 # breakfast jfltexx
 # cd  /home/iyahman/android/rom/iyahmanrom14/kernel/samsung/jf
 # make mrproper
